@@ -14,18 +14,18 @@ namespace WinFormsApp1
         public Form1()
         {
             InitializeComponent();
+           comboBox1.DataSource = Directory.GetFiles("Ä£°å");
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             //²âÊÔ1143424
-            button1_Click2();
             Engine.UseInterpretationEngine();
             Engine.Configure((c) =>
             {
                 c.OutMode = OutMode.Auto;
             });
-            var ddd = File.ReadAllText("1.txt");
+            var ddd = File.ReadAllText("Template\\1.txt");
             var template = Engine.CreateTemplate(ddd);
             List<sss> values = new List<sss>();
             var sss = File.ReadAllLines("3.txt");
@@ -43,7 +43,7 @@ namespace WinFormsApp1
             template.Set("Name", textBox3.Text);
             var result = template.Render();
             File.WriteAllText("2.txt", result);
-            Process vProcess = Process.Start("notepad.exe", "2.txt");
+            Process vProcess = Process.Start("notepad.exe", "Template\\2.txt");
         }
         private void button1_Click2()
         {
@@ -125,6 +125,7 @@ namespace WinFormsApp1
             });
             textBox1.Text = textBox4.Text;
             textBox2.Text = textBox4.Text;
+            button3_Click(null, null);
         }
    
 
@@ -135,14 +136,15 @@ namespace WinFormsApp1
             {
                 c.OutMode = OutMode.Auto;
             });
-            var ddd = File.ReadAllText("fun.txt");
+            var ddd = File.ReadAllText(comboBox1.Text);
         var template = Engine.CreateTemplate(ddd);
             template.Set("ZhushiS", textBox1.Text);
             template.Set("Zhushi", textBox2.Text);
             template.Set("FunName", textBox5.Text);
             var result = template.Render();
-            File.WriteAllText("2.txt", result);
-            Process vProcess = Process.Start("notepad.exe", "2.txt");
+            texts.Text = result;
+            //File.WriteAllText("2.txt", result);
+            //Process vProcess = Process.Start("notepad.exe", "2.txt");
             Clipboard.SetDataObject(result);
         }
     }
