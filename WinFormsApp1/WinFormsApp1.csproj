@@ -10,10 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="3.2.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\StringTemplate\StringTemplate.csproj" />
+    <PackageReference Include="JinianNet.JNTemplate" Version="2.3.3" />
   </ItemGroup>
 
   <ItemGroup>
