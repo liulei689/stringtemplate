@@ -1,0 +1,15 @@
+$* 这是注释，实际不会被渲染 *$
+#region $ZhushiS
+/// <summary>
+/// $Zhushi
+/// </summary>
+public class $Name
+{
+$for(model in list)
+/// <summary>
+/// ${model.despriton}
+/// </summary>
+    public ${model.type} ${model.Name}{ get; set; }
+${end}
+}
+ #endregion

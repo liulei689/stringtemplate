@@ -1,0 +1,9 @@
+$* 生成方法 *$
+#region $ZhushiS
+/// <summary>
+/// $Zhushi
+/// </summary>
+    public void $FunName ()
+        {
+        }
+ #endregion
