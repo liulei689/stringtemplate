@@ -1,17 +1,14 @@
-using Flurl.Http;
+
+
 using JinianNet.JNTemplate;
-using Microsoft.VisualBasic.ApplicationServices;
-using Microsoft.VisualBasic.Logging;
+using StoneCodeGenerator.Lib;
 using System.Diagnostics;
-using System.Drawing.Drawing2D;
-using System.Globalization;
-using System.Runtime.InteropServices;
 
 namespace WinFormsApp1
 {
-    public partial class Form1 : Form
+    public partial class MainPage : Form
     {
-        public Form1()
+        public MainPage()
         {
             InitializeComponent();
            comboBox1.DataSource = Directory.GetFiles("Ä£°å");
@@ -111,41 +108,17 @@ namespace WinFormsApp1
             Process vProcess = Process.Start("notepad.exe", "3.txt");
         }
 
-        private async void textBox4_TextChanged(object sender, EventArgs e)
+        private  async void textBox4_TextChanged(object sender, EventArgs e)
         {
-            textBox5.Text = await Task.Run(() =>
-            {
-                string base_url_one = "https://yuanxiapi.cn/api/translation/?text=" + textBox4.Text;
-                var reslutdata1 = base_url_one.GetJsonAsync().Result;
-               string data= reslutdata1.result;
-                data= CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.ToLower());
-                data = data.Replace(" ", "").Replace(".", "").Replace("-", "").Replace
-                (",", "");
-                return data;
-            });
-            textBox1.Text = textBox4.Text;
-            textBox2.Text = textBox4.Text;
-            button3_Click(null, null);
+            texts.Text =await StoneCode.GMethod(textBox4.Text);
+    
         }
    
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Engine.UseInterpretationEngine();
-            Engine.Configure((c) =>
-            {
-                c.OutMode = OutMode.Auto;
-            });
-            var ddd = File.ReadAllText(comboBox1.Text);
-        var template = Engine.CreateTemplate(ddd);
-            template.Set("ZhushiS", textBox1.Text);
-            template.Set("Zhushi", textBox2.Text);
-            template.Set("FunName", textBox5.Text);
-            var result = template.Render();
-            texts.Text = result;
-            //File.WriteAllText("2.txt", result);
-            //Process vProcess = Process.Start("notepad.exe", "2.txt");
-            Clipboard.SetDataObject(result);
+
+           // Clipboard.SetDataObject(result);
         }
     }
 }
