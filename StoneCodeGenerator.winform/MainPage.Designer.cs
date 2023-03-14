@@ -43,11 +43,16 @@
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.texts = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(563, 56);
+            this.button1.Location = new System.Drawing.Point(71, 221);
             this.button1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(92, 26);
@@ -58,7 +63,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(59, 18);
+            this.textBox1.Location = new System.Drawing.Point(53, 27);
             this.textBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(110, 23);
@@ -66,7 +71,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(263, 18);
+            this.textBox2.Location = new System.Drawing.Point(65, 94);
             this.textBox2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(110, 23);
@@ -74,7 +79,7 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(422, 18);
+            this.textBox3.Location = new System.Drawing.Point(49, 133);
             this.textBox3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(82, 23);
@@ -83,7 +88,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 24);
+            this.label1.Location = new System.Drawing.Point(5, 33);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 17);
@@ -93,7 +98,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(203, 24);
+            this.label2.Location = new System.Drawing.Point(5, 100);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(44, 17);
@@ -103,7 +108,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(386, 24);
+            this.label3.Location = new System.Drawing.Point(1, 136);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 17);
@@ -112,7 +117,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(493, 55);
+            this.button2.Location = new System.Drawing.Point(1, 220);
             this.button2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(66, 23);
@@ -123,7 +128,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(673, 58);
+            this.button3.Location = new System.Drawing.Point(181, 223);
             this.button3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(105, 23);
@@ -134,7 +139,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(370, 55);
+            this.textBox4.Location = new System.Drawing.Point(101, 289);
             this.textBox4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(102, 23);
@@ -144,7 +149,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(297, 61);
+            this.label4.Location = new System.Drawing.Point(28, 295);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 17);
@@ -154,7 +159,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(508, 24);
+            this.label5.Location = new System.Drawing.Point(16, 189);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 17);
@@ -163,7 +168,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(556, 18);
+            this.textBox5.Location = new System.Drawing.Point(64, 183);
             this.textBox5.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(225, 23);
@@ -171,48 +176,69 @@
             // 
             // texts
             // 
-            this.texts.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.texts.Location = new System.Drawing.Point(0, 90);
+            this.texts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.texts.Location = new System.Drawing.Point(0, 0);
             this.texts.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.texts.Multiline = true;
             this.texts.Name = "texts";
             this.texts.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.texts.Size = new System.Drawing.Size(792, 292);
+            this.texts.Size = new System.Drawing.Size(638, 382);
             this.texts.TabIndex = 13;
             // 
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(59, 55);
+            this.comboBox1.Location = new System.Drawing.Point(5, 56);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(197, 25);
             this.comboBox1.TabIndex = 14;
             // 
-            // Form1
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.textBox5);
+            this.splitContainer1.Panel1.Controls.Add(this.comboBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.button1);
+            this.splitContainer1.Panel1.Controls.Add(this.textBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.label5);
+            this.splitContainer1.Panel1.Controls.Add(this.textBox2);
+            this.splitContainer1.Panel1.Controls.Add(this.label4);
+            this.splitContainer1.Panel1.Controls.Add(this.textBox3);
+            this.splitContainer1.Panel1.Controls.Add(this.textBox4);
+            this.splitContainer1.Panel1.Controls.Add(this.label1);
+            this.splitContainer1.Panel1.Controls.Add(this.button3);
+            this.splitContainer1.Panel1.Controls.Add(this.label2);
+            this.splitContainer1.Panel1.Controls.Add(this.button2);
+            this.splitContainer1.Panel1.Controls.Add(this.label3);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.texts);
+            this.splitContainer1.Size = new System.Drawing.Size(962, 382);
+            this.splitContainer1.SplitterDistance = 320;
+            this.splitContainer1.TabIndex = 15;
+            // 
+            // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(792, 382);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.texts);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(962, 382);
+            this.Controls.Add(this.splitContainer1);
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.Name = "Form1";
+            this.Name = "MainPage";
             this.Text = "Form1";
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -233,5 +259,6 @@
         private TextBox textBox5;
         private TextBox texts;
         private ComboBox comboBox1;
+        private SplitContainer splitContainer1;
     }
 }
