@@ -3,7 +3,7 @@ $* 生成方法 *$
 /// <summary>
 /// $Zhushi
 /// </summary>
-    public void $FunName ()
+    public static void $FunName ()
         {
         }
  #endregion

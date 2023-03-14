@@ -110,7 +110,7 @@ namespace WinFormsApp1
 
         private  async void textBox4_TextChanged(object sender, EventArgs e)
         {
-            texts.Text =await StoneCode.GMethod(textBox4.Text);
+            //texts.Text =await StoneCode.GMethod(textBox4.Text);
     
         }
    

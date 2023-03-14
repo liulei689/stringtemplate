@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoneCodeGenerator.winform"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoneCodeGenerator.Lib", "StoneCodeGenerator.Lib\StoneCodeGenerator.Lib.csproj", "{8A592CF6-221E-4005-8B2C-5EAA63AD457F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoneCodeGenerator.wpf", "StoneCodeGenerator.wpf\StoneCodeGenerator.wpf.csproj", "{F55062F6-DC00-4EB0-91ED-2914F1F93096}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoneCodeGenerator.wpf", "StoneCodeGenerator.wpf\StoneCodeGenerator.wpf.csproj", "{F55062F6-DC00-4EB0-91ED-2914F1F93096}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

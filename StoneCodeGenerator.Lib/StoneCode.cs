@@ -1,5 +1,6 @@
 ﻿using Flurl.Http;
 using JinianNet.JNTemplate;
+using StoneCodeGenerator.Lib.Model;
 using System.Globalization;
 
 namespace StoneCodeGenerator.Lib;
@@ -11,18 +12,18 @@ namespace StoneCodeGenerator.Lib;
     /// </summary>
     /// <param name="FunActionCn">方法中文作用</param>
     /// <returns></returns>
-    public static async Task<string> GMethod(string FunActionCn)
+    public static async Task<string> GMethod(FunCode FunActionCn)
     {
         Engine.UseInterpretationEngine();
         Engine.Configure((c) =>
         {
             c.OutMode = OutMode.Auto;
         });
-        var content = File.ReadAllText("模板/生成方法模板.txt");
-        string FunName= await ChangeChineseToKeyWordsAsync(FunActionCn);
+        var content = File.ReadAllText(FunActionCn.FTmpPath);
+        string FunName= await ChangeChineseToKeyWordsAsync(FunActionCn.FUseFor);
         var template = Engine.CreateTemplate(content);
-        template.Set("ZhushiS", FunActionCn);
-        template.Set("Zhushi", FunActionCn);
+        template.Set("ZhushiS", FunActionCn.FCment);
+        template.Set("Zhushi", FunActionCn.FSout);
         template.Set("FunName", FunName);
         var result = template.Render();
         return result;
@@ -51,6 +52,12 @@ namespace StoneCodeGenerator.Lib;
             catch { return "异常"; }
         });
     }
+    #endregion
+    #region 获取方法模板列表
+    /// <summary>
+    /// 获取方法模板列表
+    /// </summary>
+    public static string[] GetTheListOfMethodTemplates()=>Array.FindAll(Directory.GetFiles("模板"), ele => ele.Contains("方法") || ele.Contains("function"));
     #endregion
 
 }

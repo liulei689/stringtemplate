@@ -12,25 +12,25 @@ namespace HandyControlDemo.UserControl
         {
             InitializeComponent();
 
-            DemoModel = new PropertyGridDemoModel
-            {
-                String = "TestString",
-                Enum = Gender.Female,
-                Boolean = true,
-                Integer = 98,
-                VerticalAlignment = VerticalAlignment.Stretch
-            };
+            //DemoModel = new PropertyGridDemoModel
+            //{
+            //    String = "TestString",
+            //    Enum = Gender.Female,
+            //    Boolean = true,
+            //    Integer = 98,
+            //    VerticalAlignment = VerticalAlignment.Stretch
+            //};
 
             //DataContext = this;
         }
 
-        public static readonly DependencyProperty DemoModelProperty = DependencyProperty.Register(
-            "DemoModel", typeof(PropertyGridDemoModel), typeof(PropertyGrid), new PropertyMetadata(default(PropertyGridDemoModel)));
+        //public static readonly DependencyProperty DemoModelProperty = DependencyProperty.Register(
+        //    "DemoModel", typeof(PropertyGridDemoModel), typeof(PropertyGrid), new PropertyMetadata(default(PropertyGridDemoModel)));
 
-        public PropertyGridDemoModel DemoModel
-        {
-            get => (PropertyGridDemoModel)GetValue(DemoModelProperty);
-            set => SetValue(DemoModelProperty, value);
-        }
+        //public PropertyGridDemoModel DemoModel
+        //{
+        //    get => (PropertyGridDemoModel)GetValue(DemoModelProperty);
+        //    set => SetValue(DemoModelProperty, value);
+        //}
     }
 }

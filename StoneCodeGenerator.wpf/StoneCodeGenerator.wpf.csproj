@@ -11,12 +11,24 @@
   <PropertyGroup>
     <ApplicationIcon>Resource\Image\icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CA1416;</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;CA1416;</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Resource\Image\icon.ico" />
+    <None Remove="Resource\Image\icon.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\iconfont.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\Image\Chat\chat_back1.jpg" />
     <Resource Include="Resource\Image\Chat\chat_back2.jpg" />
+    <Resource Include="Resource\Image\icon.ico" />
+    <Resource Include="Resource\Image\icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\Image\QQ\1.gif" />
@@ -38,9 +50,7 @@
     <Resource Include="Resource\Image\5.jpg" />
     <Resource Include="Resource\Image\b1.jpg" />
     <Resource Include="Resource\Image\b2.jpg" />
-    <Resource Include="Resource\Image\Cover.png" />
     <Resource Include="Resource\Image\Dance.png" />
-    <Resource Include="Resource\Image\icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\Image\Album\1.jpg" />
@@ -168,6 +178,7 @@
     <Resource Include="Resource\Image\LeftMainContent\WPFFlowDocument_16x.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
     <PackageReference Include="CommonServiceLocator" Version="2.0.7" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="HandyControl" Version="3.4.0" />
@@ -177,5 +188,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StoneCodeGenerator.Lib\StoneCodeGenerator.Lib.csproj" />
   </ItemGroup>
 </Project>

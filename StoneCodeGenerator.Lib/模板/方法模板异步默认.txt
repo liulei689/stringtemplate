@@ -1,0 +1,7 @@
+$* 生成方法 *$
+#region $ZhushiS
+/// <summary>
+/// $Zhushi
+/// </summary>
+    public async Task<UserModels> $FunNameAsync(string $FunName)=>await Task.Run(() => { return $FunName(); });
+ #endregion

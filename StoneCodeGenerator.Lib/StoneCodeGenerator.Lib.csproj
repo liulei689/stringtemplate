@@ -15,7 +15,10 @@
     <None Update="模板\列表生成类模板.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="模板\生成方法模板.txt">
+    <None Update="模板\方法模板异步默认.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="模板\方法模板默认.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="模板\生成类列表.txt">

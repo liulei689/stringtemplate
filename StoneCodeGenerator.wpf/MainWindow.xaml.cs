@@ -269,7 +269,12 @@ namespace HandyControlDemo
             };
             mainContent.Children.Clear();
             string name = (ListBoxDemo.SelectedItem as DemoDataModel).Name;
-            if (name == "AnimationPath")
+            if (name == "生成方法")
+            {
+                mainContent.Children.Add(new UserControl.AFunCode());
+
+            }
+            else if (name == "AnimationPath")
             {
                 mainContent.Children.Add(new UserControl.AnimationPath());
             }

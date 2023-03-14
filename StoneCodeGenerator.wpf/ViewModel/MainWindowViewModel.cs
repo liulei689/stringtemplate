@@ -35,6 +35,7 @@ namespace HandyControlDemo.ViewModel
             //string name = Properties.Lang.ResourceManager.GetString("Button");
             return new ObservableCollection<DemoDataModel>
             {
+                new DemoDataModel{ ImgPath = "pack://application:,,,/Resource/Image/LeftMainContent/Brush_16x.png", Name = "生成方法"},
                 new DemoDataModel{ ImgPath = "pack://application:,,,/Resource/Image/LeftMainContent/Brush_16x.png", Name = "Brush"},
                 new DemoDataModel{ ImgPath = "pack://application:,,,/Resource/Image/LeftMainContent/ButtonClick_16x.png", Name = "Button"},
                 new DemoDataModel{ ImgPath = "pack://application:,,,/Resource/Image/LeftMainContent/ImageStack_16x.png", Name = "ImageBlock"},

@@ -92,7 +92,7 @@
         <Setter Property="OtherButtonHoverForeground" Value="White"/>
         <Setter Property="NonClientAreaForeground" Value="White"/>
         <Setter Property="CloseButtonForeground" Value="White"/>
-        <Setter Property="Icon" Value="pack://application:,,,/Resource/Image/icon.ico"/>
+        <Setter Property="Icon" Value="pack://application:,,,/Resource/Image/icon.png"/>
     </Style>
 
     <Style x:Key="DemoInfoSortButtonStyle" BasedOn="{StaticResource ToggleButtonCustom}" TargetType="ToggleButton" x:Shared="False">
