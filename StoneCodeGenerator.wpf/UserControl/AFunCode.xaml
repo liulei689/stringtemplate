@@ -14,11 +14,17 @@
             </Grid.ColumnDefinitions>
             <StackPanel hc:TitleElement.TitleWidth="168" Grid.Column="0" Margin="20,16,17,10">
                 <!--<hc:PropertyGrid SelectedObject="{Binding }"/>-->
-                <ComboBox IsEditable="True" hc:InfoElement.TitleWidth="70" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="模板类型" 
-                       IsReadOnly="True"  Name="templist"     Style="{StaticResource ComboBoxExtend}"  />
-                <TextBox Name="FUseFor" hc:InfoElement.TitleWidth="70" TextChanged="TextBox_TextChanged"  hc:TitleElement.Title="方法作用" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}"  IsReadOnly="False" Margin="0,6,0,0"/>
-                <TextBox Name="FCment" hc:InfoElement.TitleWidth="70" TextChanged="TextBox_TextChanged" hc:TitleElement.Title="收缩名" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding ElementName=FUseFor, Path=Text,Mode=OneWay}" IsReadOnly="False" Margin="0,6,0,0"/>
-                <TextBox Name="FSout" hc:InfoElement.TitleWidth="70" TextChanged="TextBox_TextChanged" hc:TitleElement.Title="注释名" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding ElementName=FUseFor, Path=Text,Mode=OneWay}" IsReadOnly="False" Margin="0,6,0,0"/>
+              
+                    <ComboBox IsEditable="False" hc:InfoElement.TitleWidth="70" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="模板类型" 
+                      IsReadOnly="True"  Name="templist"     Style="{StaticResource ComboBoxExtend}"  />
+                <ComboBox IsEditable="False" hc:InfoElement.TitleWidth="70" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="模板类型" 
+                     SelectionChanged="templist_content_SelectionChanged" IsReadOnly="True"  Name="templist_content"     Style="{StaticResource ComboBoxExtend}"  />
+                <Grid x:Name="Form">
+                    <TextBox Name="FCment" hc:InfoElement.TitleWidth="70" TextChanged="TextBox_TextChanged" hc:TitleElement.Title="收缩名" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding ElementName=FUseFor, Path=Text,Mode=OneWay}" IsReadOnly="False" Margin="0,6,0,0"/>
+                    <TextBox Name="FSout" hc:InfoElement.TitleWidth="70" TextChanged="TextBox_TextChanged" hc:TitleElement.Title="注释名" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding ElementName=FUseFor, Path=Text,Mode=OneWay}" IsReadOnly="False" Margin="0,6,0,0"/>
+                    <TextBox Name="FUseFor" hc:InfoElement.TitleWidth="70" TextChanged="TextBox_TextChanged"  hc:TitleElement.Title="方法作用" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}"  IsReadOnly="False" Margin="0,6,0,0"/>
+
+                </Grid>
                 <hc:LoadingLine Name="isloding" Margin="10" Visibility="Hidden" Foreground="BlueViolet" Style="{StaticResource LoadingLineLarge}"/>
             </StackPanel>
             <avalonEdit:TextEditor
