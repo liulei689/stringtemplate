@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StoneCodeGeneratorLib\StoneCodeGenerator.Lib.csproj" />
+    <ProjectReference Include="..\StoneCodeGenerator.Lib\StoneCodeGenerator.Lib.csproj" />
   </ItemGroup>
 
 </Project>
