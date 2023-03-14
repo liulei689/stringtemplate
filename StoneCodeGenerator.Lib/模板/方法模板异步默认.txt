@@ -3,5 +3,5 @@ $* 生成方法 *$
 /// <summary>
 /// $Zhushi
 /// </summary>
-    public async Task<UserModels> $FunNameAsync(string $FunName)=>await Task.Run(() => { return $FunName(); });
+    public async Task<UserModels> ${FunName}Async(string ${FunName})=>await Task.Run(() => { return ${FunName}(); });
  #endregion
