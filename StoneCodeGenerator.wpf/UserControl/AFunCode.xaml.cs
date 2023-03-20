@@ -58,7 +58,8 @@ namespace HandyControlDemo.UserControl
             }
         }
         private void CreateForm(object o) 
-        {  
+        {
+            Form.Children.Clear();
             int i = 0;
             foreach (PropertyInfo item in o.GetType().GetProperties())
             {

@@ -9,10 +9,10 @@ namespace StoneCodeGenerator.Lib.Model
         public string Fname { get; set; } = "Fname";
         [Description("方法作用")]
         public string? FUseFor { get; set; }
-        [Description("函数注释")]
-        public string? FCment { get; set; }
-        [Description("收缩名称")]
-        public string? FSout { get; set; }
+        //[Description("函数注释")]
+        //public string? FCment { get; set; }
+        //[Description("收缩名称")]
+        //public string? FSout { get; set; }
         [Description("模板路径")]
         public string FTmpPath { get; set; } = "模板/方法模板_默认_1.txt";
     }
