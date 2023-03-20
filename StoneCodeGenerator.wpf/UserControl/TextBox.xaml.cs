@@ -3,9 +3,9 @@
     /// <summary>
     /// TextBox.xaml 的交互逻辑
     /// </summary>
-    public partial class TextBox
+    public partial class TextBox2
     {
-        public TextBox()
+        public TextBox2()
         {
             InitializeComponent();
         }

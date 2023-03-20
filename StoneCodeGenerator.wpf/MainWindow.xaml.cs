@@ -380,7 +380,7 @@ namespace HandyControlDemo
             }
             else if (name == "Grid")
             {
-                mainContent.Children.Add(new UserControl.Grid());
+                mainContent.Children.Add(new UserControl.Grid2());
             }
             else if (name == "GroupBox")
             {
@@ -524,7 +524,7 @@ namespace HandyControlDemo
             }
             else if (name == "TextBox")
             {
-                mainContent.Children.Add(new UserControl.TextBox());
+                mainContent.Children.Add(new UserControl.TextBox2());
             }
             else if (name == "TimeBar")
             {

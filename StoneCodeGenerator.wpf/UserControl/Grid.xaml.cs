@@ -3,9 +3,9 @@
     /// <summary>
     /// Grid.xaml 的交互逻辑
     /// </summary>
-    public partial class Grid
+    public partial class Grid2
     {
-        public Grid()
+        public Grid2()
         {
             InitializeComponent();
         }

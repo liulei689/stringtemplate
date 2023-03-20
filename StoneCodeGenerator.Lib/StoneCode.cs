@@ -73,7 +73,8 @@ namespace StoneCodeGenerator.Lib;
          list = new List<object>() 
         {
         new FunCode_Defult_1(),
-        new FunCode_AsyncDefult_2()
+        new FunCode_AsyncDefult_2(),
+        new ClassCode_Defult_3(),
         };
         dics = new Dictionary<string, Dictionary<string, int>>();
         for (int i=0;i<list.Count;i++)
@@ -85,13 +86,13 @@ namespace StoneCodeGenerator.Lib;
             {
                 Dictionary<string, int> dic = new Dictionary<string, int>
                 {
-                    { usin, i }
+                    { usin, i+1 }
                 };
                 dics.Add(lei, dic);
             }
             else
             {             
-                dics[lei].Add(usin, i);
+                dics[lei].Add(usin, i+1);
             }        
         }
     }

@@ -1,18 +1,16 @@
-﻿using Flurl.Util;
+﻿using HandyControl.Controls;
+using HandyControl.Data;
 using HandyControl.Tools.Extension;
-using HandyControlDemo.Model;
 using ICSharpCode.AvalonEdit;
 using StoneCodeGenerator.Lib;
-using StoneCodeGenerator.Lib.Model;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Shell;
+using System.Windows.Controls;
+using System.Windows.Media;
+using static ICSharpCode.AvalonEdit.Document.TextDocumentWeakEventManager;
+using TextBox = HandyControl.Controls.TextBox;
 
 namespace HandyControlDemo.UserControl
 {
@@ -36,24 +34,71 @@ namespace HandyControlDemo.UserControl
         private async void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             isloding.Show();
-            var funmodel = new FunCode_Defult_1() { FUseFor = FUseFor.Text,FCment=FCment.Text,FSout=FSout.Text,FTmpPath=templist.Text };
-            TextEditor.Text = await StoneCode.GMethod(funmodel);
+            //var funmodel = new FunCode_Defult_1() { FUseFor = FUseFor.Text,FCment=FCment.Text,FSout=FSout.Text,FTmpPath=templist.Text };
+            //TextEditor.Text = await StoneCode.GMethod(funmodel);
             isloding.Hide();
         }
 
         private void templist_Selected(object sender, RoutedEventArgs e)
         {
-           var DD= templist_content.Text;
-            var DD1 = templist.Text;
+            templist_content.ItemsSource = StoneCode.GetTypeContentListsByType(templist.SelectedValue.ToString());
+            templist_content.SelectedIndex = 0;
 
         }
         class ds { public string Key { get; set; } public int Value { get; set; } }
 
         private void templist_content_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            var DD = templist_content.SelectedItem as ds ;
-            
-            var DD1 = templist.Text;
+            if (templist_content.SelectedValue != null)
+            {
+                int index = ((dynamic)templist_content.SelectedValue).Value;
+                var obj = StoneCode.list[index - 1];
+                CreateForm(obj);
+                var DD1 = templist.Text;
+            }
+        }
+        private void CreateForm(object o) 
+        {  
+            int i = 0;
+            foreach (PropertyInfo item in o.GetType().GetProperties())
+            {
+                if (item != null)
+                {
+                    string label_name = "";
+                    var found = item.GetCustomAttribute<DescriptionAttribute>();
+                    if (found != null) label_name = found.Description;
+                     AddlabelTextAndTextName(i, label_name, item.Name);
+                    i++;
+                }
+            }
+        }
+        private void AddlabelTextAndTextName(int index, string name_cn, string name_en, string name_content = "")
+        {
+            Form.RowDefinitions.Add(new RowDefinition());
+            var textbox = GetTextBox(name_cn);
+            Grid.SetRow(textbox, index);
+            Form.Children.Add(textbox);
+
+        }
+        private TextBox GetTextBox(string title, string currentent = "")
+        {
+            TextBox textBox = new TextBox();
+            textBox.Name = title;
+            textBox.Margin = new Thickness(0, 6, 0, 0);
+            textBox.SetValue(TitleElement.TitleWidthProperty, new GridLength(70));
+            textBox.SetValue(TitleElement.TitlePlacementProperty, TitlePlacementType.Left);
+            textBox.SetValue(TitleElement.TitleProperty, title);
+           // textBox.SetValue(StyleProperty, Resources["TextBoxExtend"]);
+            textBox.Foreground = new SolidColorBrush(Colors.Gray);
+            textBox.Text= currentent;
+           // textBox.LostFocus += TextBox_LostFocus;
+            textBox.TextChanged += ObjTextChanged;
+            return textBox;
+        }
+
+        private void ObjTextChanged(object sender, TextChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
