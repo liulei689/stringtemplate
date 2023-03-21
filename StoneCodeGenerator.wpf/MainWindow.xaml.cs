@@ -272,7 +272,10 @@ namespace HandyControlDemo
             if (name == "生成方法")
             {
                 mainContent.Children.Add(new UserControl.AFunCode());
-
+            }
+            else if (name == "json生成实体类")
+            {
+                mainContent.Children.Add(new UserControl.Json2Class());
             }
             else if (name == "AnimationPath")
             {
@@ -557,7 +560,7 @@ namespace HandyControlDemo
             else if (name == "Windows")
             {
                 mainContent.Children.Add(new UserControl.Windows());
-            }          
+            }
             else if (name == "ChatBubble")
             {
                 mainContent.Children.Add(new UserControl.ChatBubble());
