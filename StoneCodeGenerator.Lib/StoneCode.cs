@@ -15,21 +15,45 @@ namespace StoneCodeGenerator.Lib;
     /// </summary>
     /// <param name="FunActionCn">方法参数</param>
     /// <returns></returns>
-    public static async Task<string> GMethod(FunCode_Defult_1 FunActionCn)
+    public static async Task<string> GMethod(object o)
     {
         Engine.UseInterpretationEngine();
         Engine.Configure((c) =>
         {
             c.OutMode = OutMode.Auto;
         });
-        var content = File.ReadAllText(FunActionCn.FTmpPath);
-        string FunName= await ChangeChineseToKeyWordsAsync(FunActionCn.FUseFor);
-        var template = Engine.CreateTemplate(content);
-        template.Set("ZhushiS", FunActionCn.FCment);
-        template.Set("Zhushi", FunActionCn.FSout);
-        template.Set("FunName", FunName);
-        var result = template.Render();
-        return result;
+        if (o is FunCode_Defult_1)
+        {
+           var ot=o as FunCode_Defult_1;
+            var content = File.ReadAllText(ot.FTmpPath);
+            string FunName, FSout, FCment;
+            if (ot.Fname == "" || ot.Fname == null) { FunName = await ChangeChineseToKeyWordsAsync(ot.FUseFor); }
+            else FunName = ot.Fname;
+            if (ot.FSout == "" || ot.FSout==null) FSout = ot.FUseFor;
+            else FSout = ot.FSout;
+            if (ot.FCment == ""|| ot.FCment ==null) FCment = ot.FUseFor;
+            else FCment = ot.FCment;
+                    var template = Engine.CreateTemplate(content);
+            template.Set("ZhushiS", FSout);
+            template.Set("Zhushi", FCment);
+            template.Set("FunName", FunName);
+            var result = template.Render();
+            return result;
+        }
+        if (o is FunCode_AsyncDefult_2)
+        {
+            var ot = o as FunCode_AsyncDefult_2;
+            var content = File.ReadAllText(ot.FTmpPath);
+            string FunName = await ChangeChineseToKeyWordsAsync(ot.FUseFor);
+            var template = Engine.CreateTemplate(content);
+            template.Set("ZhushiS", ot.FCment);
+            template.Set("Zhushi", ot.FSout);
+            template.Set("FunName", FunName);
+            var result = template.Render();
+            return result;
+        }
+        return "此模板暂未支持";
+ 
     }
     #endregion
     #region 中文转关键词

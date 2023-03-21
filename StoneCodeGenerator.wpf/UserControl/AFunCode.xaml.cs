@@ -3,6 +3,7 @@ using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using ICSharpCode.AvalonEdit;
 using StoneCodeGenerator.Lib;
+using StoneCodeGenerator.Lib.Model;
 using System;
 using System.ComponentModel;
 using System.Reflection;
@@ -45,16 +46,14 @@ namespace HandyControlDemo.UserControl
             templist_content.SelectedIndex = 0;
 
         }
-        class ds { public string Key { get; set; } public int Value { get; set; } }
-
+        public object _o;
         private void templist_content_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (templist_content.SelectedValue != null)
             {
                 int index = ((dynamic)templist_content.SelectedValue).Value;
-                var obj = StoneCode.list[index - 1];
-                CreateForm(obj);
-                var DD1 = templist.Text;
+                _o = StoneCode.list[index - 1];
+                CreateForm(_o);
             }
         }
         private void CreateForm(object o) 
@@ -63,7 +62,7 @@ namespace HandyControlDemo.UserControl
             int i = 0;
             foreach (PropertyInfo item in o.GetType().GetProperties())
             {
-                if (item != null)
+                if (item != null &&!item.Name.Contains("Path"))
                 {
                     string label_name = "";
                     var found = item.GetCustomAttribute<DescriptionAttribute>();
@@ -76,15 +75,15 @@ namespace HandyControlDemo.UserControl
         private void AddlabelTextAndTextName(int index, string name_cn, string name_en, string name_content = "")
         {
             Form.RowDefinitions.Add(new RowDefinition());
-            var textbox = GetTextBox(name_cn);
+            var textbox = GetTextBox(name_cn,name_en);
             Grid.SetRow(textbox, index);
             Form.Children.Add(textbox);
 
         }
-        private TextBox GetTextBox(string title, string currentent = "")
+        private TextBox GetTextBox(string title, string fiedname,string currentent = "")
         {
             TextBox textBox = new TextBox();
-            textBox.Name = title;
+            textBox.Name = fiedname;
             textBox.Margin = new Thickness(0, 6, 0, 0);
             textBox.SetValue(TitleElement.TitleWidthProperty, new GridLength(70));
             textBox.SetValue(TitleElement.TitlePlacementProperty, TitlePlacementType.Left);
@@ -97,9 +96,13 @@ namespace HandyControlDemo.UserControl
             return textBox;
         }
 
-        private void ObjTextChanged(object sender, TextChangedEventArgs e)
+        private async void ObjTextChanged(object sender, TextChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            isloding.Show();
+            var txt=sender as TextBox;           
+            _o.GetType().GetProperty(txt.Name).SetValue(_o, txt.Text);
+            TextEditor.Text = await StoneCode.GMethod(_o);
+            isloding.Hide();
         }
     }
 }
