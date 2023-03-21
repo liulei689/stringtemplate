@@ -29,7 +29,11 @@ namespace HandyControlDemo.UserControl
 
         private void TextEditor1_TextChanged(object sender, EventArgs e)
         {
-            TextEditor.Text = new StoneCodeGenerator.Lib.Json2Class.ClassGenerator().JsonToClasses(TextEditor1.Text);
+            try
+            {
+                TextEditor.Text = new StoneCodeGenerator.Lib.Json2Class.ClassGenerator().JsonToClasses(TextEditor1.Text);
+            }
+            catch { }
 
         }
     }
