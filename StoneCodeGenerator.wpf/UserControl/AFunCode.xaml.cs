@@ -32,13 +32,7 @@ namespace HandyControlDemo.UserControl
             templist_content.SelectedIndex=0;
         }
 
-        private async void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            isloding.Show();
-            //var funmodel = new FunCode_Defult_1() { FUseFor = FUseFor.Text,FCment=FCment.Text,FSout=FSout.Text,FTmpPath=templist.Text };
-            //TextEditor.Text = await StoneCode.GMethod(funmodel);
-            isloding.Hide();
-        }
+   
 
         private void templist_Selected(object sender, RoutedEventArgs e)
         {
