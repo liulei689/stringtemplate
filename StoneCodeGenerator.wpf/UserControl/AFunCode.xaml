@@ -31,6 +31,13 @@
     FontSize="10pt" 
     LineNumbersForeground="Black" 
     ShowLineNumbers="True">
+                <avalonEdit:TextEditor.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem  Header="全选"  Click="MenuItem1_Click"/>
+                        <MenuItem  Header="复制"  Click="MenuItem1_Click"/>
+                        <MenuItem  Header="复制所有内容"  Click="MenuItem1_Click"/>
+                    </ContextMenu>
+                </avalonEdit:TextEditor.ContextMenu>
             </avalonEdit:TextEditor>
         </Grid>
     </hc:TransitioningContentControl>

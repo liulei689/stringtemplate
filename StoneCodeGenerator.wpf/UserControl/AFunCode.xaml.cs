@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using static ICSharpCode.AvalonEdit.Document.TextDocumentWeakEventManager;
+using static System.Net.Mime.MediaTypeNames;
 using TextBox = HandyControl.Controls.TextBox;
 
 namespace HandyControlDemo.UserControl
@@ -30,9 +31,11 @@ namespace HandyControlDemo.UserControl
             templist.SelectedIndex=0;
             templist_content.ItemsSource= StoneCode.GetTypeContentListsByType(templist.Text);
             templist_content.SelectedIndex=0;
+            TextEditor.WordWrap = true;
+
         }
 
-   
+
 
         private void templist_Selected(object sender, RoutedEventArgs e)
         {
@@ -97,6 +100,15 @@ namespace HandyControlDemo.UserControl
             _o.GetType().GetProperty(txt.Name).SetValue(_o, txt.Text);
             TextEditor.Text = await StoneCode.GMethod(_o);
             isloding.Hide();
+        }
+
+        private void MenuItem1_Click(object sender, RoutedEventArgs e)
+        {
+            var check =(sender as MenuItem).Header.ToString();
+            if (check == "全选") TextEditor.SelectAll();
+            else if(check=="复制") Clipboard.SetText(TextEditor.SelectedText);
+            else if (check == "复制所有内容") Clipboard.SetText(TextEditor.Text);
+
         }
     }
 }

@@ -6,7 +6,7 @@ namespace HandyControlDemo.Helper
 {
     public static class DispatcherHelper
     {
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+        //[SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public static void DoEvents()
         {
             DispatcherFrame frame = new DispatcherFrame();
