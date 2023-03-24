@@ -269,7 +269,7 @@ namespace HandyControlDemo
             };
             mainContent.Children.Clear();
             string name = (ListBoxDemo.SelectedItem as DemoDataModel).Name;
-            if (name == "生成方法")
+            if (name == "生成代码")
             {
                 mainContent.Children.Add(new UserControl.AFunCode());
             }
