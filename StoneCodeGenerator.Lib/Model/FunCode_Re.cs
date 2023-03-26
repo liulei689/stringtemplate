@@ -2,19 +2,16 @@
 
 namespace StoneCodeGenerator.Lib.Model
 {
-    [Description("方法模板_默认_2")]
-    public class FunCode_Defult_2
+    [Description("代码库")]
+    public class Codess
     {
-        [Description("方法作用")]
-        public string FUseFor { get; set; }
-        [Description("函数名称")]
-        public string Fname { get; set; }
-
-        [Description("函数注释")]
-        public string FCment { get; set; }
-        [Description("收缩名称")]
-        public string FSout { get; set; }
-        [Description("模板路径")]
-        public string FTmpPath { get; set; } = "模板/方法模板_默认_1.txt";
+        [Description("唯一标识")]
+        public string _id { get; set; }
+        [Description("语言")]
+        public string Language { get; set; } = "C#";
+        [Description("用处")]
+        public string Use { get; set; } = "";
+        [Description("代码")]
+        public string Code { get; set; } = "";
     }
 }

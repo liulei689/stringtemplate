@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="HandyControlDemo.UserControl.Codes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             Background="{DynamicResource RegionBrush}"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <hc:TransitioningContentControl>
+        <Grid Margin="0">
+ 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+            <StackPanel hc:TitleElement.TitleWidth="168" Grid.Column="0" Margin="20,16,17,10">
+                <!--<hc:PropertyGrid SelectedObject="{Binding }"/>-->
+              
+                    <ComboBox IsEditable="False" hc:InfoElement.TitleWidth="70" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="模板类型" 
+                     SelectionChanged="templist_Selected" IsReadOnly="True"  Name="templist"     Style="{StaticResource ComboBoxExtend}"  />
+                <ComboBox IsEditable="False" hc:InfoElement.TitleWidth="70" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="模板类型" 
+                     SelectionChanged="templist_content_SelectionChanged" IsReadOnly="True"  Name="templist_content"     Style="{StaticResource ComboBoxExtend}"  />
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="增加" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="add_Click"/>
+                    <Button Content="修改" Margin="5" Style="{StaticResource ButtonDashedPrimary}" Click="edit_Click_1"/>
+                    <Button Content="删除" Margin="5" Style="{StaticResource ButtonDashedPrimary}" Click="delete_Click_2"/>
+                </StackPanel>
+                <Grid x:Name="Form" />
+                <hc:LoadingLine Name="isloding" Margin="10" Visibility="Hidden" Foreground="BlueViolet" Style="{StaticResource LoadingLineLarge}"/>
+            </StackPanel>
+            <avalonEdit:TextEditor
+                Grid.Column="1"
+    xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+    Name="TextEditor"
+    SyntaxHighlighting="C#"
+    FontFamily="Consolas"
+    FontSize="10pt" 
+    LineNumbersForeground="Black" 
+    ShowLineNumbers="True">
+                <avalonEdit:TextEditor.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem  Header="全选"  Click="MenuItem1_Click"/>
+                        <MenuItem  Header="复制"  Click="MenuItem1_Click"/>
+                        <MenuItem  Header="复制所有内容"  Click="MenuItem1_Click"/>
+                    </ContextMenu>
+                </avalonEdit:TextEditor.ContextMenu>
+            </avalonEdit:TextEditor>
+        </Grid>
+    </hc:TransitioningContentControl>
+</UserControl>

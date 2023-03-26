@@ -277,6 +277,10 @@ namespace HandyControlDemo
             {
                 mainContent.Children.Add(new UserControl.Json2Class());
             }
+            else if (name == "代码库")
+            {
+                mainContent.Children.Add(new UserControl.Codes());
+            }
             else if (name == "AnimationPath")
             {
                 mainContent.Children.Add(new UserControl.AnimationPath());

@@ -1,7 +1,7 @@
 colWid	String		学生提交数据记录wid
 userWid	String		学生wid
 userName	String		姓名
-userId	String		学号
+_id	String		学号
 field001	String		题目1的填写内容
 field002	String		题目2的填写内容
 field003	String		题目3的填写内容
