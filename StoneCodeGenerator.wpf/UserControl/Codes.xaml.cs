@@ -31,7 +31,7 @@ namespace HandyControlDemo.UserControl
            var dd= new Litedb().Selects();
             tixing.Content = dd.Count + "条";
             ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextEditor);
-            var list= new Litedb().Selects().Select(o => o.Use);
+            var list= dd.Select(o => o.Use);
             templist.ItemsSource = list;
             templist.SelectedIndex = 0;     
             TextEditor.WordWrap = true;
