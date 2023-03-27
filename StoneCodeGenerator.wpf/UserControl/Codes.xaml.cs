@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using static ICSharpCode.AvalonEdit.Document.TextDocumentWeakEventManager;
+using static KJAutoCompleteTextBox.AutoCompleteTextBox;
 using static System.Net.Mime.MediaTypeNames;
 using ComboBox = HandyControl.Controls.ComboBox;
 using TextBox = HandyControl.Controls.TextBox;
@@ -57,7 +58,14 @@ namespace HandyControlDemo.UserControl
             tlist.Add(new AutoCompleteEntry("第七人民医院", null));
             tlist.Add(new AutoCompleteEntry("第五人民医院", null));
             textBoxComplete.AddItemSource(tlist);
+            textBoxComplete.comboBox.SelectionChanged += ComboBox_SelectionChanged; ;
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+           
+        }
+
         private void templist_Selected(object sender, RoutedEventArgs e)
         {
             if (templist.SelectedValue != null)

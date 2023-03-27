@@ -6,6 +6,7 @@ using System.Windows.Media;
 
 using System.Collections.ObjectModel;
 using System.Timers;
+using System.Security.Cryptography;
 
 
 namespace KJAutoCompleteTextBox
@@ -19,7 +20,7 @@ namespace KJAutoCompleteTextBox
 
         private VisualCollection controls;
         private TextBox textBox;
-        private ComboBox comboBox;
+        public ComboBox comboBox;
         private ObservableCollection<AutoCompleteEntry> autoCompletionList;
         private Timer keypressTimer;
         private delegate void TextChangedCallback();
@@ -216,7 +217,7 @@ namespace KJAutoCompleteTextBox
                 comboBox.IsDropDownOpen = false;
             }
         }
-
+        int ddsad = 0;
         /// <summary>
         /// 按向下按键时
         /// </summary>
@@ -227,7 +228,12 @@ namespace KJAutoCompleteTextBox
             if (e.Key == Key.Down && comboBox.IsDropDownOpen == true)
             {
                 comboBox.Focus();
-                
+                //if(comboBox.SelectedIndex<comboBox.Items.Count-1)
+                ddsad++;
+                comboBox.SelectedIndex= ddsad;
+                //else comboBox.SelectedIndex = 0;
+
+
             }
         }
 
