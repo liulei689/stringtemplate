@@ -9,6 +9,7 @@ namespace StoneCodeGenerator.Lib
         private LiteDatabase _db = null;
         public Litedb()
         {
+            string path=  "代码库.db";
             ConnectionString.Connection = ConnectionType.Shared;
             ConnectionString.Filename = @"代码库.db";
             ConnectionString.ReadOnly = false;

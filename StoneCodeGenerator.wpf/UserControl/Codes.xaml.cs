@@ -29,7 +29,7 @@ namespace HandyControlDemo.UserControl
         {
             InitializeComponent();
            var dd= new Litedb().Selects();
-            tixing.Content = "库有" + dd.Count + "数据";
+            tixing.Content = dd.Count + "条";
             ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextEditor);
             var list= new Litedb().Selects().Select(o => o.Use);
             templist.ItemsSource = list;
@@ -184,9 +184,11 @@ namespace HandyControlDemo.UserControl
                 int ddd = new Litedb().InsertToDB(_o);
                 var data = new Litedb().Selects();
                 templist.ItemsSource = data.Select(o => o.Use);
-                tixing.Content = "库有"+data.Count+"数据";
+                tixing.Content = data.Count+"条";
+                templist.SelectedValue = _o._id;
+
             }
-           
+
         }
 
         private void delete_Click_2(object sender, RoutedEventArgs e)
@@ -194,7 +196,9 @@ namespace HandyControlDemo.UserControl
             new Litedb().DeleteOne(_o);
             var data = new Litedb().Selects();
             templist.ItemsSource = data.Select(o => o.Use);
-            tixing.Content = "库有" + data.Count + "数据";
+            tixing.Content =  data.Count + "条";
+            templist.SelectedIndex = 0;
+
 
         }
     }

@@ -22,7 +22,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Button Content="增加或修改" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="add_Click"/>
                     <Button Content="删除" Margin="5" Style="{StaticResource ButtonDashedPrimary}" Click="delete_Click_2"/>
-                    <hc:RunningBlock x:Name="tixing" FontSize="20" FontWeight="Bold" Foreground="Green" HorizontalAlignment="Left" AutoRun="False" Width="115" Runaway="True" Content="0" Duration="0:0:5" />
+                    <hc:RunningBlock x:Name="tixing" FontSize="20" FontWeight="Bold" Foreground="Green" HorizontalAlignment="Left" AutoRun="False" Width="115" Runaway="False" Content="0" Duration="0:0:2" />
                 </StackPanel>
                 <Grid x:Name="Form" />
                 <hc:LoadingLine Name="isloding" Margin="10" Visibility="Hidden" Foreground="BlueViolet" Style="{StaticResource LoadingLineLarge}"/>
