@@ -28,24 +28,26 @@ namespace HandyControlDemo.UserControl
         {
             InitializeComponent();
             ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextEditor);
-            templist.ItemsSource = new string[] { "1", "2" };
+            templist.ItemsSource = new Litedb().Selects().Select(o => o.Use);
             templist.SelectedIndex = 0;
             templist_content.ItemsSource = new string[] { "1", "2" };
             templist_content.SelectedIndex = 0;
             TextEditor.WordWrap = true; 
-            CreateForm(new Codess());
-            _o = new Codess();
+          
         }
         private void templist_Selected(object sender, RoutedEventArgs e)
         {
             if (templist.SelectedValue != null)
             {
-                var ddsdsadd21 = new Litedb().Selects();
+              
                 var ddd = templist.SelectedValue.ToString();
                 var ddsdsadd = new Litedb().Selects().Find(o => o.Use == ddd);
-
-                if(ddsdsadd!=null)
-                TextEditor.Text = ddsdsadd.Code;
+                if (ddsdsadd != null)
+                {
+                    _o = ddsdsadd;
+                    CreateForm(_o);
+                    TextEditor.Text = ddsdsadd.Code;
+                }
                 //templist_content.ItemsSource = StoneCode.GetTypeContentListsByType(templist.SelectedValue.ToString());
                 //templist_content.SelectedIndex = 0;
             }
@@ -65,12 +67,12 @@ namespace HandyControlDemo.UserControl
             int i = 0;
             foreach (PropertyInfo item in o.GetType().GetProperties())
             {
-                if (item != null &&!item.Name.Contains("代码"))
+                if (item != null &&!item.Name.Contains("Code") && !item.Name.Contains("_id") )
                 {
                     string label_name = "";
                     var found = item.GetCustomAttribute<DescriptionAttribute>();
                     if (found != null) label_name = found.Description;
-                     AddlabelTextAndTextName(i, label_name, item.Name);
+                     AddlabelTextAndTextName(i, label_name, item.Name,item.GetValue(o,null).ToString());
                     i++;
                 }
             }
@@ -78,7 +80,7 @@ namespace HandyControlDemo.UserControl
         private void AddlabelTextAndTextName(int index, string name_cn, string name_en, string name_content = "")
         {
             Form.RowDefinitions.Add(new RowDefinition());
-            var textbox = GetTextBox(name_cn,name_en);
+            var textbox = GetTextBox(name_cn,name_en, name_content);
             Grid.SetRow(textbox, index);
             Form.Children.Add(textbox);
 
@@ -119,9 +121,14 @@ namespace HandyControlDemo.UserControl
 
         private void add_Click(object sender, RoutedEventArgs e)
         {
-            _o.Code = TextEditor.Text;
-            int ddd=  new Litedb().InsertToDB(_o);
-            templist.ItemsSource = new Litedb().Selects().Select(o=>o.Use);
+            if (_o.Use != "")
+            {
+                _o.TimeUpate = DateTime.Now.ToString();
+                _o._id = _o.Use;
+                _o.Code = TextEditor.Text;
+                int ddd = new Litedb().InsertToDB(_o);
+                templist.ItemsSource = new Litedb().Selects().Select(o => o.Use);
+            }
            
         }
 
