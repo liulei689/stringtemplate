@@ -2,9 +2,11 @@
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using ICSharpCode.AvalonEdit;
+using KJAutoCompleteTextBox;
 using StoneCodeGenerator.Lib;
 using StoneCodeGenerator.Lib.Model;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.WebSockets;
@@ -40,6 +42,21 @@ namespace HandyControlDemo.UserControl
                 CreateForm(new Codess());
                 _o = new Codess();
             }
+            textBoxComplete.AddItem(new AutoCompleteEntry("上海", null));
+            textBoxComplete.AddItem(new AutoCompleteEntry("北京", null));
+            textBoxComplete.AddItem(new AutoCompleteEntry("济南", null));
+            textBoxComplete.AddItem(new AutoCompleteEntry("青岛", null));
+            textBoxComplete.AddItem(new AutoCompleteEntry("天津", null));
+            textBoxComplete.AddItem(new AutoCompleteEntry("黑龙江", null));
+            textBoxComplete.AddItem(new AutoCompleteEntry("聊城", null));
+
+            //方法2，使用list<AutoCompleteEntry>,自写ADDItemSource方法，直接通过泛型赋值。
+            List<AutoCompleteEntry> tlist = new List<AutoCompleteEntry>();
+            tlist.Add(new AutoCompleteEntry("第九人民医院", null));
+            tlist.Add(new AutoCompleteEntry("第八人民医院", null));
+            tlist.Add(new AutoCompleteEntry("第七人民医院", null));
+            tlist.Add(new AutoCompleteEntry("第五人民医院", null));
+            textBoxComplete.AddItemSource(tlist);
         }
         private void templist_Selected(object sender, RoutedEventArgs e)
         {
@@ -58,14 +75,6 @@ namespace HandyControlDemo.UserControl
             }
         }
         public Codess _o;
-        private void templist_content_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            if (templist_content.SelectedValue != null)
-            {
-                //int index = ((dynamic)templist_content.SelectedValue).Value;           
-               
-            }
-        }
         private void CreateForm(Codess o) 
         {
             Form.Children.Clear();
@@ -201,5 +210,9 @@ namespace HandyControlDemo.UserControl
 
 
         }
+
+   
+
+      
     }
 }

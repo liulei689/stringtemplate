@@ -192,4 +192,7 @@
   <ItemGroup>
     <ProjectReference Include="..\StoneCodeGenerator.Lib\StoneCodeGenerator.Lib.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UserControl\Controls\" />
+  </ItemGroup>
 </Project>
