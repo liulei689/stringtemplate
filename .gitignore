@@ -17,7 +17,7 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
+#[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -27,7 +27,7 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
+#[Bb]in/
 [Oo]bj/
 [Oo]ut/
 [Ll]og/
@@ -361,3 +361,59 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/模板
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/zh-Hant
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/zh-Hans
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/tr
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/runtimes
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/ru
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/pt-BR
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/pl
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/ko
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/ja
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/it
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/fr
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/es
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/de
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/cs
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.Web.Services.Description.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.Speech.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.ServiceProcess.ServiceController.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.ServiceModel.Syndication.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.ServiceModel.Security.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.ServiceModel.Primitives.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.ServiceModel.NetTcp.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.ServiceModel.Http.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.ServiceModel.Duplex.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.ServiceModel.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.Runtime.Caching.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.Reflection.Context.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.Private.ServiceModel.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.Management.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.IO.Ports.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.DirectoryServices.Protocols.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.DirectoryServices.AccountManagement.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.Data.SqlClient.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.Data.OleDb.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.Data.Odbc.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.ComponentModel.Composition.Registration.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/System.ComponentModel.Composition.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/StoneCodeGenerator.Lib.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/Newtonsoft.Json.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/Microsoft.Extensions.ObjectPool.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/Microsoft.Bcl.AsyncInterfaces.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/LiteDB.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/JinianNet.JNTemplate.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/ICSharpCode.AvalonEdit.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/HandyControlDemo.runtimeconfig.json
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/HandyControlDemo.exe
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/HandyControlDemo.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/HandyControlDemo.deps.json
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/HandyControl.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/Flurl.Http.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/Flurl.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/CommunityToolkit.Mvvm.dll
+/StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/CommonServiceLocator.dll
+/StoneCodeGenerator.Lib/bin/Debug/net7.0/StoneCodeGenerator.Lib.dll
+/StoneCodeGenerator.Lib/bin/Debug/net7.0/StoneCodeGenerator.Lib.deps.json
+/StoneCodeGenerator.Lib/bin/Debug/net7.0/模板
