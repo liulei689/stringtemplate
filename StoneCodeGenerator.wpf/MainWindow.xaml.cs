@@ -323,7 +323,7 @@ namespace HandyControlDemo
             }
             else if (name == "ComboBox")
             {
-                mainContent.Children.Add(new UserControl.ComboBox());
+                mainContent.Children.Add(new UserControl.ComboBox1());
             }
             else if (name == "CompareSlider")
             {

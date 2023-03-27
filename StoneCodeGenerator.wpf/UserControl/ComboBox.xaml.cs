@@ -3,9 +3,9 @@
     /// <summary>
     /// ComboBox.xaml 的交互逻辑
     /// </summary>
-    public partial class ComboBox
+    public partial class ComboBox1
     {
-        public ComboBox()
+        public ComboBox1()
         {
             InitializeComponent();
         }

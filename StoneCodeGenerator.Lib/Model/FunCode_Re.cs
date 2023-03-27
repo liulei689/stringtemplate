@@ -16,10 +16,15 @@ namespace StoneCodeGenerator.Lib.Model
         [Description("来源")]
         public string From { get; set; } = "";
         [Description("技术")]
-        public string Technical { get; set; } = "C#";
+        public Technicals Technical { get; set; } = Technicals.Csharip技术;
         [Description("更新时间")]
         public string TimeUpate { get; set; } = "";
         [Description("代码")]
         public string Code { get; set; } = "";
+    }
+    public enum Technicals { 
+    Csharip技术,
+    Linq,
+    反射,
     }
 }
