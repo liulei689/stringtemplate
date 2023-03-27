@@ -230,7 +230,7 @@ namespace KJAutoCompleteTextBox
                 comboBox.Focus();
                 //if(comboBox.SelectedIndex<comboBox.Items.Count-1)
                 ddsad++;
-                comboBox.SelectedIndex= ddsad;
+               // comboBox.SelectedIndex= ddsad;
                 //else comboBox.SelectedIndex = 0;
 
 

@@ -58,7 +58,7 @@ namespace HandyControlDemo.UserControl
             tlist.Add(new AutoCompleteEntry("第七人民医院", null));
             tlist.Add(new AutoCompleteEntry("第五人民医院", null));
             textBoxComplete.AddItemSource(tlist);
-            textBoxComplete.comboBox.SelectionChanged += ComboBox_SelectionChanged; ;
+           // textBoxComplete.comboBox.SelectionChanged += ComboBox_SelectionChanged; ;
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
