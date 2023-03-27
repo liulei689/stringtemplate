@@ -20,9 +20,9 @@
                 <ComboBox IsEditable="False" hc:InfoElement.TitleWidth="70" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="模板类型" 
                      SelectionChanged="templist_content_SelectionChanged" IsReadOnly="True"  Name="templist_content"     Style="{StaticResource ComboBoxExtend}"  />
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="增加" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="add_Click"/>
-                    <Button Content="修改" Margin="5" Style="{StaticResource ButtonDashedPrimary}" Click="edit_Click_1"/>
+                    <Button Content="增加或修改" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="add_Click"/>
                     <Button Content="删除" Margin="5" Style="{StaticResource ButtonDashedPrimary}" Click="delete_Click_2"/>
+                    <hc:RunningBlock x:Name="tixing" FontSize="20" FontWeight="Bold" Foreground="Green" HorizontalAlignment="Left" AutoRun="False" Width="115" Runaway="True" Content="0" Duration="0:0:5" />
                 </StackPanel>
                 <Grid x:Name="Form" />
                 <hc:LoadingLine Name="isloding" Margin="10" Visibility="Hidden" Foreground="BlueViolet" Style="{StaticResource LoadingLineLarge}"/>

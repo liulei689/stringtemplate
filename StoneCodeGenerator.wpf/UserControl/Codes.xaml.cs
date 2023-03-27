@@ -28,14 +28,18 @@ namespace HandyControlDemo.UserControl
         public Codes()
         {
             InitializeComponent();
+           var dd= new Litedb().Selects();
+            tixing.Content = "库有" + dd.Count + "数据";
             ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextEditor);
-            templist.ItemsSource = new Litedb().Selects().Select(o => o.Use);
-            templist.SelectedIndex = 0;
-            templist.ItemsSource = new string[] { "1", "2" };
-            templist.SelectedIndex = 0;
+            var list= new Litedb().Selects().Select(o => o.Use);
+            templist.ItemsSource = list;
+            templist.SelectedIndex = 0;     
             TextEditor.WordWrap = true;
-            //CreateForm(new Codess());
-            //_o = new Codess();
+            if (list.Count() == 0)
+            {
+                CreateForm(new Codess());
+                _o = new Codess();
+            }
         }
         private void templist_Selected(object sender, RoutedEventArgs e)
         {
@@ -50,8 +54,7 @@ namespace HandyControlDemo.UserControl
                     CreateForm(_o);
                     TextEditor.Text = ddsdsadd.Code;
                 }
-                //templist_content.ItemsSource = StoneCode.GetTypeContentListsByType(templist.SelectedValue.ToString());
-                //templist_content.SelectedIndex = 0;
+            
             }
         }
         public Codess _o;
@@ -69,7 +72,7 @@ namespace HandyControlDemo.UserControl
             int i = 0;
             foreach (PropertyInfo item in o.GetType().GetProperties())
             {
-                if (item != null &&!item.Name.Contains("Code") && !item.Name.Contains("_id") )
+                if (item != null &&!item.Name.Contains("Code") && !item.Name.Contains("_id"))
                 {
                     string label_name = "";
                     var found = item.GetCustomAttribute<DescriptionAttribute>();
@@ -114,6 +117,7 @@ namespace HandyControlDemo.UserControl
            // textBox.SetValue(StyleProperty, Resources["TextBoxExtend"]);
             textBox.Foreground = new SolidColorBrush(Colors.Gray);
             textBox.Text= currentent;
+            if(fiedname== "TimeUpate") textBox.IsReadOnly = true;
            // textBox.LostFocus += TextBox_LostFocus;
             textBox.TextChanged += ObjTextChanged;
             return textBox;
@@ -178,19 +182,20 @@ namespace HandyControlDemo.UserControl
                 _o._id = _o.Use;
                 _o.Code = TextEditor.Text;
                 int ddd = new Litedb().InsertToDB(_o);
-                templist.ItemsSource = new Litedb().Selects().Select(o => o.Use);
+                var data = new Litedb().Selects();
+                templist.ItemsSource = data.Select(o => o.Use);
+                tixing.Content = "库有"+data.Count+"数据";
             }
            
         }
 
-        private void edit_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void delete_Click_2(object sender, RoutedEventArgs e)
         {
-      
+            new Litedb().DeleteOne(_o);
+            var data = new Litedb().Selects();
+            templist.ItemsSource = data.Select(o => o.Use);
+            tixing.Content = "库有" + data.Count + "数据";
+
         }
     }
 }

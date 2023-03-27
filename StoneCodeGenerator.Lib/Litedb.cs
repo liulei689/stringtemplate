@@ -106,16 +106,6 @@ namespace StoneCodeGenerator.Lib
             }
             return -1;
         }
-        public List<Codess> SelectPerson()
-        {
-            if (_db != null)
-            {
-                // 获取文档
-                var col = _db.GetCollection<Codess>(_Key).Query().ToList();
-                return col;
-            }
-            return null;
-        }
         public int InsertToDB(Codess ov)
         {
             try
@@ -145,64 +135,8 @@ namespace StoneCodeGenerator.Lib
             }
             return 2;
         }
-        public int DeleteAllToDB()
-        {
-            try
-            {
-                if (_db != null)
-                {
-                    var col = _db.GetCollection<Codess>(_Key);
-                    return col.DeleteAll();
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-            }
-            return -1;
-        }
 
-        public bool InsertOneStudentToDB(Codess ov)
-        {
-            try
-            {
-                if (_db != null)
-                {
-                    var col = _db.GetCollection<Codess>(_Key);
-                    col.EnsureIndex(x => x._id, true);
-                    col.Insert(ov);
-                }
-            }
-            catch
-            {
-                return false;
-            }
-            finally
-            {
-            }
-            return true;
-        }
-        public int UpdatePersonListToDB(List<Codess> ov)
-        {
-            try
-            {
-                if (_db != null)
-                {
-                    var col = _db.GetCollection<Codess>(_Key);
-                    return col.Update(ov);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-            }
-            return -1;
-        }
-        public bool DeleteOneStudentToDB(Codess ov)
+        public bool DeleteOne(Codess ov)
         {
             try
             {
@@ -219,61 +153,7 @@ namespace StoneCodeGenerator.Lib
             {
             }
             return false;
-        }
-        public bool DeleteOneStudentByUser(Codess ov)
-        {
-            try
-            {
-                if (_db != null)
-                {
-                    var col = _db.GetCollection<Codess>(_Key);
-                    return col.Delete(ov._id);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-            }
-            return false;
-        }
-        public bool UpdateOneStuToDB(Codess ov)
-        {
-            try
-            {
-                if (_db != null)
-                {
-                    var col = _db.GetCollection<Codess>(_Key);
-                    return col.Update(ov);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-            }
-            return false;
-        }
-        public bool DeleteOneToDB(Codess ov)
-        {
-            try
-            {
-                if (_db != null)
-                {
-                    var col = _db.GetCollection<Codess>(_Key);
-                    return col.Delete(new BsonValue(ov));
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-            }
-            return false;
-        }
+        }    
         public bool UpdateOneToDB(Codess ov)
         {
             try
@@ -291,24 +171,6 @@ namespace StoneCodeGenerator.Lib
             {
             }
             return false;
-        }
-        public int UpdateListToDB(List<Codess> ov)
-        {
-            try
-            {
-                if (_db != null)
-                {
-                    var col = _db.GetCollection<Codess>(_Key);
-                    return col.Update(ov);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-            }
-            return -1;
         }
         #endregion
     }
