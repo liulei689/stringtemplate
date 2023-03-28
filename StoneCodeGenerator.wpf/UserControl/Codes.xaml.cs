@@ -8,6 +8,7 @@ using StoneCodeGenerator.Lib.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Reflection;
@@ -127,7 +128,7 @@ namespace HandyControlDemo.UserControl
                 if(name_en=="From")
                ls= new Litedb().Selects().GroupBy(o =>o.From).Select(P => P.OrderByDescending(x => x.Use).First()).Select(o=>o.From).ToArray();            
                 else if(name_en== "Technical")
-               ls = new Litedb().Selects().GroupBy(o => o.Technical).Select(P => P.OrderByDescending(x => x.Technical).First()).Select(o => o.Technical).ToArray();
+               ls = new Litedb().Selects().GroupBy(o => o.Technical).Select(P => P.OrderByDescending(x =>x.Technical).First()).Select(o => o.Technical).ToArray();
                 else if (name_en == "Language")
                     ls = new Litedb().Selects().GroupBy(o => o.Language).Select(P => P.OrderByDescending(x => x.Language).First()).Select(o => o.Language).ToArray();
 
@@ -260,9 +261,11 @@ namespace HandyControlDemo.UserControl
                     templist.ItemsSource = data.Select(o => o.Use);
                     tixing.Content = data.Count + "条";
                     templist.SelectedValue = _o._id;
-                if(ddd==1)
+                File.AppendAllLines("1.txt", data.Select(o => o.Use));
+                if (ddd==1)
                 HandyControl.Controls.Growl.Warning("修改成功");
                 else if(ddd==2) HandyControl.Controls.Growl.Success("添加成功");
+              
 
             }
             else HandyControl.Controls.Growl.Error("用处不可为空");

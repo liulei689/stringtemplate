@@ -123,6 +123,8 @@ namespace StoneCodeGenerator.Lib
                             return 1;
                         else return -1;
                     }
+                    ov.Use =(dd.Count()+1).ToString()+"."+ ov.Use;
+                    ov._id = ov.Use;
                     col.Insert(ov._id, ov);
                 }
             }
