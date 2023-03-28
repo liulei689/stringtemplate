@@ -269,17 +269,17 @@ namespace HandyControlDemo
             };
             mainContent.Children.Clear();
             string name = (ListBoxDemo.SelectedItem as DemoDataModel).Name;
-            if (name == "生成代码")
+               if (name == "代码库")
+            {
+                mainContent.Children.Add(new UserControl.Codes());
+            }
+            else if (name == "生成代码")
             {
                 mainContent.Children.Add(new UserControl.AFunCode());
             }
             else if (name == "json生成实体类")
             {
                 mainContent.Children.Add(new UserControl.Json2Class());
-            }
-            else if (name == "代码库")
-            {
-                mainContent.Children.Add(new UserControl.Codes());
             }
             else if (name == "AnimationPath")
             {

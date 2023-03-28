@@ -103,36 +103,43 @@ namespace HandyControlDemo.UserControl
                     string label_name = "";
                     var found = item.GetCustomAttribute<DescriptionAttribute>();
                     if (found != null) label_name = found.Description;
-                    if (item.PropertyType.IsEnum)
-                        {
+                    var iscombox = item.GetCustomAttribute<IsCombox>();
+                    if (iscombox != null && iscombox.Canuse) 
+                    {
+                        AddlabelTextAndTextName(i, label_name, item.Name, type: "combox", item.GetValue(o, null).ToString());
+                    }
+                    else if (item.PropertyType.IsEnum)
+                    {
                         var type = Enum.GetNames(item.PropertyType);
-                        AddlabelTextAndTextName(i, label_name, item.Name, item.GetValue(o, null).ToString(),type);
-
+                        AddlabelTextAndTextName(i, label_name, item.Name, type: "enum", item.GetValue(o, null).ToString(), type);
                     }
                     else
-                    AddlabelTextAndTextName(i, label_name, item.Name,item.GetValue(o,null).ToString());
+                    AddlabelTextAndTextName(i, label_name, item.Name, type: "textbox",item.GetValue(o,null).ToString());
                     i++;
                 }
             }
         }
-        private void AddlabelTextAndTextName(int index, string name_cn, string name_en, string name_content = "",string[] ls=null)
+        private void AddlabelTextAndTextName(int index, string name_cn, string name_en, string type,string name_content = "",string[] ls=null)
         {
             Form.RowDefinitions.Add(new RowDefinition());
-            if (name_en == "From")
+            if (type == "combox")
             {
-               ls= new Litedb().Selects().GroupBy(o =>o.From).Select(P => P.OrderByDescending(x => x.Use).First()).Select(o=>o.From).ToArray();
-            
-                    var combox = GetComboBox(name_cn, name_en, ls, true, name_content);
+                if(name_en=="From")
+               ls= new Litedb().Selects().GroupBy(o =>o.From).Select(P => P.OrderByDescending(x => x.Use).First()).Select(o=>o.From).ToArray();            
+                else if(name_en== "Technical")
+               ls = new Litedb().Selects().GroupBy(o => o.Technical).Select(P => P.OrderByDescending(x => x.Use).First()).Select(o => o.Technical).ToArray();
+
+                var combox = GetComboBox(name_cn, name_en, ls, true, name_content);
                 Grid.SetRow(combox, index);
                 Form.Children.Add(combox);
             }
-            else if (ls != null)
+            else if (type == "enum")
             {
                 var combox = GetComboBox(name_cn, name_en, ls, false, name_content);
                 Grid.SetRow(combox, index);
                 Form.Children.Add(combox);
             }
-            else
+            else if(type == "textbox")
             {
                 var textbox = GetTextBox(name_cn, name_en, name_content);
                 Grid.SetRow(textbox, index);
@@ -201,11 +208,11 @@ namespace HandyControlDemo.UserControl
   
         private  void ObjTextChanged(object sender, TextChangedEventArgs e)
         {
-            isloding.Show();
-            var txt = sender as TextBox;
-            _o.GetType().GetProperty(txt.Name).SetValue(_o, txt.Text);
+            //isloding.Show();
+            //var txt = sender as TextBox;
+            //_o.GetType().GetProperty(txt.Name).SetValue(_o, txt.Text);
            
-            isloding.Hide();
+            //isloding.Hide();
         }
 
         private void MenuItem1_Click(object sender, RoutedEventArgs e)
@@ -225,12 +232,17 @@ namespace HandyControlDemo.UserControl
                 {
                     if (control is ComboBox)
                     {
-                        if ((control as ComboBox).Name == "From")
+                        var type = _o.GetType().GetProperty((control as ComboBox).Name);
+                        if (type.PropertyType.IsEnum)
                         {
-                            _o.From = (control as ComboBox).Text;
-                            break;
+                            type.SetValue(_o, Enum.Parse(type.PropertyType, (control as ComboBox).Text));
+
                         }
+                        else if (type.PropertyType == typeof(string))
+                            type.SetValue(_o, (control as ComboBox).Text);
                     }
+                    if (control is TextBox) 
+                        _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, (control as TextBox).Text);                   
                 }
                     _o.TimeUpate = DateTime.Now.ToString();
                     _o._id = _o.Use;
