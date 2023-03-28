@@ -127,7 +127,9 @@ namespace HandyControlDemo.UserControl
                 if(name_en=="From")
                ls= new Litedb().Selects().GroupBy(o =>o.From).Select(P => P.OrderByDescending(x => x.Use).First()).Select(o=>o.From).ToArray();            
                 else if(name_en== "Technical")
-               ls = new Litedb().Selects().GroupBy(o => o.Technical).Select(P => P.OrderByDescending(x => x.Use).First()).Select(o => o.Technical).ToArray();
+               ls = new Litedb().Selects().GroupBy(o => o.Technical).Select(P => P.OrderByDescending(x => x.Technical).First()).Select(o => o.Technical).ToArray();
+                else if (name_en == "Language")
+                    ls = new Litedb().Selects().GroupBy(o => o.Language).Select(P => P.OrderByDescending(x => x.Language).First()).Select(o => o.Language).ToArray();
 
                 var combox = GetComboBox(name_cn, name_en, ls, true, name_content);
                 Grid.SetRow(combox, index);
@@ -179,17 +181,13 @@ namespace HandyControlDemo.UserControl
                 comboBox.Text = currentent;
             else
                 comboBox.SelectedValue = currentent;
-            comboBox.TextInput += ComboBox_TextInput; ;
             comboBox.SelectionChanged += Selection_Changed;
             comboBox.Foreground = new SolidColorBrush(Colors.Gray);
             // comboBox.SetValue(ComboBox.StyleProperty, Resources["ComboBoxExtend"]);
             return comboBox;
         }
 
-        private void ComboBox_TextInput(object sender, TextCompositionEventArgs e)
-        {
    
-        }
 
         
 
@@ -209,7 +207,17 @@ namespace HandyControlDemo.UserControl
         private  void ObjTextChanged(object sender, TextChangedEventArgs e)
         {
             //isloding.Show();
-            //var txt = sender as TextBox;
+            var txt = sender as TextBox;
+            if (txt.Name == "Use") {
+                foreach (var control in Form.Children)
+                {
+                    if (control is TextBox &&(control as TextBox).Name== "UseDetail" && (control as TextBox).Text == "")
+                    {
+                        (control as TextBox).Text = txt.Text;
+                        break;
+                    }
+                }
+            }
             //_o.GetType().GetProperty(txt.Name).SetValue(_o, txt.Text);
            
             //isloding.Hide();
