@@ -13,6 +13,7 @@ using System.Net.WebSockets;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using static ICSharpCode.AvalonEdit.Document.TextDocumentWeakEventManager;
 using static KJAutoCompleteTextBox.AutoCompleteTextBox;
@@ -34,7 +35,7 @@ namespace HandyControlDemo.UserControl
            var dd= new Litedb().Selects();
             tixing.Content = dd.Count + "条";
             ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextEditor);
-            var list= dd.Select(o => o.Use);
+            var list= dd.Select(o => o.Use).ToList();
             templist.ItemsSource = list;
             templist.SelectedIndex = 0;     
             TextEditor.WordWrap = true;
@@ -43,27 +44,35 @@ namespace HandyControlDemo.UserControl
                 CreateForm(new Codess());
                 _o = new Codess();
             }
-            textBoxComplete.AddItem(new AutoCompleteEntry("上海", null));
-            textBoxComplete.AddItem(new AutoCompleteEntry("北京", null));
-            textBoxComplete.AddItem(new AutoCompleteEntry("济南", null));
-            textBoxComplete.AddItem(new AutoCompleteEntry("青岛", null));
-            textBoxComplete.AddItem(new AutoCompleteEntry("天津", null));
-            textBoxComplete.AddItem(new AutoCompleteEntry("黑龙江", null));
-            textBoxComplete.AddItem(new AutoCompleteEntry("聊城", null));
-
-            //方法2，使用list<AutoCompleteEntry>,自写ADDItemSource方法，直接通过泛型赋值。
-            List<AutoCompleteEntry> tlist = new List<AutoCompleteEntry>();
-            tlist.Add(new AutoCompleteEntry("第九人民医院", null));
-            tlist.Add(new AutoCompleteEntry("第八人民医院", null));
-            tlist.Add(new AutoCompleteEntry("第七人民医院", null));
-            tlist.Add(new AutoCompleteEntry("第五人民医院", null));
-            textBoxComplete.AddItemSource(tlist);
-           // textBoxComplete.comboBox.SelectionChanged += ComboBox_SelectionChanged; ;
+            for(int i=0;i<list.Count();i++)
+            textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
+            textBoxComplete.SelectComBox += TextBoxComplete_SelectComBox;
+            textBoxComplete.TextChange += TextBoxComplete_TextChange;
+            
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TextBoxComplete_TextChange()
         {
-           
+            var ddsdsadd = new Litedb().Selects().Find(o => o.Use.Contains(textBoxComplete.Text));
+            if (ddsdsadd != null)
+            {
+                _o = ddsdsadd;
+                CreateForm(_o);
+                TextEditor.Text = ddsdsadd.Code;
+            }
+            else TextEditor.Text = "";
+        }
+
+        private void TextBoxComplete_SelectComBox()
+        {
+            var ddsdsadd = new Litedb().Selects().Find(o => o.Use.Contains(textBoxComplete.Text));
+            if (ddsdsadd != null)
+            {
+                _o = ddsdsadd;
+                CreateForm(_o);
+                TextEditor.Text = ddsdsadd.Code;
+            }
+            else TextEditor.Text = "";
         }
 
         private void templist_Selected(object sender, RoutedEventArgs e)
@@ -109,9 +118,17 @@ namespace HandyControlDemo.UserControl
         private void AddlabelTextAndTextName(int index, string name_cn, string name_en, string name_content = "",string[] ls=null)
         {
             Form.RowDefinitions.Add(new RowDefinition());
-            if (ls != null)
+            if (name_en == "From")
             {
-                var combox = GetComboBox(name_cn, name_en, ls, true, name_content);
+               ls= new Litedb().Selects().GroupBy(o =>o.From).Select(P => P.OrderByDescending(x => x.Use).First()).Select(o=>o.From).ToArray();
+            
+                    var combox = GetComboBox(name_cn, name_en, ls, true, name_content);
+                Grid.SetRow(combox, index);
+                Form.Children.Add(combox);
+            }
+            else if (ls != null)
+            {
+                var combox = GetComboBox(name_cn, name_en, ls, false, name_content);
                 Grid.SetRow(combox, index);
                 Form.Children.Add(combox);
             }
@@ -148,30 +165,39 @@ namespace HandyControlDemo.UserControl
             comboBox.SetValue(TitleElement.TitlePlacementProperty, TitlePlacementType.Left);
             comboBox.SetValue(TitleElement.TitleProperty, title);
             // comboBox.SetValue(InfoElement.PlaceholderProperty, "L222e");
-          
+            comboBox.IsEditable= IsEditable;
 
-            comboBox.ItemsSource = (System.Collections.IEnumerable)conent;
-            //if (IsEditable)
-            //    comboBox.Text = currentent;
-            //else
+            comboBox.ItemsSource = conent;
+            if (IsEditable)
+                comboBox.Text = currentent;
+            else
                 comboBox.SelectedValue = currentent;
-            //comboBox.PreviewMouseDown += PreviewMouseDownChanged;
+            comboBox.TextInput += ComboBox_TextInput; ;
             comboBox.SelectionChanged += Selection_Changed;
             comboBox.Foreground = new SolidColorBrush(Colors.Gray);
             // comboBox.SetValue(ComboBox.StyleProperty, Resources["ComboBoxExtend"]);
             return comboBox;
         }
+
+        private void ComboBox_TextInput(object sender, TextCompositionEventArgs e)
+        {
+   
+        }
+
+        
+
         private void Selection_Changed(object sender, SelectionChangedEventArgs e)
         {
-         
-                var sc = sender as ComboBox;
-                var type = _o.GetType().GetProperty(sc.Name);
-                if (type.PropertyType.IsEnum)
-                {
-                    _o.GetType().GetProperty(sc.Name).SetValue(_o, Enum.Parse(type.PropertyType, sc.SelectedValue.ToString()));
-                }
-            
+            var sc = sender as ComboBox;
+            var type = _o.GetType().GetProperty(sc.Name);
+            if (type.PropertyType.IsEnum)
+            {
+                _o.GetType().GetProperty(sc.Name).SetValue(_o, Enum.Parse(type.PropertyType, sc.SelectedValue.ToString()));
             }
+         
+
+
+        }
   
         private  void ObjTextChanged(object sender, TextChangedEventArgs e)
         {
@@ -195,16 +221,32 @@ namespace HandyControlDemo.UserControl
         {
             if (_o.Use != "")
             {
-                _o.TimeUpate = DateTime.Now.ToString();
-                _o._id = _o.Use;
-                _o.Code = TextEditor.Text;
-                int ddd = new Litedb().InsertToDB(_o);
-                var data = new Litedb().Selects();
-                templist.ItemsSource = data.Select(o => o.Use);
-                tixing.Content = data.Count+"条";
-                templist.SelectedValue = _o._id;
+                foreach (var control in Form.Children)
+                {
+                    if (control is ComboBox)
+                    {
+                        if ((control as ComboBox).Name == "From")
+                        {
+                            _o.From = (control as ComboBox).Text;
+                            break;
+                        }
+                    }
+                }
+                    _o.TimeUpate = DateTime.Now.ToString();
+                    _o._id = _o.Use;
+                    _o.Code = TextEditor.Text;
+                    int ddd = new Litedb().InsertToDB(_o);
+                    var data = new Litedb().Selects();
+                    templist.ItemsSource = data.Select(o => o.Use);
+                    tixing.Content = data.Count + "条";
+                    templist.SelectedValue = _o._id;
+                if(ddd==1)
+                HandyControl.Controls.Growl.Warning("修改成功");
+                else if(ddd==2) HandyControl.Controls.Growl.Success("添加成功");
 
             }
+            else HandyControl.Controls.Growl.Error("用处不可为空");
+
 
         }
 

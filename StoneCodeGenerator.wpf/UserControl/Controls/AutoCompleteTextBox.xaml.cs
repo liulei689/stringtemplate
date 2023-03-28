@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.Timers;
 using System.Security.Cryptography;
-
+using System;
 
 namespace KJAutoCompleteTextBox
 {
@@ -27,6 +27,18 @@ namespace KJAutoCompleteTextBox
         private bool insertText;
         private int delayTime;
         private int searchThreshold;
+        /// <summary>
+        /// 键盘上下键
+        /// </summary>
+        public event Action KeyDownUp;
+        /// <summary>
+        /// 选择了下拉框
+        /// </summary>
+        public event Action SelectComBox;
+        /// <summary>
+        /// 文本变化
+        /// </summary>
+        public event Action TextChange;
 
         #endregion 成员变量
 
@@ -58,9 +70,14 @@ namespace KJAutoCompleteTextBox
             textBox.KeyUp += new KeyEventHandler(textBox_KeyUp);
             textBox.KeyDown += new KeyEventHandler(textBox_KeyDown);
             textBox.VerticalContentAlignment = VerticalAlignment.Center;
-
+            textBox.MouseDoubleClick += TextBox_MouseDoubleClick;
             controls.Add(comboBox);
             controls.Add(textBox);
+        }
+
+        private void TextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            textBox.Text = "";
         }
 
         #endregion 构造函数
@@ -128,6 +145,7 @@ namespace KJAutoCompleteTextBox
                 insertText = true;
                 ComboBoxItem cbItem = (ComboBoxItem)comboBox.SelectedItem;
                 textBox.Text = cbItem.Content.ToString();
+                SelectComBox?.Invoke();
             }
         }
 
@@ -164,6 +182,7 @@ namespace KJAutoCompleteTextBox
                 {
                     comboBox.IsDropDownOpen = false;
                 }
+                TextChange?.Invoke();
             }
             catch { }
         }
@@ -177,6 +196,7 @@ namespace KJAutoCompleteTextBox
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+          
             // text was not typed, do nothing and consume the flag
             if (insertText == true) insertText = false;
 
@@ -190,13 +210,15 @@ namespace KJAutoCompleteTextBox
                 }
                 else TextChanged();
             }
+            
         }
 
         //获得焦点时
         public void textBox_GotFocus(object sender, RoutedEventArgs e)
         {
             // text was not typed, do nothing and consume the flag
-            if (insertText == true) insertText = false;
+            if (insertText == true) 
+                insertText = false;
 
             // if the delay time is set, delay handling of text changed
             else
@@ -217,7 +239,6 @@ namespace KJAutoCompleteTextBox
                 comboBox.IsDropDownOpen = false;
             }
         }
-        int ddsad = 0;
         /// <summary>
         /// 按向下按键时
         /// </summary>
@@ -227,10 +248,12 @@ namespace KJAutoCompleteTextBox
         {
             if (e.Key == Key.Down && comboBox.IsDropDownOpen == true)
             {
+               
                 comboBox.Focus();
                 //if(comboBox.SelectedIndex<comboBox.Items.Count-1)
-                ddsad++;
-               // comboBox.SelectedIndex= ddsad;
+
+                KeyDownUp?.Invoke();
+                // comboBox.SelectedIndex= ddsad;
                 //else comboBox.SelectedIndex = 0;
 
 
