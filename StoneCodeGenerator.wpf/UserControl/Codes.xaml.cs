@@ -54,7 +54,7 @@ namespace HandyControlDemo.UserControl
 
         private void TextBoxComplete_TextChange()
         {
-            var ddsdsadd = new Litedb().Selects().Find(o => o.Use.Contains(textBoxComplete.Text));
+            var ddsdsadd = new Litedb().Selects().Find(o => o.Use.ToLower().Contains(textBoxComplete.Text.ToLower()));
             if (ddsdsadd != null)
             {
                 _o = ddsdsadd;
