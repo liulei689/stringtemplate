@@ -9,6 +9,7 @@ using StoneCodeGenerator.Lib.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Reflection;
@@ -54,7 +55,7 @@ namespace HandyControlDemo.UserControl
 
         private void TextBoxComplete_TextChange()
         {
-            var ddsdsadd = new Litedb().Selects().Find(o => o.Use.Contains(textBoxComplete.Text));
+            var ddsdsadd = new Litedb().Selects().Find(o => o.Use.ToLower().Contains(textBoxComplete.Text.ToLower()));
             if (ddsdsadd != null)
             {
                 _o = ddsdsadd;
@@ -134,7 +135,7 @@ namespace HandyControlDemo.UserControl
                 if(name_en=="From")
                ls= new Litedb().Selects().GroupBy(o =>o.From).Select(P => P.OrderByDescending(x => x.Use).First()).Select(o=>o.From).ToArray();            
                 else if(name_en== "Technical")
-               ls = new Litedb().Selects().GroupBy(o => o.Technical).Select(P => P.OrderByDescending(x => x.Technical).First()).Select(o => o.Technical).ToArray();
+               ls = new Litedb().Selects().GroupBy(o => o.Technical).Select(P => P.OrderByDescending(x =>x.Technical).First()).Select(o => o.Technical).ToArray();
                 else if (name_en == "Language")
                     ls = new Litedb().Selects().GroupBy(o => o.Language).Select(P => P.OrderByDescending(x => x.Language).First()).Select(o => o.Language).ToArray();
 
@@ -268,28 +269,10 @@ namespace HandyControlDemo.UserControl
                     templist.ItemsSource = data.Select(o => o.Use);
                     tixing.Content = data.Count + "条";
                     templist.SelectedValue = _o._id;
-                #region mongo同步
-                var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/","同步库");
-                // 创建筛选器定义
-                //  FilterDefinition<Codess> filter = Builders<Codess>.Filter.Eq("Use", "John");
-
-                // 创建更新器定义
-                UpdateDefinition<Codess> update = Builders<Codess>
-                    .Update.Set(p => p.Code,_o.Code)
-                    .Set(p => p._id, _o._id)
-                    .Set(p => p.Use, _o.Use)
-                    .Set(p => p.UseDetail, _o.UseDetail)
-                    .Set(p => p.CreateTime, _o.TimeUpate)
-                    .Set(p => p.From, _o.From)
-                    .Set(p => p.Technical, _o.Technical)
-                    .Set(p => p.TimeUpate, _o.TimeUpate)
-                    .Set(p => p.Language, _o.Language);
-                mongodb.UpdateOne<Codess>("代码库", u => u.Use==_o.Use, update, true);
-              
-                #endregion
-                if (ddd==1)
+                if(ddd==1)
                 HandyControl.Controls.Growl.Warning("修改成功");
                 else if(ddd==2) HandyControl.Controls.Growl.Success("添加成功");
+              
 
             }
             else HandyControl.Controls.Growl.Error("用处不可为空");
