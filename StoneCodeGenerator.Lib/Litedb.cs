@@ -107,6 +107,36 @@ namespace StoneCodeGenerator.Lib
             }
             return -1;
         }
+        public Codess InsertMongoToDB(Codess ov)
+        {
+            try
+            {
+                if (_db != null)
+                {
+                    var col = _db.GetCollection<Codess>(_Key);
+                    var dd = col.FindAll();
+                    //col.EnsureIndex(x => x._id, true);
+                    if (col.Exists(o => o._id == ov._id))
+                    {
+                        ov.CreateTime = col.Find(o => o._id == ov._id).First().CreateTime;
+                        bool ist = col.Update(ov);
+                        if (ist)
+                            return ov;
+                        else return null;
+                    }
+                    col.Insert(ov._id, ov);
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+
+            }
+            finally
+            {
+            }
+            return ov;
+        }
         public Codess InsertToDB(Codess ov)
         {
             try

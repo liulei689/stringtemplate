@@ -351,7 +351,7 @@ namespace HandyControlDemo.UserControl
                     var db = new Litedb();
                     db._db.GetCollection<Codess>("代码库").DeleteAll();
                     for (int i = 0; i < data.Count(); i++)
-                        db.InsertToDB(data[i]);
+                        db.InsertMongoToDB(data[i]);
 
                 }
                 catch (Exception ex)
