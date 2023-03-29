@@ -38,7 +38,7 @@ using System.Threading.Tasks;
             /// <summary>
             /// 获取mongo单例
             /// </summary>
-            /// <param name="url">连接字符串</param>
+            /// <param name="url">连接字符串1</param>
             /// <param name="database">数据库</param>
             /// <returns></returns>
             public static MongoDbClient GetInstance(string url, string database)
