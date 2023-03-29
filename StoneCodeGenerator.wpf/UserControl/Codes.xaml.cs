@@ -10,18 +10,13 @@ using StoneCodeGenerator.Lib.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Net.WebSockets;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using System.Windows.Documents;
 using System.Windows.Media;
-using static ICSharpCode.AvalonEdit.Document.TextDocumentWeakEventManager;
-using static KJAutoCompleteTextBox.AutoCompleteTextBox;
-using static System.Net.Mime.MediaTypeNames;
 using ComboBox = HandyControl.Controls.ComboBox;
 using TextBox = HandyControl.Controls.TextBox;
 
@@ -32,14 +27,15 @@ namespace HandyControlDemo.UserControl
     /// </summary>
     public partial class Codes
     {
-
+        public Codess _o;
+        public List<Codess> _lo;
         public Codes()
         {
             InitializeComponent();
-           var dd= new Litedb().Selects();
-            tixing.Content = dd.Count + "条";
+            _lo = new Litedb().Selects();
+            tixing.Content = _lo.Count + "条";
             ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextEditor);
-            var list= dd.Select(o => o.Use).ToList();
+            var list= _lo.Select(o => o.Use).ToList();
             templist.ItemsSource = list;
             templist.SelectedIndex = 0;     
             TextEditor.WordWrap = true;
@@ -57,7 +53,7 @@ namespace HandyControlDemo.UserControl
 
         private void TextBoxComplete_TextChange()
         {
-            var ddsdsadd = new Litedb().Selects().Find(o => o.Use.ToLower().Contains(textBoxComplete.Text.ToLower()));
+            var ddsdsadd = _lo.Find(o => o.Use.ToLower().Contains(textBoxComplete.Text.ToLower()));
             if (ddsdsadd != null)
             {
                 _o = ddsdsadd;
@@ -69,7 +65,7 @@ namespace HandyControlDemo.UserControl
 
         private void TextBoxComplete_SelectComBox()
         {
-            var ddsdsadd = new Litedb().Selects().Find(o => o.Use.Contains(textBoxComplete.Text));
+            var ddsdsadd =_lo .Find(o => o.Use.Contains(textBoxComplete.Text));
             if (ddsdsadd != null)
             {
                 _o = ddsdsadd;
@@ -85,7 +81,7 @@ namespace HandyControlDemo.UserControl
             {
               
                 var ddd = templist.SelectedValue.ToString();
-                var ddsdsadd = new Litedb().Selects().Find(o => o.Use == ddd);
+                var ddsdsadd = _lo.Find(o => o.Use == ddd);
                 if (ddsdsadd != null)
                 {
                     _o = ddsdsadd;
@@ -95,7 +91,6 @@ namespace HandyControlDemo.UserControl
             
             }
         }
-        public Codess _o;
         private void CreateForm(Codess o) 
         {
             try
@@ -110,6 +105,7 @@ namespace HandyControlDemo.UserControl
                         var found = item.GetCustomAttribute<DescriptionAttribute>();
                         if (found != null) label_name = found.Description;
                         var iscombox = item.GetCustomAttribute<IsCombox>();
+                        var isreadonly = item.GetCustomAttribute<ReadOnlyAttribute>();
                         if (iscombox != null && iscombox.Canuse)
                         {
                             AddlabelTextAndTextName(i, label_name, item.Name, type: "combox", item.GetValue(o, null).ToString());
@@ -120,7 +116,7 @@ namespace HandyControlDemo.UserControl
                             AddlabelTextAndTextName(i, label_name, item.Name, type: "enum", item.GetValue(o, null).ToString(), type);
                         }
                         else
-                            AddlabelTextAndTextName(i, label_name, item.Name, type: "textbox", item.GetValue(o, null).ToString());
+                            AddlabelTextAndTextName(i, label_name, item.Name, type: "textbox", item.GetValue(o, null).ToString(),readonlys:isreadonly!=null);
                         i++;
                     }
                 }
@@ -129,17 +125,17 @@ namespace HandyControlDemo.UserControl
                 HandyControl.Controls.Growl.Error(ex.Message);
             }
         }
-        private void AddlabelTextAndTextName(int index, string name_cn, string name_en, string type,string name_content = "",string[] ls=null)
+        private void AddlabelTextAndTextName(int index, string name_cn, string name_en, string type,string name_content = "",string[] ls=null,bool readonlys =false)
         {
             Form.RowDefinitions.Add(new RowDefinition());
             if (type == "combox")
             {
                 if(name_en=="From")
-               ls= new Litedb().Selects().GroupBy(o =>o.From).Select(P => P.OrderByDescending(x => x.Use).First()).Select(o=>o.From).ToArray();            
+               ls= _lo.GroupBy(o =>o.From).Select(P => P.OrderByDescending(x => x.Use).First()).Select(o=>o.From).ToArray();            
                 else if(name_en== "Technical")
-               ls = new Litedb().Selects().GroupBy(o => o.Technical).Select(P => P.OrderByDescending(x =>x.Technical).First()).Select(o => o.Technical).ToArray();
+               ls = _lo.GroupBy(o => o.Technical).Select(P => P.OrderByDescending(x =>x.Technical).First()).Select(o => o.Technical).ToArray();
                 else if (name_en == "Language")
-                    ls = new Litedb().Selects().GroupBy(o => o.Language).Select(P => P.OrderByDescending(x => x.Language).First()).Select(o => o.Language).ToArray();
+                    ls = _lo.GroupBy(o => o.Language).Select(P => P.OrderByDescending(x => x.Language).First()).Select(o => o.Language).ToArray();
 
                 var combox = GetComboBox(name_cn, name_en, ls, true, name_content);
                 Grid.SetRow(combox, index);
@@ -153,13 +149,13 @@ namespace HandyControlDemo.UserControl
             }
             else if(type == "textbox")
             {
-                var textbox = GetTextBox(name_cn, name_en, name_content);
+                var textbox = GetTextBox(name_cn, name_en, name_content, readonlys);
                 Grid.SetRow(textbox, index);
                 Form.Children.Add(textbox);
             }
 
         }
-        private TextBox GetTextBox(string title, string fiedname,string currentent = "")
+        private TextBox GetTextBox(string title, string fiedname,string currentent = "",bool readonlys=false)
         {
             TextBox textBox = new TextBox();
             textBox.Name = fiedname;
@@ -170,7 +166,7 @@ namespace HandyControlDemo.UserControl
            // textBox.SetValue(StyleProperty, Resources["TextBoxExtend"]);
             textBox.Foreground = new SolidColorBrush(Colors.Gray);
             textBox.Text= currentent;
-            if(fiedname== "TimeUpate") textBox.IsReadOnly = true;
+             textBox.IsReadOnly = readonlys;
            // textBox.LostFocus += TextBox_LostFocus;
             textBox.TextChanged += ObjTextChanged;
             return textBox;
@@ -218,15 +214,27 @@ namespace HandyControlDemo.UserControl
         {
             //isloding.Show();
             var txt = sender as TextBox;
-            if (txt.Name == "Use") {
-                foreach (var control in Form.Children)
+            if (txt.Name == "Use")
+            {
+                if (_lo.FindAll(o => o.Use == txt.Text).Count() == 0)
                 {
-                    if (control is TextBox &&(control as TextBox).Name== "UseDetail" && (control as TextBox).Text == "")
+                    foreach (var control in Form.Children)
                     {
-                        (control as TextBox).Text = txt.Text;
-                        break;
+                        if (control is TextBox && (control as TextBox).Name == "UseDetail")
+                        {
+                            (control as TextBox).Text = txt.Text;
+                        }
+                        if (control is TextBox && (control as TextBox).Name == "TimeUpate")
+                        {
+                            (control as TextBox).Text =DateTime.Now.ToString();
+                        }
+                        if (control is TextBox && (control as TextBox).Name == "CreateTime")
+                        {
+                            (control as TextBox).Text = DateTime.Now.ToString();
+                        }
                     }
                 }
+             
             }
             //_o.GetType().GetProperty(txt.Name).SetValue(_o, txt.Text);
            
@@ -242,52 +250,69 @@ namespace HandyControlDemo.UserControl
 
         }
 
-        private void add_Click(object sender, RoutedEventArgs e)
+        private async void add_Click(object sender, RoutedEventArgs e)
         {
-            if (_o.Use != "")
-            {
-                foreach (var control in Form.Children)
+            isloding.Show();
+           
+                if (_o.Use != "")
                 {
-                    if (control is ComboBox)
+                    foreach (var control in Form.Children)
                     {
-                        var type = _o.GetType().GetProperty((control as ComboBox).Name);
-                        if (type.PropertyType.IsEnum)
+                        if (control is ComboBox)
                         {
-                            type.SetValue(_o, Enum.Parse(type.PropertyType, (control as ComboBox).Text));
+                            var type = _o.GetType().GetProperty((control as ComboBox).Name);
+                            if (type.PropertyType.IsEnum)
+                            {
+                                type.SetValue(_o, Enum.Parse(type.PropertyType, (control as ComboBox).Text));
 
+                            }
+                            else if (type.PropertyType == typeof(string))
+                                type.SetValue(_o, (control as ComboBox).Text);
                         }
-                        else if (type.PropertyType == typeof(string))
-                            type.SetValue(_o, (control as ComboBox).Text);
+                        if (control is TextBox)
+                            _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, (control as TextBox).Text);
                     }
-                    if (control is TextBox) 
-                        _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, (control as TextBox).Text);                   
-                }
                     _o.TimeUpate = DateTime.Now.ToString();
-                _o.CreateTime= DateTime.Now.ToString();
-                    _o._id = _o.Use;
+                    _o.CreateTime = _o.TimeUpate;
+                _o._id = _o.Use;
                     _o.Code = TextEditor.Text;
-                    var ov = new Litedb().InsertToDB(_o);
-                    var data = new Litedb().Selects();
-                    templist.ItemsSource = data.Select(o => o.Use);
-                    tixing.Content = data.Count + "条";
+                int staus_id = -1;
+                var ov = await Task.Run(() =>
+                {
+                  var data=  new Litedb().InsertToDB(_o,out int status);
+                    staus_id = status;
+                    return data;
+                   
+                });
+                _lo =   await Task.Run(() =>
+                {
+                   return new Litedb().Selects();
+                });
+                var list = _lo.Select(o => o.Use).ToList();
+                for (int i = 0; i < list.Count(); i++)
+                    textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
+                templist.ItemsSource = list;
+                    tixing.Content = _lo.Count + "条";
                     templist.SelectedValue = _o._id;
-                if (ov == null)
+                    if (ov == null)
+                    {
+                        HandyControl.Controls.Growl.Error("操作失败！");
+                    }
+                await Task.Run(() =>
                 {
-                    HandyControl.Controls.Growl.Error("操作失败！");
-                }
-                UpdateMongodb(ov);
-                if (ov.CreateTime !=_o.CreateTime)
-                {
-                    HandyControl.Controls.Growl.Warning("修改成功");
-                  
-                }
-                else  HandyControl.Controls.Growl.Success("添加成功");
-              
+                    UpdateMongodb(ov);
+                });
+                    if (staus_id==1)
+                    {
+                        HandyControl.Controls.Growl.Warning("修改成功");
 
+                    }
+                    else if(staus_id == 2) HandyControl.Controls.Growl.Success("添加成功");
+            
+          
             }
             else HandyControl.Controls.Growl.Error("用处不可为空");
-
-
+            isloding.Hide();
         }
         #region 更新mongodb
         /// <summary>

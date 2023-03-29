@@ -21,8 +21,10 @@ namespace StoneCodeGenerator.Lib.Model
         [IsCombox(true)]
         public string Technical { get; set; } = "Csharp工具代码";
         [Description("更新时间")]
+        [ReadOnly(true)]
         public string TimeUpate { get; set; } = "";
         [Description("创建时间")]
+        [ReadOnly(true)]
         public string CreateTime { get; set; } = "";
 
         [Description("代码")]

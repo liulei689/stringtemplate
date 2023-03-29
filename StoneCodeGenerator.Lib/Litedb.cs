@@ -137,8 +137,9 @@ namespace StoneCodeGenerator.Lib
             }
             return ov;
         }
-        public Codess InsertToDB(Codess ov)
+        public Codess InsertToDB(Codess ov,out int status)
         {
+            status = -1;
             try
             {
                 if (_db != null)
@@ -151,7 +152,10 @@ namespace StoneCodeGenerator.Lib
                        ov.CreateTime= col.Find(o => o._id == ov._id).First().CreateTime;
                         bool ist = col.Update(ov);
                         if (ist)
+                        {
+                            status = 1;
                             return ov;
+                        }
                         else return null;
                     }
                     ov.Use =(dd.Count()+1).ToString()+"."+ ov.Use;
@@ -167,6 +171,7 @@ namespace StoneCodeGenerator.Lib
             finally
             {
             }
+            status = 2;
             return ov;
         }
 
