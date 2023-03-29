@@ -102,6 +102,8 @@ namespace HandyControlDemo.UserControl
             isloding.Hide();
         }
 
+
+
         private void MenuItem1_Click(object sender, RoutedEventArgs e)
         {
             var check =(sender as MenuItem).Header.ToString();

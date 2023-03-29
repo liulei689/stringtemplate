@@ -6,7 +6,7 @@ namespace StoneCodeGenerator.Lib
     public class Litedb
     {
         public ConnectionString ConnectionString = new ConnectionString();
-        private LiteDatabase _db = null;
+        public LiteDatabase _db = null;
         public Litedb()
         {
             string path=  "代码库.db";
@@ -107,7 +107,7 @@ namespace StoneCodeGenerator.Lib
             }
             return -1;
         }
-        public int InsertToDB(Codess ov)
+        public Codess InsertToDB(Codess ov)
         {
             try
             {
@@ -118,10 +118,11 @@ namespace StoneCodeGenerator.Lib
                     //col.EnsureIndex(x => x._id, true);
                     if (col.Exists(o => o._id == ov._id))
                     {
+                       ov.CreateTime= col.Find(o => o._id == ov._id).First().CreateTime;
                         bool ist = col.Update(ov);
                         if (ist)
-                            return 1;
-                        else return -1;
+                            return ov;
+                        else return null;
                     }
                     ov.Use =(dd.Count()+1).ToString()+"."+ ov.Use;
                     ov._id = ov.Use;
@@ -130,13 +131,13 @@ namespace StoneCodeGenerator.Lib
             }
             catch (Exception e)
             {
-                return -1;
+                return null;
 
             }
             finally
             {
             }
-            return 2;
+            return ov;
         }
 
         public bool DeleteOne(Codess ov)

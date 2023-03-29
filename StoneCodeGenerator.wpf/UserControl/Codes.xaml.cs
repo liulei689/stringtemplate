@@ -3,6 +3,7 @@ using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using ICSharpCode.AvalonEdit;
 using KJAutoCompleteTextBox;
+using LiteDB;
 using MongoDB.Driver;
 using StoneCodeGenerator.Lib;
 using StoneCodeGenerator.Lib.Model;
@@ -13,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -264,14 +266,22 @@ namespace HandyControlDemo.UserControl
                 _o.CreateTime= DateTime.Now.ToString();
                     _o._id = _o.Use;
                     _o.Code = TextEditor.Text;
-                    int ddd = new Litedb().InsertToDB(_o);
+                    var ov = new Litedb().InsertToDB(_o);
                     var data = new Litedb().Selects();
                     templist.ItemsSource = data.Select(o => o.Use);
                     tixing.Content = data.Count + "条";
                     templist.SelectedValue = _o._id;
-                if(ddd==1)
-                HandyControl.Controls.Growl.Warning("修改成功");
-                else if(ddd==2) HandyControl.Controls.Growl.Success("添加成功");
+                if (ov == null)
+                {
+                    HandyControl.Controls.Growl.Error("操作失败！");
+                }
+                UpdateMongodb(ov);
+                if (ov.CreateTime !=_o.CreateTime)
+                {
+                    HandyControl.Controls.Growl.Warning("修改成功");
+                  
+                }
+                else  HandyControl.Controls.Growl.Success("添加成功");
               
 
             }
@@ -279,32 +289,110 @@ namespace HandyControlDemo.UserControl
 
 
         }
+        #region 更新mongodb
+        /// <summary>
+        /// 更新mongodb
+        /// </summary>
+        public void UpdateMongodb(Codess cs)
+        {
+            var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
+            // 创建筛选器定义
+            // FilterDefinition<Codess> filter = Builders<Codess>.Filter.Eq("name", "John");
+            // 创建更新器定义 新增
+            UpdateDefinition<Codess> update = Builders<Codess>.Update
+                .Set(o => o.Use, cs.Use)
+                .Set(o => o.Technical, cs.Technical)
+                .Set(o => o.UseDetail, cs.UseDetail)
+                .Set(o => o.From, cs.From)
+                .Set(o => o.Language, cs.Language)
+                .Set(o => o.TimeUpate, cs.TimeUpate)
+                .Set(o => o.CreateTime, cs.CreateTime)
+                .Set(o => o.Code, cs.Code)
+                .Set(o => o._id, cs._id);
+            // 更新集合中的文档
+            mongodb.UpdateOne<Codess>("代码库",o=>o._id==cs._id,update,true);
 
+        }
+        #endregion
+        #region 查询mongodb
+        /// <summary>
+        /// 查询mongodb
+        /// </summary>
+        public List<Codess> SelectMongodb()
+        {
+            var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
+            // 创建筛选器定义
+          //  FilterDefinition<Codess> filter = Builders<Codess>.Filter.Eq("name", "John");//等于
+            FilterDefinition<Codess> filter = Builders<Codess>.Filter.Ne("_id", "");//不等于
+            return mongodb.GetCollection<Codess>("代码库").Find(filter).ToList();
+       
+        }
+        #endregion
+        #region 删除mongodb
+        /// <summary>
+        /// 查询mongodb
+        /// </summary>
+        public long DeleteMongoById(string id)
+        {
+            var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
+            FilterDefinition<Codess> filter = Builders<Codess>.Filter.Eq("_id", id);//等于
+          return  mongodb.Delete("代码库", filter);
+        }
+        #endregion
+        //同步芒果到本地到
+        private async void MongoToLite(object sender, RoutedEventArgs e)
+        {
+           isloding.Show();
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var data = SelectMongodb();
+                    var db = new Litedb();
+                    db._db.GetCollection<Codess>("代码库").DeleteAll();
+                    for (int i = 0; i < data.Count(); i++)
+                        db.InsertToDB(data[i]);
+
+                }
+                catch (Exception ex)
+                {
+                   // HandyControl.Controls.Growl.Error(ex.Message);
+
+                }
+            });
+            isloding.Hide();
+        }
+        //同步本地到芒果
+        private async void LiteToMongo(object sender, RoutedEventArgs e)
+        {
+          isloding.Show();
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var data = new Litedb().Selects();
+                    var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
+                    var cc = mongodb.GetCollection<Codess>("代码库");
+
+                    cc.Database.DropCollection("代码库");
+                    mongodb.InsertMany("代码库", data);
+                }
+                catch (Exception ex)
+                {
+                  //  HandyControl.Controls.Growl.Error(ex.Message);
+
+                }
+            });
+            isloding.Hide();
+        }
         private void delete_Click_2(object sender, RoutedEventArgs e)
         {
             new Litedb().DeleteOne(_o);
+            var dd = DeleteMongoById(_o._id);
             var data = new Litedb().Selects();
             templist.ItemsSource = data.Select(o => o.Use);
-            tixing.Content =  data.Count + "条";
+            tixing.Content = data.Count + "条";
             templist.SelectedIndex = 0;
-
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var data = new Litedb().Selects();
-                var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
-               var cc= mongodb.GetCollection<Codess>("代码库");
-                cc.Database.DropCollection("代码库");
-                mongodb.InsertMany("代码库", data);
-            }catch(Exception ex)
-            {
-                HandyControl.Controls.Growl.Error(ex.Message);
-
-            }
         }
     }
 }

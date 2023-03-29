@@ -22,10 +22,12 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Button Content="增改" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="add_Click"/>
-                    <Button Content="同步" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="Button_Click"/>
+                    <Button Content="LM上传" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="LiteToMongo"/>
+                    <Button Content="ML下载" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="MongoToLite"/>
                     <Button Content="删除" Margin="5" Style="{StaticResource ButtonDashedPrimary}" Click="delete_Click_2"/>
-                    <hc:RunningBlock x:Name="tixing" FontSize="20" FontWeight="Bold" Foreground="Green" HorizontalAlignment="Left" AutoRun="False" Width="115" Runaway="False" Content="0" Duration="0:0:2" />
                 </StackPanel>
+                <hc:RunningBlock x:Name="tixing" FontSize="20" FontWeight="Bold" Foreground="Green" HorizontalAlignment="Center" AutoRun="False" Width="245" Runaway="False" Content="0" Duration="0:0:2" />
+
                 <Grid x:Name="Form" />
                 <hc:LoadingLine Name="isloding" Margin="10" Visibility="Hidden" Foreground="BlueViolet" Style="{StaticResource LoadingLineLarge}"/>
             </StackPanel>
