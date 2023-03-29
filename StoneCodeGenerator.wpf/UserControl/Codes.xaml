@@ -21,7 +21,8 @@
                 <mc:AutoCompleteTextBox  Height="30" Width="262" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="textBoxComplete"/>
 
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="增加或修改" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="add_Click"/>
+                    <Button Content="增改" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="add_Click"/>
+                    <Button Content="同步" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="Button_Click"/>
                     <Button Content="删除" Margin="5" Style="{StaticResource ButtonDashedPrimary}" Click="delete_Click_2"/>
                     <hc:RunningBlock x:Name="tixing" FontSize="20" FontWeight="Bold" Foreground="Green" HorizontalAlignment="Left" AutoRun="False" Width="115" Runaway="False" Content="0" Duration="0:0:2" />
                 </StackPanel>

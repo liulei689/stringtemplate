@@ -3,6 +3,7 @@ using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using ICSharpCode.AvalonEdit;
 using KJAutoCompleteTextBox;
+using MongoDB.Driver;
 using StoneCodeGenerator.Lib;
 using StoneCodeGenerator.Lib.Model;
 using System;
@@ -94,29 +95,35 @@ namespace HandyControlDemo.UserControl
         public Codess _o;
         private void CreateForm(Codess o) 
         {
-            Form.Children.Clear();
-            int i = 0;
-            foreach (PropertyInfo item in o.GetType().GetProperties())
+            try
             {
-                if (item != null &&!item.Name.Contains("Code") && !item.Name.Contains("_id"))
+                Form.Children.Clear();
+                int i = 0;
+                foreach (PropertyInfo item in o.GetType().GetProperties())
                 {
-                    string label_name = "";
-                    var found = item.GetCustomAttribute<DescriptionAttribute>();
-                    if (found != null) label_name = found.Description;
-                    var iscombox = item.GetCustomAttribute<IsCombox>();
-                    if (iscombox != null && iscombox.Canuse) 
+                    if (item != null && !item.Name.Contains("Code") && !item.Name.Contains("_id"))
                     {
-                        AddlabelTextAndTextName(i, label_name, item.Name, type: "combox", item.GetValue(o, null).ToString());
+                        string label_name = "";
+                        var found = item.GetCustomAttribute<DescriptionAttribute>();
+                        if (found != null) label_name = found.Description;
+                        var iscombox = item.GetCustomAttribute<IsCombox>();
+                        if (iscombox != null && iscombox.Canuse)
+                        {
+                            AddlabelTextAndTextName(i, label_name, item.Name, type: "combox", item.GetValue(o, null).ToString());
+                        }
+                        else if (item.PropertyType.IsEnum)
+                        {
+                            var type = Enum.GetNames(item.PropertyType);
+                            AddlabelTextAndTextName(i, label_name, item.Name, type: "enum", item.GetValue(o, null).ToString(), type);
+                        }
+                        else
+                            AddlabelTextAndTextName(i, label_name, item.Name, type: "textbox", item.GetValue(o, null).ToString());
+                        i++;
                     }
-                    else if (item.PropertyType.IsEnum)
-                    {
-                        var type = Enum.GetNames(item.PropertyType);
-                        AddlabelTextAndTextName(i, label_name, item.Name, type: "enum", item.GetValue(o, null).ToString(), type);
-                    }
-                    else
-                    AddlabelTextAndTextName(i, label_name, item.Name, type: "textbox",item.GetValue(o,null).ToString());
-                    i++;
                 }
+            }
+            catch (Exception ex) {
+                HandyControl.Controls.Growl.Error(ex.Message);
             }
         }
         private void AddlabelTextAndTextName(int index, string name_cn, string name_en, string type,string name_content = "",string[] ls=null)
@@ -253,6 +260,7 @@ namespace HandyControlDemo.UserControl
                         _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, (control as TextBox).Text);                   
                 }
                     _o.TimeUpate = DateTime.Now.ToString();
+                _o.CreateTime= DateTime.Now.ToString();
                     _o._id = _o.Use;
                     _o.Code = TextEditor.Text;
                     int ddd = new Litedb().InsertToDB(_o);
@@ -260,7 +268,26 @@ namespace HandyControlDemo.UserControl
                     templist.ItemsSource = data.Select(o => o.Use);
                     tixing.Content = data.Count + "条";
                     templist.SelectedValue = _o._id;
-                if(ddd==1)
+                #region mongo同步
+                var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/","同步库");
+                // 创建筛选器定义
+                //  FilterDefinition<Codess> filter = Builders<Codess>.Filter.Eq("Use", "John");
+
+                // 创建更新器定义
+                UpdateDefinition<Codess> update = Builders<Codess>
+                    .Update.Set(p => p.Code,_o.Code)
+                    .Set(p => p._id, _o._id)
+                    .Set(p => p.Use, _o.Use)
+                    .Set(p => p.UseDetail, _o.UseDetail)
+                    .Set(p => p.CreateTime, _o.TimeUpate)
+                    .Set(p => p.From, _o.From)
+                    .Set(p => p.Technical, _o.Technical)
+                    .Set(p => p.TimeUpate, _o.TimeUpate)
+                    .Set(p => p.Language, _o.Language);
+                mongodb.UpdateOne<Codess>("代码库", u => u.Use==_o.Use, update, true);
+              
+                #endregion
+                if (ddd==1)
                 HandyControl.Controls.Growl.Warning("修改成功");
                 else if(ddd==2) HandyControl.Controls.Growl.Success("添加成功");
 
@@ -281,8 +308,20 @@ namespace HandyControlDemo.UserControl
 
         }
 
-   
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var data = new Litedb().Selects();
+                var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
+               var cc= mongodb.GetCollection<Codess>("代码库");
+                cc.Database.DropCollection("代码库");
+                mongodb.InsertMany("代码库", data);
+            }catch(Exception ex)
+            {
+                HandyControl.Controls.Growl.Error(ex.Message);
 
-      
+            }
+        }
     }
 }

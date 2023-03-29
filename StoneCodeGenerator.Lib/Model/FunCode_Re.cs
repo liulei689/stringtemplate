@@ -22,12 +22,12 @@ namespace StoneCodeGenerator.Lib.Model
         public string Technical { get; set; } = "Csharp工具代码";
         [Description("更新时间")]
         public string TimeUpate { get; set; } = "";
+        [Description("创建时间")]
+        public string CreateTime { get; set; } = "";
+
         [Description("代码")]
         public string Code { get; set; } = "";
 
     }
-    public enum Languages
-    {
-        Csharp
-    }
+   
 }
