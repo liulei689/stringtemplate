@@ -28,8 +28,8 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <hc:Shield Margin="5" x:Name="today_add_count" Subject="今日新增" Status="0" Color="#1182c3"/>
-                    <hc:Shield Margin="5" x:Name="week_add_count" Subject="本周新增" Status="0" Color="#4eb899"/>
-                    <hc:Shield Margin="5" x:Name="mon_add_count" Subject="本月新增" Status="0" Color="#1182c3"/>
+                    <hc:Shield Margin="5" x:Name="week_add_count" Subject="7天新增" Status="0" Color="#4eb899"/>
+                    <hc:Shield Margin="5" x:Name="mon_add_count" Subject="30天新增" Status="0" Color="#1182c3"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <hc:Shield Margin="5" x:Name="today_eddit_count" Subject="今日修改" Status="0" Color="#1182c3"/>
