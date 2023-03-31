@@ -317,6 +317,7 @@ namespace HandyControlDemo.UserControl
             if (_o == null) templist.SelectedIndex = 0;
             else
                 templist.SelectedValue = _o._id;
+            textBoxComplete.ClearItem();
             for (int i = 0; i < list.Count(); i++)
                 textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
         }
