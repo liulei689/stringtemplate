@@ -55,9 +55,11 @@ namespace HandyControlDemo.UserControl
                 Task.Run(() => {
                     ddsdsadd.ReadCount++;
                     new Litedb().UpdateOneToDB(ddsdsadd);
+                    UpdateMongodb(ddsdsadd);
                 });
             }
             else TextEditor.Text = "";
+            all_read_count.Status = _lo.Sum(o => o.ReadCount)+1;
         }
         private void TextBoxComplete_TextChange()
         {
@@ -358,6 +360,7 @@ namespace HandyControlDemo.UserControl
                 .Set(o => o.TimeUpate, cs.TimeUpate)
                 .Set(o => o.CreateTime, cs.CreateTime)
                 .Set(o => o.Code, cs.Code)
+                .Set(o => o.ReadCount, cs.ReadCount)
                 .Set(o => o._id, cs._id);
             // 更新集合中的文档
             mongodb.UpdateOne<Codess>("代码库", o => o._id == cs._id, update, true);
@@ -395,17 +398,18 @@ namespace HandyControlDemo.UserControl
             isloding.Show();
             upload.IsEnabled = false;
             down.IsEnabled = false;
+            var data = SelectMongodb();
             await Task.Run(() =>
             {
                 try
                 {
-                    var data = SelectMongodb();
+                  
                     if (data.Count() == 0) return;
                     var db = new Litedb();
                     db._db.GetCollection<Codess>("代码库").DeleteAll();
                     for (int i = 0; i < data.Count(); i++)
                         db.InsertMongoToDB(data[i]);
-                    RefreshTheList(data);
+                  
 
                 }
                 catch (Exception ex)
@@ -414,6 +418,7 @@ namespace HandyControlDemo.UserControl
 
                 }
             });
+            RefreshTheList(data);
             upload.IsEnabled = true;
             down.IsEnabled = true;
             isloding.Hide();
@@ -424,16 +429,17 @@ namespace HandyControlDemo.UserControl
             isloding.Show();
             upload.IsEnabled = false;
             down.IsEnabled = false;
+            var data = new Litedb().Selects();
             await Task.Run(() =>
             {
                 try
                 {
-                    var data = new Litedb().Selects();
+                
                     var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
                     var cc = mongodb.GetCollection<Codess>("代码库");
                     cc.Database.DropCollection("代码库");
                     mongodb.InsertMany("代码库", data);
-                    RefreshTheList(data);
+                  
                 }
                 catch (Exception ex)
                 {
@@ -441,6 +447,7 @@ namespace HandyControlDemo.UserControl
 
                 }
             });
+            RefreshTheList(data);
             upload.IsEnabled=true;
             down.IsEnabled = true;
             isloding.Hide();
