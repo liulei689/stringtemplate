@@ -43,6 +43,7 @@ namespace HandyControlDemo.UserControl
             }
             textBoxComplete.SelectComBox += TextBoxComplete_SelectComBox;
             textBoxComplete.TextChange += TextBoxComplete_TextChange;
+            
         }
         private void SelectData(Codess ddsdsadd) 
         {
@@ -259,7 +260,13 @@ namespace HandyControlDemo.UserControl
                             type.SetValue(_o, (control as ComboBox).Text);
                     }
                     if (control is TextBox)
-                        _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, (control as TextBox).Text);
+                    {
+                       var type= _o.GetType().GetProperty((control as TextBox).Name);
+                        if (type.PropertyType == typeof(int))
+                            _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, int.Parse((control as TextBox).Text));
+                        else
+                            _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, (control as TextBox).Text);
+                    }
                 }
                 _o.TimeUpate = DateTime.Now.ToString();
                 _o.CreateTime = _o.TimeUpate;
@@ -382,15 +389,18 @@ namespace HandyControlDemo.UserControl
             return mongodb.Delete("代码库", filter);
         }
         #endregion
-        //同步芒果到本地到
+        //同步芒果到本地到 下载
         private async void MongoToLite(object sender, RoutedEventArgs e)
         {
             isloding.Show();
+            upload.IsEnabled = false;
+            down.IsEnabled = false;
             await Task.Run(() =>
             {
                 try
                 {
                     var data = SelectMongodb();
+                    if (data.Count() == 0) return;
                     var db = new Litedb();
                     db._db.GetCollection<Codess>("代码库").DeleteAll();
                     for (int i = 0; i < data.Count(); i++)
@@ -404,12 +414,16 @@ namespace HandyControlDemo.UserControl
 
                 }
             });
+            upload.IsEnabled = true;
+            down.IsEnabled = true;
             isloding.Hide();
         }
-        //同步本地到芒果
+        //同步本地到芒果 上传
         private async void LiteToMongo(object sender, RoutedEventArgs e)
         {
             isloding.Show();
+            upload.IsEnabled = false;
+            down.IsEnabled = false;
             await Task.Run(() =>
             {
                 try
@@ -419,6 +433,7 @@ namespace HandyControlDemo.UserControl
                     var cc = mongodb.GetCollection<Codess>("代码库");
                     cc.Database.DropCollection("代码库");
                     mongodb.InsertMany("代码库", data);
+                    RefreshTheList(data);
                 }
                 catch (Exception ex)
                 {
@@ -426,6 +441,8 @@ namespace HandyControlDemo.UserControl
 
                 }
             });
+            upload.IsEnabled=true;
+            down.IsEnabled = true;
             isloding.Hide();
         }
         private void delete_Click_2(object sender, RoutedEventArgs e)

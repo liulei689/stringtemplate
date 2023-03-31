@@ -22,8 +22,8 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Button Content="增改" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="add_Click"/>
-                    <Button Content="上传" Margin="5"  Style="{StaticResource ButtonDashedSuccess}" Click="LiteToMongo"/>
-                    <Button Content="下载" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="MongoToLite"/>
+                    <Button Content="上传" Name="upload" Margin="5"  Style="{StaticResource ButtonDashedSuccess}" Click="LiteToMongo"/>
+                    <Button Content="下载" Name="down" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="MongoToLite"/>
                     <Button Content="删除" Margin="5" Style="{StaticResource ButtonDashedDanger}" Click="delete_Click_2"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">

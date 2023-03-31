@@ -4,8 +4,11 @@ using HandyControl.Tools;
 using HandyControl.Tools.Extension;
 using HandyControlDemo.Model;
 using HandyControlDemo.ViewModel;
+using StoneCodeGenerator.Lib;
+using StoneCodeGenerator.Lib.Model;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -24,10 +27,8 @@ namespace HandyControlDemo
         public MainWindow()
         {
             InitializeComponent();
-
             InitialResourceDictionary();
             vm = new MainWindowViewModel();
-
             DataContext = vm;
         }
 
@@ -629,6 +630,26 @@ namespace HandyControlDemo
             {
                 mainContent.Children.Add(new UserControl.RelativePanel());
             }
+        }
+
+        private  void GlowWindow_Closing(object sender, CancelEventArgs e)
+        {
+            //await Task.Run(() =>
+            //{
+            //    try
+            //    {
+            //        var data = new Litedb().Selects();
+            //        var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
+            //        var cc = mongodb.GetCollection<Codess>("代码库");
+            //        cc.Database.DropCollection("代码库");
+            //        mongodb.InsertMany("代码库", data);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        //  HandyControl.Controls.Growl.Error(ex.Message);
+
+            //    }
+            //});
         }
     }
 }

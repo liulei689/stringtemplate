@@ -12,6 +12,7 @@
            Background="{DynamicResource RegionBrush}"
            Title="石头2023.3" 
            Icon="Resource/Image/icon.ico"
+               Closing="GlowWindow_Closing"
            Height="800" 
            Width="1200">
     <Grid>
