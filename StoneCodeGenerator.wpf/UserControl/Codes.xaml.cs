@@ -44,29 +44,30 @@ namespace HandyControlDemo.UserControl
             textBoxComplete.SelectComBox += TextBoxComplete_SelectComBox;
             textBoxComplete.TextChange += TextBoxComplete_TextChange;
         }
-
-        private void TextBoxComplete_TextChange()
+        private void SelectData(Codess ddsdsadd) 
         {
-            var ddsdsadd = _lo.Find(o => o.Use.ToLower().Contains(textBoxComplete.Text.ToLower()));
             if (ddsdsadd != null)
             {
                 _o = ddsdsadd;
                 CreateForm(_o);
                 TextEditor.Text = ddsdsadd.Code;
+                Task.Run(() => {
+                    ddsdsadd.ReadCount++;
+                    new Litedb().UpdateOneToDB(ddsdsadd);
+                });
             }
             else TextEditor.Text = "";
+        }
+        private void TextBoxComplete_TextChange()
+        {
+            var ddsdsadd = _lo.Find(o => o.Use.ToLower().Contains(textBoxComplete.Text.ToLower()));
+            SelectData(ddsdsadd);
         }
 
         private void TextBoxComplete_SelectComBox()
         {
             var ddsdsadd = _lo.Find(o => o.Use.Contains(textBoxComplete.Text));
-            if (ddsdsadd != null)
-            {
-                _o = ddsdsadd;
-                CreateForm(_o);
-                TextEditor.Text = ddsdsadd.Code;
-            }
-            else TextEditor.Text = "";
+            SelectData(ddsdsadd);
         }
 
         private void templist_Selected(object sender, RoutedEventArgs e)
@@ -76,12 +77,7 @@ namespace HandyControlDemo.UserControl
 
                 var ddd = templist.SelectedValue.ToString();
                 var ddsdsadd = _lo.Find(o => o.Use == ddd);
-                if (ddsdsadd != null)
-                {
-                    _o = ddsdsadd;
-                    CreateForm(_o);
-                    TextEditor.Text = ddsdsadd.Code;
-                }
+                SelectData(ddsdsadd);
             }
         }
         private void CreateForm(Codess o)
@@ -309,7 +305,20 @@ namespace HandyControlDemo.UserControl
         public void RefreshTheList(List<Codess> cs)
         {
             _lo = cs;
-            var list = _lo.Select(o => o.Use).ToList();
+            var list = _lo.Select(o=>o.Use).ToList();
+            DateTime timetoday = DateTime.Today;
+            DateTime timelastweek = DateTime.Today.AddDays(-7);
+            DateTime timelastmons = DateTime.Today.AddMonths(-1);
+            var ltoday = _lo.FindAll(o => o.CreateTime.CompareTo(timetoday.ToString()) > 0);
+            var llastweek = _lo.FindAll(o => o.CreateTime.CompareTo(timelastweek.ToString()) > 0);
+            var llastmons = _lo.FindAll(o=>o.CreateTime.CompareTo(timelastmons.ToString()) > 0);
+            today_add_count.Status = ltoday.Count();
+            week_add_count.Status= llastweek.Count();
+            mon_add_count.Status=llastmons.Count();
+            all_read_count.Status= _lo.Sum(o => o.ReadCount);
+            all_count.Status= _lo.Count();
+            var today_update = _lo.FindAll(o => o.TimeUpate.CompareTo(timetoday.ToString()) > 0);
+            today_eddit_count.Status = today_update.Count();
             for (int i = 0; i < list.Count(); i++)
                 textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
             templist.ItemsSource = list;
@@ -424,9 +433,7 @@ namespace HandyControlDemo.UserControl
             new Litedb().DeleteOne(_o);
             var dd = DeleteMongoById(_o._id);
             var data = new Litedb().Selects();
-            templist.ItemsSource = data.Select(o => o.Use);
-            tixing.Content = data.Count + "条";
-            templist.SelectedIndex = 0;
+            RefreshTheList(data);
         }
     }
 }

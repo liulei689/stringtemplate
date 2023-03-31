@@ -26,7 +26,9 @@ namespace StoneCodeGenerator.Lib.Model
         [Description("创建时间")]
         [ReadOnly(true)]
         public string CreateTime { get; set; } = "";
-
+        [Description("阅读数")]
+        [ReadOnly(true)]
+        public int ReadCount { get; set; } = 0;
         [Description("代码")]
         public string Code { get; set; } = "";
 
