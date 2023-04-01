@@ -331,7 +331,7 @@ namespace HandyControlDemo.UserControl
             for (int i = 0; i < list.Count(); i++)
                 textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
             templist.ItemsSource = list;
-            tixing.Content = _lo.Count + "条";
+           // tixing.Content = _lo.Count + "条";
             if (_o == null) templist.SelectedIndex = 0;
             else
                 templist.SelectedValue = _o._id;

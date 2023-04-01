@@ -3,7 +3,7 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>HandyControlDemo</RootNamespace>
-    <AssemblyName>HandyControlDemo</AssemblyName>
+    <AssemblyName>石头代码生成器</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
