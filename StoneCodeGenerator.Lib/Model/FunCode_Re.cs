@@ -23,6 +23,9 @@ namespace StoneCodeGenerator.Lib.Model
         [Description("更新时间")]
         [ReadOnly(true)]
         public string TimeUpate { get; set; } = "";
+        [Description("访问时间")]
+        [ReadOnly(true)]
+        public string ReadTime { get; set; } = "";
         [Description("创建时间")]
         [ReadOnly(true)]
         public string CreateTime { get; set; } = "";

@@ -54,6 +54,7 @@ namespace HandyControlDemo.UserControl
                 TextEditor.Text = ddsdsadd.Code;
                 Task.Run(() => {
                     ddsdsadd.ReadCount++;
+                    ddsdsadd.ReadTime = DateTime.Now.ToString();
                     new Litedb().UpdateOneToDB(ddsdsadd);
                     UpdateMongodb(ddsdsadd);
                 });
@@ -146,7 +147,6 @@ namespace HandyControlDemo.UserControl
                 Grid.SetRow(textbox, index);
                 Form.Children.Add(textbox);
             }
-
         }
         private TextBox GetTextBox(string title, string fiedname, string currentent = "", bool readonlys = false)
         {
@@ -185,11 +185,6 @@ namespace HandyControlDemo.UserControl
             // comboBox.SetValue(ComboBox.StyleProperty, Resources["ComboBoxExtend"]);
             return comboBox;
         }
-
-
-
-
-
         private void Selection_Changed(object sender, SelectionChangedEventArgs e)
         {
             var sc = sender as ComboBox;
@@ -272,6 +267,7 @@ namespace HandyControlDemo.UserControl
                 }
                 _o.TimeUpate = DateTime.Now.ToString();
                 _o.CreateTime = _o.TimeUpate;
+                _o.ReadTime = _o.TimeUpate;
                 _o._id = _o.Use;
                 _o.Code = TextEditor.Text;
                 int staus_id = -1;
