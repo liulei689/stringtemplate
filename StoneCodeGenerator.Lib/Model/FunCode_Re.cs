@@ -5,7 +5,8 @@ namespace StoneCodeGenerator.Lib.Model
     [Description("代码库")]
     public class Codess
     {
-        [Description("唯一标识")]
+        [ReadOnly(true)]
+        [Description("序号")]
         public string _id { get; set; }
         [Description("语言")]
         [IsCombox(true)]

@@ -21,7 +21,8 @@
                 <mc:AutoCompleteTextBox  Height="30" Width="262" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="textBoxComplete"/>
 
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="增改" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="add_Click"/>
+                    <Button Content="增" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="add_Click"/>
+                    <Button Content="改" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="update_Click"/>
                     <Button Content="上传" Name="upload" Margin="5"  Style="{StaticResource ButtonDashedSuccess}" Click="LiteToMongo"/>
                     <Button Content="下载" Name="down" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="MongoToLite"/>
                     <Button Content="删除" Margin="5" Style="{StaticResource ButtonDashedDanger}" Click="delete_Click_2"/>

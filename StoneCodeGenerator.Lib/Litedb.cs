@@ -118,11 +118,7 @@ namespace StoneCodeGenerator.Lib
                     //col.EnsureIndex(x => x._id, true);
                     if (col.Exists(o => o._id == ov._id))
                     {
-                        ov.CreateTime = col.Find(o => o._id == ov._id).First().CreateTime;
-                        bool ist = col.Update(ov);
-                        if (ist)
-                            return ov;
-                        else return null;
+                        return null;
                     }
                     col.Insert(ov._id, ov);
                 }
@@ -137,6 +133,29 @@ namespace StoneCodeGenerator.Lib
             }
             return ov;
         }
+        public bool UseIsExist(Codess ov)
+        {
+            try
+            {
+                if (_db != null)
+                {
+                    var col = _db.GetCollection<Codess>(_Key);
+                    if (col.Exists(o => o.Use == ov.Use))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+
+            }
+            finally
+            {
+            }
+            return false;
+        }
         public Codess InsertToDB(Codess ov,out int status)
         {
             status = -1;
@@ -146,6 +165,7 @@ namespace StoneCodeGenerator.Lib
                 {
                     var col = _db.GetCollection<Codess>(_Key);
                     var dd = col.FindAll();
+                    ov._id=(dd.Count()+1).ToString();
                     //col.EnsureIndex(x => x._id, true);
                     if (col.Exists(o => o._id == ov._id))
                     {
@@ -158,8 +178,6 @@ namespace StoneCodeGenerator.Lib
                         }
                         else return null;
                     }
-                    ov.Use =(dd.Count()+1).ToString()+"."+ ov.Use;
-                    ov._id = ov.Use;
                     col.Insert(ov._id, ov);
                 }
             }

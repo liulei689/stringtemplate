@@ -92,7 +92,7 @@ namespace HandyControlDemo.UserControl
                 int i = 0;
                 foreach (PropertyInfo item in o.GetType().GetProperties())
                 {
-                    if (item != null && !item.Name.Contains("Code") && !item.Name.Contains("_id"))
+                    if (item != null && !item.Name.Contains("Code") )
                     {
                         string label_name = "";
                         var found = item.GetCustomAttribute<DescriptionAttribute>();
@@ -237,8 +237,68 @@ namespace HandyControlDemo.UserControl
             else if (check == "复制所有内容") Clipboard.SetText(TextEditor.Text);
 
         }
+        
+            private async void update_Click(object sender, RoutedEventArgs e)
+        {
+            isloding.Show();
 
-        private async void add_Click(object sender, RoutedEventArgs e)
+            if (_o.Use != "")
+            {
+                foreach (var control in Form.Children)
+                {
+                    if (control is ComboBox)
+                    {
+                        var type = _o.GetType().GetProperty((control as ComboBox).Name);
+                        if (type.PropertyType.IsEnum)
+                        {
+                            type.SetValue(_o, Enum.Parse(type.PropertyType, (control as ComboBox).Text));
+                        }
+                        else if (type.PropertyType == typeof(string))
+                            type.SetValue(_o, (control as ComboBox).Text);
+                    }
+                    if (control is TextBox)
+                    {
+                        var type = _o.GetType().GetProperty((control as TextBox).Name);
+                        if (type.PropertyType == typeof(int))
+                            _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, int.Parse((control as TextBox).Text));
+                        else
+                            _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, (control as TextBox).Text);
+                    }
+                }
+          
+                _o.Code = TextEditor.Text;
+            
+                var ov = await Task.Run(() =>
+                {
+                    var data = new Litedb().UpdateOneToDB(_o);
+          
+                    return data;
+
+                });
+                _lo = await Task.Run(() =>
+                {
+                    return new Litedb().Selects();
+                });
+                RefreshTheList(_lo);
+                if (!ov)
+                {
+                    HandyControl.Controls.Growl.Error("操作失败！");
+                    return;
+                }
+                await Task.Run(() =>
+                {
+                    UpdateMongodb(_o);
+                });
+              
+                    HandyControl.Controls.Growl.Warning("修改成功");
+
+
+
+            }
+            else HandyControl.Controls.Growl.Error("用处不可为空");
+            isloding.Hide();
+        }
+            private async void add_Click(object sender, RoutedEventArgs e)
         {
             isloding.Show();
 
@@ -265,10 +325,16 @@ namespace HandyControlDemo.UserControl
                             _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, (control as TextBox).Text);
                     }
                 }
+                var isexist = new Litedb().UseIsExist(_o);
+                if (isexist)
+                {
+                    HandyControl.Controls.Growl.Warning("已存在" + _o.Use);
+                    isloding.Hide();
+                    return;
+                }
                 _o.TimeUpate = DateTime.Now.ToString();
                 _o.CreateTime = _o.TimeUpate;
                 _o.ReadTime = _o.TimeUpate;
-                _o._id = _o.Use;
                 _o.Code = TextEditor.Text;
                 int staus_id = -1;
                 var ov = await Task.Run(() =>
@@ -357,6 +423,7 @@ namespace HandyControlDemo.UserControl
                 .Set(o => o.CreateTime, cs.CreateTime)
                 .Set(o => o.Code, cs.Code)
                 .Set(o => o.ReadCount, cs.ReadCount)
+                 .Set(o => o.ReadTime, cs.ReadTime)
                 .Set(o => o._id, cs._id);
             // 更新集合中的文档
             mongodb.UpdateOne<Codess>("代码库", o => o._id == cs._id, update, true);
@@ -404,9 +471,9 @@ namespace HandyControlDemo.UserControl
                     var db = new Litedb();
                     db._db.GetCollection<Codess>("代码库").DeleteAll();
                     for (int i = 0; i < data.Count(); i++)
+                    {
                         db.InsertMongoToDB(data[i]);
-                  
-
+                    }             
                 }
                 catch (Exception ex)
                 {
