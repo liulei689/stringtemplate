@@ -336,6 +336,7 @@ namespace HandyControlDemo.UserControl
                 _o.CreateTime = _o.TimeUpate;
                 _o.ReadTime = _o.TimeUpate;
                 _o.Code = TextEditor.Text;
+               _o.ReadCount = 0;
                 int staus_id = -1;
                 var ov = await Task.Run(() =>
                 {
