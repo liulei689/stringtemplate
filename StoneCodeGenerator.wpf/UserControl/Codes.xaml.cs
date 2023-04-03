@@ -221,6 +221,11 @@ namespace HandyControlDemo.UserControl
                             (control as TextBox).Text = DateTime.Now.ToString();
                         }
                     }
+                    try
+                    {
+                        TextEditor.Text = Clipboard.GetText();
+                    }
+                    catch { TextEditor.Text = ""; }
                 }
 
             }
@@ -231,10 +236,14 @@ namespace HandyControlDemo.UserControl
 
         private void MenuItem1_Click(object sender, RoutedEventArgs e)
         {
-            var check = (sender as MenuItem).Header.ToString();
-            if (check == "全选") TextEditor.SelectAll();
-            else if (check == "复制") Clipboard.SetText(TextEditor.SelectedText);
-            else if (check == "复制所有内容") Clipboard.SetText(TextEditor.Text);
+            try
+            {
+                var check = (sender as MenuItem).Header.ToString();
+                if (check == "全选") TextEditor.SelectAll();
+                else if (check == "复制") Clipboard.SetText(TextEditor.SelectedText);
+                else if (check == "复制所有内容") Clipboard.SetText(TextEditor.Text);
+            }
+            catch { }
 
         }
         
@@ -267,7 +276,7 @@ namespace HandyControlDemo.UserControl
                 }
           
                 _o.Code = TextEditor.Text;
-            
+                _o.Use = _o.Use.Replace(_o._id+".", "");
                 var ov = await Task.Run(() =>
                 {
                     var data = new Litedb().UpdateOneToDB(_o);
@@ -377,7 +386,11 @@ namespace HandyControlDemo.UserControl
         public void RefreshTheList(List<Codess> cs)
         {
             _lo = cs;
-            var list = _lo.Select(o=>o.Use).ToList();
+            var list = _lo.Select(p =>
+            {
+                p.Use = p._id +"."+ p.Use;
+                return p;
+            }).Select(o=>o.Use). ToList();
             DateTime timetoday = DateTime.Today;
             DateTime timelastweek = DateTime.Today.AddDays(-7);
             DateTime timelastmons = DateTime.Today.AddMonths(-1);
