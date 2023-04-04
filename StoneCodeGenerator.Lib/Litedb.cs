@@ -165,7 +165,7 @@ namespace StoneCodeGenerator.Lib
                 {
                     var col = _db.GetCollection<Codess>(_Key);
                     var dd = col.FindAll();
-                    ov._id=(dd.Count()+1).ToString();
+                    ov._id=(dd.Max(o=>int.Parse(o._id))+1).ToString();
                     //col.EnsureIndex(x => x._id, true);
                     if (col.Exists(o => o._id == ov._id))
                     {
