@@ -4,6 +4,7 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
               xmlns:mc="clr-namespace:KJAutoCompleteTextBox"
              Background="{DynamicResource RegionBrush}"
+             Loaded="UserControl_Loaded"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <hc:TransitioningContentControl>
         <Grid Margin="0">

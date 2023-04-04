@@ -32,15 +32,7 @@ namespace HandyControlDemo.UserControl
         public Codes()
         {
             InitializeComponent();
-            _lo = new Litedb().Selects();
-            ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextEditor);
-            RefreshTheList(_lo);
-            TextEditor.WordWrap = true;
-            if (_lo.Count() == 0)
-            {
-                CreateForm(new Codess());
-                _o = new Codess();
-            }
+      
             textBoxComplete.SelectComBox += TextBoxComplete_SelectComBox;
             textBoxComplete.TextChange += TextBoxComplete_TextChange;
             
@@ -472,6 +464,11 @@ namespace HandyControlDemo.UserControl
         //同步芒果到本地到 下载
         private async void MongoToLite(object sender, RoutedEventArgs e)
         {
+            await MongoToLiteAnysc();
+        }
+        //同步芒果到本地到 下载
+        private async Task MongoToLiteAnysc()
+        {
             isloding.Show();
             upload.IsEnabled = false;
             down.IsEnabled = false;
@@ -480,19 +477,17 @@ namespace HandyControlDemo.UserControl
             {
                 try
                 {
-                  
                     if (data.Count() == 0) return;
                     var db = new Litedb();
                     db._db.GetCollection<Codess>("代码库").DeleteAll();
                     for (int i = 0; i < data.Count(); i++)
                     {
                         db.InsertMongoToDB(data[i]);
-                    }             
+                    }
                 }
                 catch (Exception ex)
                 {
                     // HandyControl.Controls.Growl.Error(ex.Message);
-
                 }
             });
             RefreshTheList(data);
@@ -510,18 +505,15 @@ namespace HandyControlDemo.UserControl
             await Task.Run(() =>
             {
                 try
-                {
-                
+                {                
                     var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
                     var cc = mongodb.GetCollection<Codess>("代码库");
                     cc.Database.DropCollection("代码库");
-                    mongodb.InsertMany("代码库", data);
-                  
+                    mongodb.InsertMany("代码库", data);                
                 }
                 catch (Exception ex)
                 {
                     //  HandyControl.Controls.Growl.Error(ex.Message);
-
                 }
             });
             RefreshTheList(data);
@@ -535,6 +527,20 @@ namespace HandyControlDemo.UserControl
             var dd = DeleteMongoById(_o._id);
             var data = new Litedb().Selects();
             RefreshTheList(data);
+        }
+
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            await MongoToLiteAnysc();
+            _lo = new Litedb().Selects();
+            ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextEditor);
+            RefreshTheList(_lo);
+            TextEditor.WordWrap = true;
+            if (_lo.Count() == 0)
+            {
+                CreateForm(new Codess());
+                _o = new Codess();
+            }
         }
     }
 }
