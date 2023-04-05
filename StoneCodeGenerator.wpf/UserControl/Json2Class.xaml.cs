@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DynamicExpresso;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +32,11 @@ namespace HandyControlDemo.UserControl
         {
             try
             {
-                TextEditor.Text = new StoneCodeGenerator.Lib.Json2Class.ClassGenerator().JsonToClasses(TextEditor1.Text);
+                var interpreter = new Interpreter();
+                if (TextEditor1.Text == "") return;
+                var result = interpreter.Eval(TextEditor1.Text);
+                TextEditor.Text = result.ToString();
+                //TextEditor.Text = new StoneCodeGenerator.Lib.Json2Class.ClassGenerator().JsonToClasses(TextEditor1.Text);
             }
             catch { }
 
