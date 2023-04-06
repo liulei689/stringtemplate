@@ -47,6 +47,7 @@ namespace HandyControlDemo.UserControl
                 Task.Run(() => {
                     ddsdsadd.ReadCount++;
                     ddsdsadd.ReadTime = DateTime.Now.ToString();
+                    ddsdsadd.Use = ddsdsadd.Use.Replace(ddsdsadd._id + ".", "");
                     new Litedb().UpdateOneToDB(ddsdsadd);
                     UpdateMongodb(ddsdsadd);
                 });
