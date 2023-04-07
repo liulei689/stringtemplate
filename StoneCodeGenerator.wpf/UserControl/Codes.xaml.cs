@@ -270,6 +270,7 @@ namespace HandyControlDemo.UserControl
           
                 _o.Code = TextEditor.Text;
                 _o.Use = _o.Use.Replace(_o._id+".", "");
+                _o.TimeUpate = DateTime.Now.ToString();
                 var ov = await Task.Run(() =>
                 {
                     var data = new Litedb().UpdateOneToDB(_o);
