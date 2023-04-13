@@ -1,6 +1,7 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
+using HandyControlDemo.Helper;
 using ICSharpCode.AvalonEdit;
 using KJAutoCompleteTextBox;
 using LiteDB;
@@ -63,7 +64,7 @@ namespace HandyControlDemo.UserControl
 
         private void TextBoxComplete_SelectComBox()
         {
-            var ddsdsadd = _lo.Find(o => o.Use.Contains(textBoxComplete.Text));
+            var ddsdsadd = _lo.Find(o => o.Use.Contains(textBoxComplete.Text.Replace(o._id+".","")));
             SelectData(ddsdsadd);
         }
 
@@ -73,7 +74,7 @@ namespace HandyControlDemo.UserControl
             {
 
                 var ddd = templist.SelectedValue.ToString();
-                var ddsdsadd = _lo.Find(o => o.Use == ddd);
+                var ddsdsadd = _lo.Find(o => ddd.Contains(o.Use));
                 SelectData(ddsdsadd);
             }
         }
@@ -388,7 +389,7 @@ namespace HandyControlDemo.UserControl
             DateTime timetoday = DateTime.Today;
             DateTime timelastweek = DateTime.Today.AddDays(-7);
             DateTime timelastmons = DateTime.Today.AddMonths(-1);
-            var ltoday = _lo.FindAll(o => o.CreateTime.CompareTo(timetoday.ToString()) > 0);
+            var ltoday = _lo.FindAll(o => o.CreateTime.CompareTo(timetoday.ToString()) < 0);
             var llastweek = _lo.FindAll(o => o.CreateTime.CompareTo(timelastweek.ToString()) > 0);
             var llastmons = _lo.FindAll(o=>o.CreateTime.CompareTo(timelastmons.ToString()) > 0);
             today_add_count.Status = ltoday.Count();
@@ -396,7 +397,7 @@ namespace HandyControlDemo.UserControl
             mon_add_count.Status=llastmons.Count();
             all_read_count.Status= _lo.Sum(o => o.ReadCount);
             all_count.Status= _lo.Count();
-            var today_update = _lo.FindAll(o => o.TimeUpate.CompareTo(timetoday.ToString()) > 0);
+            var today_update = _lo.FindAll(o => o.TimeUpate.CompareTo(timetoday.ToString()) < 0);
             today_eddit_count.Status = today_update.Count();
             for (int i = 0; i < list.Count(); i++)
                 textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
@@ -500,6 +501,7 @@ namespace HandyControlDemo.UserControl
         //同步本地到芒果 上传
         private async void LiteToMongo(object sender, RoutedEventArgs e)
         {
+       
             isloding.Show();
             upload.IsEnabled = false;
             down.IsEnabled = false;

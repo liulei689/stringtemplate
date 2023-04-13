@@ -61,6 +61,7 @@ namespace KJAutoCompleteTextBox
             comboBox = new ComboBox();
             comboBox.IsSynchronizedWithCurrentItem = true;
             comboBox.IsTabStop = false;
+           // comboBox.Foreground = new Brush(Color.FromRgb(1,1,1));
             Panel.SetZIndex(comboBox, -1);
             comboBox.SelectionChanged += new SelectionChangedEventHandler(comboBox_SelectionChanged);
 

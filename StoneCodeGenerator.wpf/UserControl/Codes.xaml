@@ -19,7 +19,15 @@
               
                     <ComboBox IsEditable="False" hc:InfoElement.TitleWidth="70" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="模板类型" 
                      SelectionChanged="templist_Selected" IsReadOnly="True"  Name="templist"     Style="{StaticResource ComboBoxExtend}"  />
-                <mc:AutoCompleteTextBox  Height="30" Width="262" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="textBoxComplete"/>
+                <mc:AutoCompleteTextBox  Height="30" Width="262" HorizontalAlignment="Left"  VerticalAlignment="Center" x:Name="textBoxComplete">
+                    <mc:AutoCompleteTextBox.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="pack://application:,,,/Rubyer;component/Themes/Generic.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </mc:AutoCompleteTextBox.Resources>
+                </mc:AutoCompleteTextBox>
 
                 <StackPanel Orientation="Horizontal">
                     <Button Content="增" Margin="5"  Style="{StaticResource ButtonDashedPrimary}" Click="add_Click"/>
