@@ -30,8 +30,20 @@ namespace HandyControlDemo
             InitialResourceDictionary();
             vm = new MainWindowViewModel();
             DataContext = vm;
+            App.StartListening(WakeApp);//多开时顶置主页面
         }
+        void WakeApp()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (WindowState == WindowState.Minimized)
+                {
+                    WindowState = WindowState.Normal;
+                }
 
+                Activate();
+            });
+        }
         // Ititial ResourceDictionary
         private void InitialResourceDictionary()
         {
