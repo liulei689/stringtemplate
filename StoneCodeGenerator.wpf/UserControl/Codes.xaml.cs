@@ -389,15 +389,16 @@ namespace HandyControlDemo.UserControl
             DateTime timetoday = DateTime.Today;
             DateTime timelastweek = DateTime.Today.AddDays(-7);
             DateTime timelastmons = DateTime.Today.AddMonths(-1);
-            var ltoday = _lo.FindAll(o => o.CreateTime.CompareTo(timetoday.ToString()) < 0);
-            var llastweek = _lo.FindAll(o => o.CreateTime.CompareTo(timelastweek.ToString()) > 0);
-            var llastmons = _lo.FindAll(o=>o.CreateTime.CompareTo(timelastmons.ToString()) > 0);
+            
+            var ltoday = _lo.FindAll(o => DateTime.Parse(o.CreateTime).CompareTo(timetoday) >0);
+            var llastweek = _lo.FindAll(o => DateTime.Parse(o.CreateTime).CompareTo(timelastweek) > 0);
+            var llastmons = _lo.FindAll(o => DateTime.Parse(o.CreateTime).CompareTo(timelastmons) > 0);
             today_add_count.Status = ltoday.Count();
             week_add_count.Status= llastweek.Count();
             mon_add_count.Status=llastmons.Count();
             all_read_count.Status= _lo.Sum(o => o.ReadCount);
             all_count.Status= _lo.Count();
-            var today_update = _lo.FindAll(o => o.TimeUpate.CompareTo(timetoday.ToString()) < 0);
+            var today_update = _lo.FindAll(o => DateTime.Parse(o.TimeUpate).CompareTo(timetoday) > 0);
             today_eddit_count.Status = today_update.Count();
             for (int i = 0; i < list.Count(); i++)
                 textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
