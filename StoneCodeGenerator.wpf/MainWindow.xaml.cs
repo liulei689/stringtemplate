@@ -8,11 +8,14 @@ using StoneCodeGenerator.Lib;
 using StoneCodeGenerator.Lib.Model;
 using System;
 using System.ComponentModel;
+using System.IO.Pipes;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Imaging;
+using System.Threading;
 
 namespace HandyControlDemo
 {
@@ -31,7 +34,39 @@ namespace HandyControlDemo
             vm = new MainWindowViewModel();
             DataContext = vm;
             App.StartListening(WakeApp);//多开时顶置主页面
+            Tasking();
         }
+        public async void Tasking()
+        {
+            using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(10));
+            while (await timer.WaitForNextTickAsync())
+            {
+                WaitData();
+            }
+        }
+        private static void WaitData()
+        {
+            
+            using (NamedPipeServerStream pipeServer =
+            new NamedPipeServerStream("testpipe", PipeDirection.InOut, 1))
+            {
+                try
+                {
+                    pipeServer.WaitForConnection();
+                    pipeServer.ReadMode = PipeTransmissionMode.Byte;
+                    using (StreamReader sr = new StreamReader(pipeServer))
+                    {
+                        string con = sr.ReadToEnd();
+                        Console.WriteLine(con);
+                    }
+                }
+                catch (IOException e)
+                {
+                    throw e;
+                }
+            }
+        }
+
         void WakeApp()
         {
             Dispatcher.Invoke(() =>

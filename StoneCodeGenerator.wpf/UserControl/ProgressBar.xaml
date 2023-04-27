@@ -39,7 +39,7 @@
                     </DrawingBrush>
                 </ProgressBar.Foreground>
             </ProgressBar>
-            <ProgressBar Style="{StaticResource ProgressBarSuccessStripe}" Margin="5" Value="{Binding ElementName=SliderDemo, Path=Value}" Maximum="200"/>
+            <ProgressBar Style="{StaticResource ProgressBarSuccessStripe}" Margin="5"   Value="{Binding ElementName=SliderDemo, Path=Value}" Maximum="200"/>
             <ProgressBar Style="{StaticResource ProgressBarInfoStripe}" Margin="5" Value="{Binding ElementName=SliderDemo, Path=Value}" Maximum="200"/>
             <ProgressBar Style="{StaticResource ProgressBarWarningStripe}" Margin="5" Value="{Binding ElementName=SliderDemo, Path=Value}" Maximum="200"/>
             <ProgressBar Style="{StaticResource ProgressBarDangerStripe}" Margin="5" Value="{Binding ElementName=SliderDemo, Path=Value}" Maximum="200"/>
