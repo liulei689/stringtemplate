@@ -34,7 +34,7 @@ namespace HandyControlDemo
             vm = new MainWindowViewModel();
             DataContext = vm;
             App.StartListening(WakeApp);//多开时顶置主页面
-            Tasking();
+            //Tasking();
         }
         public async void Tasking()
         {
