@@ -243,64 +243,63 @@ namespace HandyControlDemo.UserControl
         
             private async void update_Click(object sender, RoutedEventArgs e)
         {
-            isloding.Show();
-
-            if (_o.Use != "")
+            if (HandyControl.Controls.MessageBox.Show("您确定修改？"+ _o._id+ _o.Use, "警告", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                foreach (var control in Form.Children)
+                isloding.Show();
+
+                if (_o.Use != "")
                 {
-                    if (control is ComboBox)
+                    foreach (var control in Form.Children)
                     {
-                        var type = _o.GetType().GetProperty((control as ComboBox).Name);
-                        if (type.PropertyType.IsEnum)
+                        if (control is ComboBox)
                         {
-                            type.SetValue(_o, Enum.Parse(type.PropertyType, (control as ComboBox).Text));
+                            var type = _o.GetType().GetProperty((control as ComboBox).Name);
+                            if (type.PropertyType.IsEnum)
+                            {
+                                type.SetValue(_o, Enum.Parse(type.PropertyType, (control as ComboBox).Text));
+                            }
+                            else if (type.PropertyType == typeof(string))
+                                type.SetValue(_o, (control as ComboBox).Text);
                         }
-                        else if (type.PropertyType == typeof(string))
-                            type.SetValue(_o, (control as ComboBox).Text);
+                        if (control is TextBox)
+                        {
+                            var type = _o.GetType().GetProperty((control as TextBox).Name);
+                            if (type.PropertyType == typeof(int))
+                                _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, int.Parse((control as TextBox).Text));
+                            else
+                                _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, (control as TextBox).Text);
+                        }
                     }
-                    if (control is TextBox)
+
+                    _o.Code = TextEditor.Text;
+                    _o.Use = _o.Use.Replace(_o._id + ".", "");
+                    _o.TimeUpate = DateTime.Now.ToString();
+                    var ov = await Task.Run(() =>
                     {
-                        var type = _o.GetType().GetProperty((control as TextBox).Name);
-                        if (type.PropertyType == typeof(int))
-                            _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, int.Parse((control as TextBox).Text));
-                        else
-                            _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, (control as TextBox).Text);
+                        var data = new Litedb().UpdateOneToDB(_o);
+
+                        return data;
+
+                    });
+                    _lo = await Task.Run(() =>
+                    {
+                        return new Litedb().Selects();
+                    });
+                    RefreshTheList(_lo);
+                    if (!ov)
+                    {
+                        HandyControl.Controls.Growl.Error("操作失败！");
+                        return;
                     }
-                }
-          
-                _o.Code = TextEditor.Text;
-                _o.Use = _o.Use.Replace(_o._id+".", "");
-                _o.TimeUpate = DateTime.Now.ToString();
-                var ov = await Task.Run(() =>
-                {
-                    var data = new Litedb().UpdateOneToDB(_o);
-          
-                    return data;
-
-                });
-                _lo = await Task.Run(() =>
-                {
-                    return new Litedb().Selects();
-                });
-                RefreshTheList(_lo);
-                if (!ov)
-                {
-                    HandyControl.Controls.Growl.Error("操作失败！");
-                    return;
-                }
-                await Task.Run(() =>
-                {
-                    UpdateMongodb(_o);
-                });
-              
+                    await Task.Run(() =>
+                    {
+                        UpdateMongodb(_o);
+                    });
                     HandyControl.Controls.Growl.Warning("修改成功");
-
-
-
+                }
+                else HandyControl.Controls.Growl.Error("用处不可为空");
+                isloding.Hide();
             }
-            else HandyControl.Controls.Growl.Error("用处不可为空");
-            isloding.Hide();
         }
             private async void add_Click(object sender, RoutedEventArgs e)
         {
