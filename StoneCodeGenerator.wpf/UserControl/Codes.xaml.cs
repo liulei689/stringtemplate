@@ -407,7 +407,7 @@ namespace HandyControlDemo.UserControl
                 textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
             templist.ItemsSource = list;
            // tixing.Content = _lo.Count + "条";
-            if (_o == null) templist.SelectedIndex = 0;
+            if (_o == null) templist.SelectedIndex =new Random().Next(0, list.Count-1);
             else
                 templist.SelectedValue = _o._id;
             textBoxComplete.ClearItem();
