@@ -43,9 +43,8 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <hc:Shield Margin="5" x:Name="today_eddit_count" Subject="今日修改" Status="0"  Color="#FF238FCC" Background="{DynamicResource GitHubDrawingBrush}" BorderBrush="#FF95D22D"/>
-                    <hc:Shield Margin="5" x:Name="all_read_count" Subject="总阅读数" Status="00" Color="#4eb899"/>
+                    <hc:Shield Margin="5" x:Name="all_read_count" Subject="阅读数" Status="00" Color="#4eb899"/>
                     <hc:Shield Margin="5" x:Name="all_count" Subject="总条目数" Status="0" Color="#1182c3"/>
-
                 </StackPanel>
                 <!--<hc:RunningBlock x:Name="tixing" FontSize="20" FontWeight="Bold" Foreground="Green" HorizontalAlignment="Center" AutoRun="False" Width="245" Runaway="False" Content="0" Duration="0:0:2" />-->
 
