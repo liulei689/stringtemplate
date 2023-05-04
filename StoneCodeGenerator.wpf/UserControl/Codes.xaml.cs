@@ -3,6 +3,7 @@ using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using HandyControlDemo.Helper;
 using ICSharpCode.AvalonEdit;
+using JinianNet.JNTemplate.Configuration;
 using KJAutoCompleteTextBox;
 using LiteDB;
 using MongoDB.Driver;
@@ -11,6 +12,7 @@ using StoneCodeGenerator.Lib.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -33,11 +35,13 @@ namespace HandyControlDemo.UserControl
         public Codes()
         {
             InitializeComponent();
-      
+            if (!File.Exists("config.txt")) File.Create("config.txt").Close();
+            mongoconect= File.ReadAllText("config.txt");
             textBoxComplete.SelectComBox += TextBoxComplete_SelectComBox;
             textBoxComplete.TextChange += TextBoxComplete_TextChange;
             
         }
+        private string mongoconect = "";
         private void SelectData(Codess ddsdsadd) 
         {
             if (ddsdsadd != null)
@@ -418,7 +422,7 @@ namespace HandyControlDemo.UserControl
         /// </summary>
         public void UpdateMongodb(Codess cs)
         {
-            var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
+            var mongodb = MongoDbClient.GetInstance(mongoconect, "同步库");
             // 创建筛选器定义
             // FilterDefinition<Codess> filter = Builders<Codess>.Filter.Eq("name", "John");
             // 创建更新器定义 新增
@@ -445,7 +449,7 @@ namespace HandyControlDemo.UserControl
         /// </summary>
         public List<Codess> SelectMongodb()
         {
-            var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
+            var mongodb = MongoDbClient.GetInstance(mongoconect, "同步库");
             // 创建筛选器定义
             //  FilterDefinition<Codess> filter = Builders<Codess>.Filter.Eq("name", "John");//等于
             FilterDefinition<Codess> filter = Builders<Codess>.Filter.Ne("_id", "");//不等于
@@ -459,7 +463,7 @@ namespace HandyControlDemo.UserControl
         /// </summary>
         public long DeleteMongoById(string id)
         {
-            var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
+            var mongodb = MongoDbClient.GetInstance(mongoconect, "同步库");
             FilterDefinition<Codess> filter = Builders<Codess>.Filter.Eq("_id", id);//等于
             return mongodb.Delete("代码库", filter);
         }
@@ -510,7 +514,7 @@ namespace HandyControlDemo.UserControl
             {
                 try
                 {                
-                    var mongodb = MongoDbClient.GetInstance("mongodb://124.221.160.244:83/", "同步库");
+                    var mongodb = MongoDbClient.GetInstance(mongoconect, "同步库");
                     var cc = mongodb.GetCollection<Codess>("代码库");
                     cc.Database.DropCollection("代码库");
                     mongodb.InsertMany("代码库", data);                

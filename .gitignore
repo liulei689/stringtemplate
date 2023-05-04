@@ -425,3 +425,4 @@ FodyWeavers.xsd
 /StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/石头代码生成器.runtimeconfig.json
 /StoneCodeGenerator.wpf/bin/Debug/net7.0-windows/代码库.db
 /代码库.db
+/config.txt
