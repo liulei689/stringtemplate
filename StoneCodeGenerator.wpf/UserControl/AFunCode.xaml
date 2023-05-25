@@ -20,12 +20,14 @@
                 <ComboBox IsEditable="False" hc:InfoElement.TitleWidth="70" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="模板类型" 
                      SelectionChanged="templist_content_SelectionChanged" IsReadOnly="True"  Name="templist_content"     Style="{StaticResource ComboBoxExtend}"  />
                 <Grid x:Name="Form" />
+                <Button Content="生成类" Name="upload" Margin="5"  Style="{StaticResource ButtonDashedSuccess}" Click="upload_Click"/>
                 <hc:LoadingLine Name="isloding" Margin="10" Visibility="Hidden" Foreground="BlueViolet" Style="{StaticResource LoadingLineLarge}"/>
             </StackPanel>
             <avalonEdit:TextEditor
                 Grid.Column="1"
     xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
     Name="TextEditor"
+               TextChanged="TextEditor_TextChanged"
     SyntaxHighlighting="C#"
     FontFamily="Consolas"
     FontSize="10pt" 

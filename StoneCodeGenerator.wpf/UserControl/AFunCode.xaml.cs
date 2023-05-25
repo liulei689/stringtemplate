@@ -7,9 +7,11 @@ using StoneCodeGenerator.Lib.Model;
 using System;
 using System.ComponentModel;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Xml.Linq;
 using static ICSharpCode.AvalonEdit.Document.TextDocumentWeakEventManager;
 using static System.Net.Mime.MediaTypeNames;
 using TextBox = HandyControl.Controls.TextBox;
@@ -111,6 +113,29 @@ namespace HandyControlDemo.UserControl
             else if(check=="复制") Clipboard.SetText(TextEditor.SelectedText);
             else if (check == "复制所有内容") Clipboard.SetText(TextEditor.Text);
 
+        }
+
+        private void upload_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string text = TextEditor.Text;
+                string shouye = "\t";
+                string huiche = "\n";
+                string weiba = "$";
+                text = Regex.Replace(text, "^\\s * (?=\\r ?$)\\n", string.Empty);
+                text = Regex.Replace(text, "^", "public string? ");
+                text = Regex.Replace(text, shouye, "\npublic string? ");
+                text = Regex.Replace(text, huiche, " { get; set; }\n");
+                TextEditor.Text = text;
+            }
+            catch { }
+
+        }
+
+        private void TextEditor_TextChanged(object sender, EventArgs e)
+        {
+           // upload_Click(null,null);
         }
     }
 }
