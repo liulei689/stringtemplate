@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoneCodeGenerator.Lib", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoneCodeGenerator.wpf", "StoneCodeGenerator.wpf\StoneCodeGenerator.wpf.csproj", "{F55062F6-DC00-4EB0-91ED-2914F1F93096}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoneCodeGenerator.api", "StoneCodeGenerator.api\StoneCodeGenerator.api.csproj", "{67D3AC64-1370-4E41-A53D-9E7FC8B8EDE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F55062F6-DC00-4EB0-91ED-2914F1F93096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F55062F6-DC00-4EB0-91ED-2914F1F93096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F55062F6-DC00-4EB0-91ED-2914F1F93096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67D3AC64-1370-4E41-A53D-9E7FC8B8EDE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67D3AC64-1370-4E41-A53D-9E7FC8B8EDE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67D3AC64-1370-4E41-A53D-9E7FC8B8EDE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67D3AC64-1370-4E41-A53D-9E7FC8B8EDE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,6 +16,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Imaging;
 using System.Threading;
+using StoneCodeGenerator.api;
 
 namespace HandyControlDemo
 {
@@ -35,6 +36,7 @@ namespace HandyControlDemo
             DataContext = vm;
             App.StartListening(WakeApp);//多开时顶置主页面
             //Tasking();
+            Startup.Run();
         }
         public async void Tasking()
         {
