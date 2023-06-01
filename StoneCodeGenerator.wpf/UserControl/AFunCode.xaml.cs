@@ -121,10 +121,11 @@ namespace HandyControlDemo.UserControl
         {
             try
             {
-             // var dd=  App.GetServiceByString("IExcelToCSharpClassService");
-              var ds=  App.GetService <IExcelToCSharpClassService>();
+             var dd=  App.GetServiceByString("IExcelToCSharpClassService");
+        
+             // var ds=  App.GetService <IExcelToCSharpClassService>();
                 string text = TextEditor.Text;
-                TextEditor.Text= ds.GetClassByExcelRowOne(text);
+                TextEditor.Text= ((dynamic)dd).GetClassByExcelRowOne(text);
             }
             catch { }
 

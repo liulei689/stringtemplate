@@ -24,7 +24,7 @@ namespace HandyControlDemo
     public partial class App : Application
     {
         public static string MatchAssemblies = "^StoneCodeGenerator.Service|^StoneCodeGenerator.IService";
-
+        public static List<Type> interfaceTypes;
         public App()
         {
             SingleInstanceCheck();
@@ -54,7 +54,7 @@ namespace HandyControlDemo
                 .Select(type => type.AsType())
                 .Where(x => x != baseType && baseType.IsAssignableFrom(x)).ToList();
             var implementTypes = types.Where(x => x.IsClass).ToList();
-            var interfaceTypes = types.Where(x => x.IsInterface).ToList();
+             interfaceTypes = types.Where(x => x.IsInterface).ToList();
             foreach (var implementType in implementTypes)
             {
                 if (typeof(IScopeDependency).IsAssignableFrom(implementType))
@@ -87,8 +87,8 @@ namespace HandyControlDemo
         }
         public static object GetServiceByString(string objname)
         {
-           Type o= objname.GetType();
-            return _host.Services.GetService(o);
+           var d= interfaceTypes.Find(o => o.Name == objname);
+            return _host.Services.GetService(d);
         }
         /// <summary>
         /// 程序集是否匹配
