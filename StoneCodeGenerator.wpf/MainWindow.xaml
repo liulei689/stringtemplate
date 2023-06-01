@@ -11,6 +11,7 @@
            WindowStartupLocation="CenterScreen"
            Background="{DynamicResource RegionBrush}"
            Title="石头2023.3" 
+               Loaded="GlowWindow_Loaded"
            Icon="Resource/Image/icon.ico"
                Closing="GlowWindow_Closing"
            Height="800" 

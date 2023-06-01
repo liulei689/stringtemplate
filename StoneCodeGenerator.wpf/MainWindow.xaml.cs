@@ -4,8 +4,6 @@ using HandyControl.Tools;
 using HandyControl.Tools.Extension;
 using HandyControlDemo.Model;
 using HandyControlDemo.ViewModel;
-using StoneCodeGenerator.Lib;
-using StoneCodeGenerator.Lib.Model;
 using System;
 using System.ComponentModel;
 using System.IO.Pipes;
@@ -16,7 +14,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Imaging;
 using System.Threading;
-using StoneCodeGenerator.api;
 
 namespace HandyControlDemo
 {
@@ -36,7 +33,7 @@ namespace HandyControlDemo
             DataContext = vm;
             App.StartListening(WakeApp);//多开时顶置主页面
             //Tasking();
-            Startup.Run();
+           
         }
         public async void Tasking()
         {
@@ -699,6 +696,11 @@ namespace HandyControlDemo
 
             //    }
             //});
+        }
+
+        private void GlowWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            Task.Run(() => { Serve.Run("http://*:5004"); });
         }
     }
 }

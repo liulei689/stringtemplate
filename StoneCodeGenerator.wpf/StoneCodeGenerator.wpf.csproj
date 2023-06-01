@@ -182,6 +182,7 @@
     <PackageReference Include="CommonServiceLocator" Version="2.0.7" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="DynamicExpresso.Core" Version="2.16.0" />
+    <PackageReference Include="Furion" Version="4.8.8.23" />
     <PackageReference Include="HandyControl" Version="3.4.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
@@ -193,7 +194,6 @@
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StoneCodeGenerator.api\StoneCodeGenerator.api.csproj" />
     <ProjectReference Include="..\StoneCodeGenerator.Lib\StoneCodeGenerator.Lib.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -3,8 +3,9 @@ using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Furion.RemoteRequest.Extensions;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
-namespace StoneCodeGenerator.api
+namespace HandyControlDemo.api
 {
 public class FurionAppService : IDynamicApiController
     {
