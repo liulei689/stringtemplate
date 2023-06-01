@@ -1,7 +1,9 @@
 ﻿using HandyControlDemo.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Hosting;
+using StoneCodeGenerator.Service.DI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,6 +11,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +23,8 @@ namespace HandyControlDemo
     /// </summary>
     public partial class App : Application
     {
+        public static string MatchAssemblies = "^StoneCodeGenerator.Service|^StoneCodeGenerator.IService";
+
         public App()
         {
             SingleInstanceCheck();
@@ -32,8 +37,66 @@ namespace HandyControlDemo
            {
                // App Host
                services.AddHostedService<ApplicationHostService>();
-              // AddDataService(services);
+               AddDataService(services);
            }).Build();
+        public static IServiceCollection AddDataService(IServiceCollection services)
+        {
+            #region 依赖注入 批量注入XHS.Service XHS.IService程序集下服务      
+            var baseType = typeof(IDependency);
+            var path = AppDomain.CurrentDomain.RelativeSearchPath ?? AppDomain.CurrentDomain.BaseDirectory;
+            var getFiles = Directory.GetFiles(path, "*.dll").Where(Match); 
+            var referencedAssemblies = getFiles.Select(Assembly.LoadFrom).ToList();        
+
+            var ss = referencedAssemblies.SelectMany(o => o.GetTypes());
+
+            var types = referencedAssemblies
+                .SelectMany(a => a.DefinedTypes)
+                .Select(type => type.AsType())
+                .Where(x => x != baseType && baseType.IsAssignableFrom(x)).ToList();
+            var implementTypes = types.Where(x => x.IsClass).ToList();
+            var interfaceTypes = types.Where(x => x.IsInterface).ToList();
+            foreach (var implementType in implementTypes)
+            {
+                if (typeof(IScopeDependency).IsAssignableFrom(implementType))
+                {
+                    var interfaceType = interfaceTypes.FirstOrDefault(x => x.IsAssignableFrom(implementType));
+                    if (interfaceType != null)
+                        services.AddScoped(interfaceType, implementType);
+                }
+                else if (typeof(ISingletonDependency).IsAssignableFrom(implementType))
+                {
+                    var interfaceType = interfaceTypes.FirstOrDefault(x => x.IsAssignableFrom(implementType));
+                    if (interfaceType != null)
+                        services.AddSingleton(interfaceType, implementType);
+                }
+                else
+                {
+                    var interfaceType = interfaceTypes.FirstOrDefault(x => x.IsAssignableFrom(implementType));
+                    if (interfaceType != null)
+                        services.AddTransient(interfaceType, implementType);
+                }
+            }
+            #endregion
+            return services;
+        }
+        public static T GetService<T>()
+      where T : class
+        {
+            
+            return _host.Services.GetService(typeof(T)) as T;
+        }
+        /// <summary>
+        /// 程序集是否匹配
+        /// </summary>
+        public static bool Match(string assemblyName)
+        {
+            assemblyName = Path.GetFileName(assemblyName);
+            if (assemblyName.StartsWith($"{AppDomain.CurrentDomain.FriendlyName}.Views"))
+                return false;
+            if (assemblyName.StartsWith($"{AppDomain.CurrentDomain.FriendlyName}.PrecompiledViews"))
+                return false;
+            return Regex.IsMatch(assemblyName, MatchAssemblies, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        }
         void ShowSplashScreen()
         {
             var splashScreen = new SplashScreen("Resource/Image/1.jpg");

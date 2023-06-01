@@ -195,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StoneCodeGenerator.Lib\StoneCodeGenerator.Lib.csproj" />
+    <ProjectReference Include="..\StoneCodeGenerator.Service\StoneCodeGenerator.Service.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserControl\Controls\" />

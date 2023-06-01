@@ -4,6 +4,8 @@ using HandyControl.Tools.Extension;
 using ICSharpCode.AvalonEdit;
 using StoneCodeGenerator.Lib;
 using StoneCodeGenerator.Lib.Model;
+using StoneCodeGenerator.Service.Interface;
+using StoneCodeGenerator.Service.Services;
 using System;
 using System.ComponentModel;
 using System.Reflection;
@@ -119,21 +121,24 @@ namespace HandyControlDemo.UserControl
         {
             try
             {
+              var ds=  App.GetService <IExcelToCSharpClassService>();
                 string text = TextEditor.Text;
-                string shouye = "\t";
-                string huiche = "\n";
-                string weiba = "$";
-                text = Regex.Replace(text, "^\\s * (?=\\r ?$)\\n", string.Empty);
-                text = Regex.Replace(text, "^", "public string? ");
-                text = Regex.Replace(text, shouye, "\npublic string? ");
-                text = Regex.Replace(text, huiche, " { get; set; }\n");
-                text = "public class 类\n{\n" + text+ "\n}";
-                text = Regex.Replace(text, "^\\s * (?=\\r ?$)\\n", string.Empty);
-                text = Regex.Replace(text, "\r", " ");
+                TextEditor.Text= ds.GetClassByExcelRowOne(text);
 
-                text = Regex.Replace(text, "\n\n", "\n");
+                //string shouye = "\t";
+                //string huiche = "\n";
+                //string weiba = "$";
+                //text = Regex.Replace(text, "^\\s * (?=\\r ?$)\\n", string.Empty);
+                //text = Regex.Replace(text, "^", "public string? ");
+                //text = Regex.Replace(text, shouye, "\npublic string? ");
+                //text = Regex.Replace(text, huiche, " { get; set; }\n");
+                //text = "public class 类\n{\n" + text+ "\n}";
+                //text = Regex.Replace(text, "^\\s * (?=\\r ?$)\\n", string.Empty);
+                //text = Regex.Replace(text, "\r", " ");
 
-                TextEditor.Text = text;
+                //text = Regex.Replace(text, "\n\n", "\n");
+
+                //TextEditor.Text = text;
             }
             catch { }
 
