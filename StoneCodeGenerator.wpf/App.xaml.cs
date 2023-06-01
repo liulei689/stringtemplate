@@ -1,8 +1,14 @@
-﻿using System;
+﻿using HandyControlDemo.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,6 +25,15 @@ namespace HandyControlDemo
             SingleInstanceCheck();
             ShowSplashScreen();
         }
+        private static readonly IHost _host = Host
+           .CreateDefaultBuilder()
+           .ConfigureAppConfiguration(c => { c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)); })
+           .ConfigureServices((context, services) =>
+           {
+               // App Host
+               services.AddHostedService<ApplicationHostService>();
+              // AddDataService(services);
+           }).Build();
         void ShowSplashScreen()
         {
             var splashScreen = new SplashScreen("Resource/Image/1.jpg");
@@ -66,6 +81,17 @@ namespace HandyControlDemo
                     Callback.Invoke();
                 }
             });
+        }
+
+        private async void Application_Startup(object sender, StartupEventArgs e)
+        {
+            await _host.StartAsync();
+        }
+
+        private async void Application_Exit(object sender, ExitEventArgs e)
+        {
+            await _host.StopAsync();
+            _host.Dispose();
         }
     }
 }
