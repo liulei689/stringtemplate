@@ -12,6 +12,11 @@ namespace StoneCodeGenerator.Service.Services
     {
         public string GetClassByExcelRowOne(string excelrowone)
         {
+            throw new NotImplementedException();
+        }
+
+        public string InputToOut(string excelrowone)
+        {
             string text = excelrowone;
             string shouye = "\t";
             string huiche = "\n";

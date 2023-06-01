@@ -125,7 +125,7 @@ namespace HandyControlDemo.UserControl
         
              // var ds=  App.GetService <IExcelToCSharpClassService>();
                 string text = TextEditor.Text;
-                TextEditor.Text= ((dynamic)dd).GetClassByExcelRowOne(text);
+                TextEditor.Text= ((dynamic)dd).InputToOut(text);
             }
             catch { }
 
