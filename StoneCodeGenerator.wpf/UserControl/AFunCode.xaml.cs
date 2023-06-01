@@ -36,10 +36,10 @@ namespace HandyControlDemo.UserControl
             templist_content.ItemsSource= StoneCode.GetTypeContentListsByType(templist.Text);
             templist_content.SelectedIndex=0;
             TextEditor.WordWrap = true;
-
+            PlusToUi();
         }
 
-
+    
 
         private void templist_Selected(object sender, RoutedEventArgs e)
         {
@@ -81,6 +81,33 @@ namespace HandyControlDemo.UserControl
             Form.Children.Add(textbox);
 
         }
+        private void PlusToUi()
+        {
+            App.interfaceTypes.ForEach(type => {
+                contents.Children.Add(GetButton(type.Name, type.Name));
+                
+            });
+        }
+        private System.Windows.Controls.Button GetButton(string title, string fiedname, string currentent = "")
+        {
+           System.Windows.Controls.Button button = new System.Windows.Controls.Button();
+           
+            button.Name = fiedname;
+            button.Margin = new Thickness(0, 6, 0, 0);
+            button.SetValue(StyleProperty, Resources["ButtonDashedSuccess"]);
+            button.Content = title;
+            button.Click += Button_Click; ;
+            return button;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+           var data= (sender as System.Windows.Controls.Button);
+       var dd=  App.GetServiceByString(data.Name);
+                        string text = TextEditor.Text;
+                TextEditor.Text= ((dynamic)dd).InputToOut(text);
+        }
+
         private TextBox GetTextBox(string title, string fiedname,string currentent = "")
         {
             TextBox textBox = new TextBox();

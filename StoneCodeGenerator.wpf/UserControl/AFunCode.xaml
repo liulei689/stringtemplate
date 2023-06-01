@@ -12,7 +12,7 @@
                 <ColumnDefinition Width="*"/>
 
             </Grid.ColumnDefinitions>
-            <StackPanel hc:TitleElement.TitleWidth="168" Grid.Column="0" Margin="20,16,17,10">
+            <StackPanel x:Name="contents" hc:TitleElement.TitleWidth="168" Grid.Column="0" Margin="20,16,17,10">
                 <!--<hc:PropertyGrid SelectedObject="{Binding }"/>-->
               
                     <ComboBox IsEditable="False" hc:InfoElement.TitleWidth="70" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="模板类型" 
