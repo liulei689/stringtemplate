@@ -30,6 +30,7 @@ namespace HandyControlDemo.UserControl
     /// </summary>
     public partial class Codes
     {
+        public static Codes _code;
         public Codess _o;
         public List<Codess> _lo;
         public Codes()
@@ -39,7 +40,7 @@ namespace HandyControlDemo.UserControl
             mongoconect= File.ReadAllText("config.txt");
             textBoxComplete.SelectComBox += TextBoxComplete_SelectComBox;
             textBoxComplete.TextChange += TextBoxComplete_TextChange;
-            
+            _code = this;
         }
         private string mongoconect = "";
         private void SelectData(Codess ddsdsadd) 

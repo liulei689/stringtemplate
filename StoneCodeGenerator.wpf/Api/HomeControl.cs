@@ -2,6 +2,9 @@
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Furion.RemoteRequest.Extensions;
+using HandyControlDemo.UserControl;
+using StoneCodeGenerator.Lib.Model;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -11,9 +14,9 @@ public class FurionAppService : IDynamicApiController
     {
   
 
-        public  string GetUser([Range(1, int.MaxValue)] int userId)
+        public List<Codess> GetData()
         {
-            return userId.ToString();
+          return  Codes._code.SelectMongodb();
         }
 
         public async Task<string> GetRemote(string id)
