@@ -121,24 +121,10 @@ namespace HandyControlDemo.UserControl
         {
             try
             {
+             // var dd=  App.GetServiceByString("IExcelToCSharpClassService");
               var ds=  App.GetService <IExcelToCSharpClassService>();
                 string text = TextEditor.Text;
                 TextEditor.Text= ds.GetClassByExcelRowOne(text);
-
-                //string shouye = "\t";
-                //string huiche = "\n";
-                //string weiba = "$";
-                //text = Regex.Replace(text, "^\\s * (?=\\r ?$)\\n", string.Empty);
-                //text = Regex.Replace(text, "^", "public string? ");
-                //text = Regex.Replace(text, shouye, "\npublic string? ");
-                //text = Regex.Replace(text, huiche, " { get; set; }\n");
-                //text = "public class 类\n{\n" + text+ "\n}";
-                //text = Regex.Replace(text, "^\\s * (?=\\r ?$)\\n", string.Empty);
-                //text = Regex.Replace(text, "\r", " ");
-
-                //text = Regex.Replace(text, "\n\n", "\n");
-
-                //TextEditor.Text = text;
             }
             catch { }
 

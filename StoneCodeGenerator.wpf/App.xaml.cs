@@ -85,6 +85,11 @@ namespace HandyControlDemo
             
             return _host.Services.GetService(typeof(T)) as T;
         }
+        public static object GetServiceByString(string objname)
+        {
+           Type o= objname.GetType();
+            return _host.Services.GetService(o);
+        }
         /// <summary>
         /// 程序集是否匹配
         /// </summary>
