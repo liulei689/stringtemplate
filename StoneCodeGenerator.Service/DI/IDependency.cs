@@ -8,6 +8,6 @@ namespace StoneCodeGenerator.Service.DI
 {
     public interface IDependency
     {
-        public string InputToOut(string input);
+  
     }
 }

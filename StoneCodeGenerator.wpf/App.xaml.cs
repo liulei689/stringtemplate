@@ -1,4 +1,5 @@
-﻿using HandyControlDemo.Services;
+﻿using HandyControlDemo.Model;
+using HandyControlDemo.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
@@ -56,9 +57,12 @@ namespace HandyControlDemo
                 .Select(type => type.AsType())
                 .Where(x => x != baseType && baseType.IsAssignableFrom(x)).ToList();
             var implementTypes = types.Where(x => x.IsClass).ToList();
+            interfaceTypes = types.Where(x => x.IsInterface).ToList();
+
+            PlusClassModel plusClassModel = new PlusClassModel();
+            PlusMethodModel plusMethodModel = new PlusMethodModel();
           var dd=  implementTypes[0].GetMethods();
            var dsd= dd[1].GetCustomAttributes<DescriptionAttribute>();
-             interfaceTypes = types.Where(x => x.IsInterface).ToList();
             foreach (var implementType in implementTypes)
             {
                 if (typeof(IScopeDependency).IsAssignableFrom(implementType))
