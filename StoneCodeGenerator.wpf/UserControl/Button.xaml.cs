@@ -8,10 +8,10 @@ namespace HandyControlDemo.UserControl
     /// <summary>
     /// Button.xaml 的交互逻辑
     /// </summary>
-    public partial class Button
+    public partial class Button1
     {
         private int count = 0;
-        public Button()
+        public Button1()
         {
             InitializeComponent();
         }

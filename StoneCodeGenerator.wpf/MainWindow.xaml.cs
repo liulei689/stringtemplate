@@ -350,7 +350,7 @@ namespace HandyControlDemo
             }
             else if (name == "Button")
             {
-                mainContent.Children.Add(new UserControl.Button());
+                mainContent.Children.Add(new UserControl.Button1());
             }
             else if (name == "Calendar")
             {

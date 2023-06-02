@@ -1,22 +1,9 @@
-﻿using HandyControl.Controls;
-using HandyControl.Data;
-using HandyControl.Tools.Extension;
+﻿using HandyControl.Tools.Extension;
 using ICSharpCode.AvalonEdit;
-using StoneCodeGenerator.Lib;
-using StoneCodeGenerator.Lib.Model;
-using StoneCodeGenerator.Service.Interface;
-using StoneCodeGenerator.Service.Services;
 using System;
-using System.ComponentModel;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Xml.Linq;
-using static ICSharpCode.AvalonEdit.Document.TextDocumentWeakEventManager;
-using static System.Net.Mime.MediaTypeNames;
-using TextBox = HandyControl.Controls.TextBox;
 
 namespace HandyControlDemo.UserControl
 {
@@ -40,13 +27,13 @@ namespace HandyControlDemo.UserControl
                 });
             });  
         }
-        private System.Windows.Controls.Button GetButton(string interfacename,string name, string namedes, string currentent = "")
+        private Button GetButton(string interfacename,string name, string namedes, string currentent = "")
         {
-           System.Windows.Controls.Button button = new System.Windows.Controls.Button();      
+            Button button = new Button();      
             button.Name = name;
             button.Tag = interfacename;
             button.Margin = new Thickness(0, 6, 0, 0);
-            button.SetValue(StyleProperty, Resources["ButtonCustom"]);
+            button.SetValue(StyleProperty, Application.Current.Resources["ButtonDashedSuccess"]);
             button.Content = namedes;
             button.Click += Button_Click; ;
             return button;
