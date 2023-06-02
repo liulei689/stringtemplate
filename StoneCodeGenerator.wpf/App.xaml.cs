@@ -3,9 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Hosting;
+using Rubyer;
 using StoneCodeGenerator.Service.DI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.IO;
@@ -54,6 +56,8 @@ namespace HandyControlDemo
                 .Select(type => type.AsType())
                 .Where(x => x != baseType && baseType.IsAssignableFrom(x)).ToList();
             var implementTypes = types.Where(x => x.IsClass).ToList();
+          var dd=  implementTypes[0].GetMethods();
+           var dsd= dd[1].GetCustomAttributes<DescriptionAttribute>();
              interfaceTypes = types.Where(x => x.IsInterface).ToList();
             foreach (var implementType in implementTypes)
             {
