@@ -22,6 +22,9 @@ namespace StoneCodeGenerator.Service.Interface
         [Description("测试2")]
 
         public string GetSting2(string excelrowone);
+        [Description("测试3")]
+
+        public string GetSting3(string excelrowone);
 
     }
 }

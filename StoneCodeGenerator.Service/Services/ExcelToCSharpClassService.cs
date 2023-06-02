@@ -38,5 +38,10 @@ namespace StoneCodeGenerator.Service.Services
         {
             return "2";
         }
+
+        public string GetSting3(string excelrowone)
+        {
+            return "sdasdasdasd";
+        }
     }
 }

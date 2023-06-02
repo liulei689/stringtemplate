@@ -324,6 +324,10 @@ namespace HandyControlDemo
             {
                 mainContent.Children.Add(new UserControl.AFunCode());
             }
+            else if (name == "扩展库")
+            {
+                mainContent.Children.Add(new UserControl.PlusCode());
+            }
             else if (name == "json生成实体类")
             {
                 mainContent.Children.Add(new UserControl.Json2Class());

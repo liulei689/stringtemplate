@@ -92,7 +92,7 @@ namespace HandyControlDemo.UserControl
             button.Name = name;
             button.Tag = interfacename;
             button.Margin = new Thickness(0, 6, 0, 0);
-            button.SetValue(StyleProperty, Resources["ButtonDashedSuccess"]);
+            button.SetValue(StyleProperty, Resources["ButtonCustom"]);
             button.Content = namedes;
             button.Click += Button_Click; ;
             return button;
