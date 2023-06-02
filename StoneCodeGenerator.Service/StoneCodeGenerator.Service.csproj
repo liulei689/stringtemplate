@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="DI\**" />
+    <EmbeddedResource Remove="DI\**" />
+    <None Remove="DI\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StoneCodeGenerator.interface\StoneCodeGenerator.Interface.csproj" />
+  </ItemGroup>
+
 </Project>

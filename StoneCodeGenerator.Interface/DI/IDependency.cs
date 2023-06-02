@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoneCodeGenerator.Service.DI
+namespace StoneCodeGenerator.Interface.DI
 {
     public interface IDependency
     {

@@ -5,7 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Hosting;
 using Rubyer;
-using StoneCodeGenerator.Service.DI;
+using StoneCodeGenerator.Interface.DI;
+using StoneCodeGenerator.Lib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +28,7 @@ namespace HandyControlDemo
     public partial class App : Application
     {
         public static string MatchAssemblies = "^StoneCodeGenerator.Service|^StoneCodeGenerator.IService";
+        public static List<PlusInterfaceModel> plusInterfaceModels;
         public static List<Type> interfaceTypes;
         public App()
         {
@@ -49,22 +51,35 @@ namespace HandyControlDemo
             var path = AppDomain.CurrentDomain.RelativeSearchPath ?? AppDomain.CurrentDomain.BaseDirectory;
             var getFiles = Directory.GetFiles(path, "*.dll").Where(Match); 
             var referencedAssemblies = getFiles.Select(Assembly.LoadFrom).ToList();        
-
             var ss = referencedAssemblies.SelectMany(o => o.GetTypes());
-
             var types = referencedAssemblies
                 .SelectMany(a => a.DefinedTypes)
                 .Select(type => type.AsType())
                 .Where(x => x != baseType && baseType.IsAssignableFrom(x)).ToList();
             var implementTypes = types.Where(x => x.IsClass).ToList();
-            interfaceTypes = types.Where(x => x.IsInterface).ToList();
-
-            PlusClassModel plusClassModel = new PlusClassModel();
-            PlusMethodModel plusMethodModel = new PlusMethodModel();
-          var dd=  implementTypes[0].GetMethods();
-           var dsd= dd[1].GetCustomAttributes<DescriptionAttribute>();
-            foreach (var implementType in implementTypes)
+             interfaceTypes = types.Where(x => x.IsInterface).ToList();
+            plusInterfaceModels = new List< PlusInterfaceModel>();
+            foreach (var interfaceType in interfaceTypes)
             {
+                PlusInterfaceModel plusInterfaceModel = new PlusInterfaceModel();
+                var name = interfaceType.GetCustomAttributes<DescriptionAttribute>().FirstOrDefault().Description;
+                plusInterfaceModel.Name = interfaceType.Name;
+                plusInterfaceModel.NameDes= name;
+                var methods = interfaceType.GetMethods();
+                List<PlusMethodModel> plusMethodModels = new List<PlusMethodModel>();
+                for (int j = 0; j < methods.Length; j++)
+                {
+                    PlusMethodModel plusMethodModel = new PlusMethodModel();
+                    var methoddes = methods[j].GetCustomAttributes<DescriptionAttribute>().FirstOrDefault().Description;
+                    plusMethodModel.Name = methods[j].Name;
+                    plusMethodModel.NameDes= methoddes;
+                    plusMethodModels.Add( plusMethodModel );
+                }
+                plusInterfaceModel.Methods = plusMethodModels;
+                plusInterfaceModels.Add( plusInterfaceModel );
+            }
+            foreach (var implementType in implementTypes)
+            {            
                 if (typeof(IScopeDependency).IsAssignableFrom(implementType))
                 {
                     var interfaceType = interfaceTypes.FirstOrDefault(x => x.IsAssignableFrom(implementType));

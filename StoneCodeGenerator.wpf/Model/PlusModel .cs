@@ -4,14 +4,14 @@ using System.Collections.Generic;
 namespace HandyControlDemo.Model
 {
     /// <summary>
-    /// 扩展类-存储扩展功能基本信息
+    /// 扩展接口-存储扩展功能基本信息
     /// </summary>
-    public class PlusClassModel: PlusBaseModel
+    public class PlusInterfaceModel: PlusBaseModel
     {
         /// <summary>
         /// 方法
         /// </summary>
-        public List<PlusMethodModel> SenderId { get; set; }
+        public List<PlusMethodModel> Methods { get; set; }
     }
     /// <summary>
     /// 扩展方法功能基本信息

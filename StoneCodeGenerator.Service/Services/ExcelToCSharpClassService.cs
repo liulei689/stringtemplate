@@ -9,15 +9,10 @@ using System.Threading.Tasks;
 
 namespace StoneCodeGenerator.Service.Services
 {
-    [Description("excel生成c#代码")]
+  
     public class ExcelToCSharpClassService : IExcelToCSharpClassService
     {
         public string GetClassByExcelRowOne(string excelrowone)
-        {
-            throw new NotImplementedException();
-        }
-        [Description("表格第一行生成c#实体")]
-        public string InputToOut(string excelrowone)
         {
             string text = excelrowone;
             string shouye = "\t";
@@ -32,6 +27,16 @@ namespace StoneCodeGenerator.Service.Services
             text = Regex.Replace(text, "\r", " ");
             text = Regex.Replace(text, "\n\n", "\n");
             return text;
+        }
+
+        public string GetSting1(string excelrowone)
+        {
+            return "1";
+        }
+
+        public string GetSting2(string excelrowone)
+        {
+            return "2";
         }
     }
 }
