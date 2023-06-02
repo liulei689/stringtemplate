@@ -149,10 +149,14 @@ namespace HandyControlDemo.UserControl
             try
             {
              var dd=  App.GetServiceByString("IExcelToCSharpClassService");
-        
-             // var ds=  App.GetService <IExcelToCSharpClassService>();
-                string text = TextEditor.Text;
-                TextEditor.Text= ((dynamic)dd).InputToOut(text);
+
+                Type test = dd.GetType();
+                MethodInfo mi1 = test.GetMethod("InputToOut");
+                    string text = TextEditor.Text;
+                object[] parameters = new object[1] { text };
+                string dds = (string)mi1.Invoke(dd, parameters);
+
+                TextEditor.Text= dds;
             }
             catch { }
 
