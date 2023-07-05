@@ -17,8 +17,8 @@ namespace StoneCodeGenerator.Service.Interface
         /// </summary>
         /// <returns></returns>
         public string GetClassByExcelRowOne(string excelrowone);
-        [Description("测试1")]
-        public string GetSting1(string excelrowone);
+        [Description("根据类生成对象调用")]
+        public string GetDUseBy(string excelrowone);
         [Description("测试2")]
 
         public string GetSting2(string excelrowone);

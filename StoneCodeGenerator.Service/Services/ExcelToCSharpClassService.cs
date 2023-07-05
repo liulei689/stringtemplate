@@ -29,9 +29,26 @@ namespace StoneCodeGenerator.Service.Services
             return text;
         }
 
-        public string GetSting1(string excelrowone)
+        public string GetDUseBy(string excelrowone)
         {
-            return "1";
+            string text = excelrowone.Replace("public string ", "a.");
+            string t = "";
+            string[] texts = text.Split("\r\n");
+            for (int i = 0; i < texts.Length; i++) 
+            {
+                string str =
+                   """
+                   ="
+                   """
+                   + (i+1).ToString()
+                + """
+                    "; 
+                    """
+                   ;
+              string a=  texts[i].Replace("{ get; set; }", str);
+                t+=a + "\n";
+            }
+                return t;
         }
 
         public string GetSting2(string excelrowone)
