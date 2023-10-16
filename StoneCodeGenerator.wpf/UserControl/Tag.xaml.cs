@@ -11,5 +11,11 @@ namespace HandyControlDemo.UserControl
         {
             InitializeComponent();
         }
+
+        private void Tag_Closing(object sender, System.EventArgs e)
+        {
+            var d= e as HandyControl.Data.CancelRoutedEventArgs;
+            d.Cancel = true;
+        }
     }
 }

@@ -27,6 +27,7 @@ namespace HandyControlDemo.UserControl
     {
         public AFunCode()
         {
+
             InitializeComponent();
             ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextEditor);
             TextEditor.Text = "using HandyControlDemo.Model;\nusing ICSharpCode.AvalonEdit;\r\nusing System.Windows;\n\nnamespace HandyControlDemo.UserControl\n{\n    /// <summary>\n    /// PropertyGrid.xaml 的交互逻辑\n    /// </summary>\n    public partial class AFunCode\n    {\n        public AFunCode()\n        {\n            InitializeComponent();\n            ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextEditor);\n            TextEditor.Text = \"\";\n            DemoModel = new PropertyGridDemoModel\n            {\n                String = \"TestString\",\n                Enum = Gender.Female,\n                Boolean = true,\n                Integer = 98,\n                VerticalAlignment = VerticalAlignment.Stretch\n            };\n\n            //DataContext = this;\n        }\n\n        public static readonly DependencyProperty DemoModelProperty = DependencyProperty.Register(\n            \"DemoModel\", typeof(PropertyGridDemoModel), typeof(PropertyGrid), new PropertyMetadata(default(PropertyGridDemoModel)));\n\n        public PropertyGridDemoModel DemoModel\n        {\n            get => (PropertyGridDemoModel)GetValue(DemoModelProperty);\n            set => SetValue(DemoModelProperty, value);\n        }\n    }\n}\n";
@@ -37,6 +38,7 @@ namespace HandyControlDemo.UserControl
             TextEditor.WordWrap = true;
        
         }
+
         private void templist_Selected(object sender, RoutedEventArgs e)
         {
             templist_content.ItemsSource = StoneCode.GetTypeContentListsByType(templist.SelectedValue.ToString());
@@ -127,7 +129,7 @@ namespace HandyControlDemo.UserControl
              var dd=  App.GetServiceByString("IExcelToCSharpClassService");
 
                 Type test = dd.GetType();
-                MethodInfo mi1 = test.GetMethod("InputToOut");
+                MethodInfo mi1 = test.GetMethod("GetClassByExcelRowOne");
                     string text = TextEditor.Text;
                 object[] parameters = new object[1] { text };
                 string dds = (string)mi1.Invoke(dd, parameters);

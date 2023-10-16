@@ -194,7 +194,6 @@
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StoneCodeGenerator.Lib\StoneCodeGenerator.Lib.csproj" />
     <ProjectReference Include="..\StoneCodeGenerator.Service\StoneCodeGenerator.Service.csproj" />
   </ItemGroup>
   <ItemGroup>

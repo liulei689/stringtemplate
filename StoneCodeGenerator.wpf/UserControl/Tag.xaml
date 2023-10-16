@@ -19,7 +19,7 @@
     <hc:TransitioningContentControl>
         <StackPanel Margin="11">
             <hc:TagContainer Margin="10" Width="420" Padding="5">
-                <hc:Tag Header="H" hc:TitleElement.Background="{DynamicResource PrimaryBrush}" Margin="5" Content="Text"/>
+                <hc:Tag Header="H" Closing="Tag_Closing" hc:TitleElement.Background="{DynamicResource PrimaryBrush}" Margin="5" Content="Text"/>
                 <hc:Tag Margin="5" Selectable="True" Content="Text"/>
                 <hc:Tag Margin="5" ShowCloseButton="False" Content="Text"/>
                 <hc:Tag Margin="5" Content="Text"/>
