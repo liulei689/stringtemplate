@@ -3,6 +3,7 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using ICSharpCode.AvalonEdit;
+using NLua;
 using StoneCodeGenerator.Lib;
 using StoneCodeGenerator.Lib.Model;
 using StoneCodeGenerator.Service.Interface;
@@ -227,6 +228,33 @@ namespace HandyControlDemo.UserControl
                 return sb.ToString();
             }
         }
+        Lua lua = new Lua();
 
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            using (Lua lua = new Lua())
+            {
+                // 加载并执行包含中文字符串的Lua脚本
+                string luaScript = @"
+                function greet(name)
+                    return '你好, ' .. name
+                end
+            ";
+                lua.State.Encoding = Encoding.UTF8;
+                lua.DoFile("2.txt");
+                //lua.DoString(luaScript);
+
+                // 调用Lua函数并传递中文字符串参数
+                LuaFunction greetFunc = lua["greet"] as LuaFunction;
+                if (greetFunc != null)
+                {
+                    object[] results = greetFunc.Call("张三");
+                    string greeting = (string)results[0];
+                    TextEditor.Text = greeting;
+                }
+            }
+
+ 
+        }
     }
 }

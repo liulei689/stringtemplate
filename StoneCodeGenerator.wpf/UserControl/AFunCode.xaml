@@ -20,6 +20,7 @@
                 <ComboBox IsEditable="False" hc:InfoElement.TitleWidth="70" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="模板类型" 
                      SelectionChanged="templist_content_SelectionChanged" IsReadOnly="True"  Name="templist_content"     Style="{StaticResource ComboBoxExtend}"  />
                 <Grid x:Name="Form" />
+                <Button Content="执行lua"  Margin="5"  Style="{StaticResource ButtonDashedSuccess}" Click="Button_Click_2"/>
                 <Button Content="生成类" Name="upload" Margin="5"  Style="{StaticResource ButtonDashedSuccess}" Click="upload_Click"/>
                 <Button Content="对象反向生成添加代码"  Margin="5"  Style="{StaticResource ButtonDashedSuccess}" Click="Button_Click_1"/>
                 <hc:LoadingLine Name="isloding" Margin="10" Visibility="Hidden" Foreground="BlueViolet" Style="{StaticResource LoadingLineLarge}"/>
