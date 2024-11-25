@@ -38,6 +38,7 @@ namespace HandyControlDemo.UserControl
             InitializeComponent();
             if (!File.Exists("config.txt")) File.Create("config.txt").Close();
             mongoconect= File.ReadAllText("config.txt");
+            return;
             textBoxComplete.SelectComBox += TextBoxComplete_SelectComBox;
             textBoxComplete.TextChange += TextBoxComplete_TextChange;
             _code = this;
@@ -384,36 +385,40 @@ namespace HandyControlDemo.UserControl
         /// </summary>
         public void RefreshTheList(List<Codess> cs)
         {
-            _lo = cs;
-            var list = _lo.Select(p =>
+            try
             {
-                p.Use = p._id +"."+ p.Use;
-                return p;
-            }).Select(o=>o.Use). ToList();
-            DateTime timetoday = DateTime.Today;
-            DateTime timelastweek = DateTime.Today.AddDays(-7);
-            DateTime timelastmons = DateTime.Today.AddMonths(-1);
-            
-            var ltoday = _lo.FindAll(o => DateTime.Parse(o.CreateTime).CompareTo(timetoday) >0);
-            var llastweek = _lo.FindAll(o => DateTime.Parse(o.CreateTime).CompareTo(timelastweek) > 0);
-            var llastmons = _lo.FindAll(o => DateTime.Parse(o.CreateTime).CompareTo(timelastmons) > 0);
-            today_add_count.Status = ltoday.Count();
-            week_add_count.Status= llastweek.Count();
-            mon_add_count.Status=llastmons.Count();
-            all_read_count.Status= _lo.Sum(o => o.ReadCount);
-            all_count.Status= _lo.Count();
-            var today_update = _lo.FindAll(o => DateTime.Parse(o.TimeUpate).CompareTo(timetoday) > 0);
-            today_eddit_count.Status = today_update.Count();
-            for (int i = 0; i < list.Count(); i++)
-                textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
-            templist.ItemsSource = list;
-           // tixing.Content = _lo.Count + "条";
-            if (_o == null) templist.SelectedIndex =new Random().Next(0, list.Count-1);
-            else
-                templist.SelectedValue = _o._id;
-            textBoxComplete.ClearItem();
-            for (int i = 0; i < list.Count(); i++)
-                textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
+                _lo = cs;
+                var list = _lo.Select(p =>
+                {
+                    p.Use = p._id + "." + p.Use;
+                    return p;
+                }).Select(o => o.Use).ToList();
+                DateTime timetoday = DateTime.Today;
+                DateTime timelastweek = DateTime.Today.AddDays(-7);
+                DateTime timelastmons = DateTime.Today.AddMonths(-1);
+
+                var ltoday = _lo.FindAll(o => DateTime.Parse(o.CreateTime).CompareTo(timetoday) > 0);
+                var llastweek = _lo.FindAll(o => DateTime.Parse(o.CreateTime).CompareTo(timelastweek) > 0);
+                var llastmons = _lo.FindAll(o => DateTime.Parse(o.CreateTime).CompareTo(timelastmons) > 0);
+                today_add_count.Status = ltoday.Count();
+                week_add_count.Status = llastweek.Count();
+                mon_add_count.Status = llastmons.Count();
+                all_read_count.Status = _lo.Sum(o => o.ReadCount);
+                all_count.Status = _lo.Count();
+                var today_update = _lo.FindAll(o => DateTime.Parse(o.TimeUpate).CompareTo(timetoday) > 0);
+                today_eddit_count.Status = today_update.Count();
+                for (int i = 0; i < list.Count(); i++)
+                    textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
+                templist.ItemsSource = list;
+                // tixing.Content = _lo.Count + "条";
+                if (_o == null) templist.SelectedIndex = new Random().Next(0, list.Count - 1);
+                else
+                    templist.SelectedValue = _o._id;
+                textBoxComplete.ClearItem();
+                for (int i = 0; i < list.Count(); i++)
+                    textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
+            }
+            catch { }
         }
         #endregion
 
@@ -423,6 +428,7 @@ namespace HandyControlDemo.UserControl
         /// </summary>
         public void UpdateMongodb(Codess cs)
         {
+            return;
             var mongodb = MongoDbClient.GetInstance(mongoconect, "同步库");
             // 创建筛选器定义
             // FilterDefinition<Codess> filter = Builders<Codess>.Filter.Eq("name", "John");
@@ -450,6 +456,7 @@ namespace HandyControlDemo.UserControl
         /// </summary>
         public List<Codess> SelectMongodb()
         {
+            return null;
             var mongodb = MongoDbClient.GetInstance(mongoconect, "同步库");
             // 创建筛选器定义
             //  FilterDefinition<Codess> filter = Builders<Codess>.Filter.Eq("name", "John");//等于

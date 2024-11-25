@@ -7,8 +7,12 @@ using StoneCodeGenerator.Lib.Model;
 using StoneCodeGenerator.Service.Interface;
 using StoneCodeGenerator.Service.Services;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Net;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -141,5 +145,119 @@ namespace HandyControlDemo.UserControl
         {
            // upload_Click(null,null);
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            List<Module> modulesToAdd = new List<Module>
+        {
+            new Module
+            {
+                序号 = "001",
+                模块 = "通信模块",
+                功能 = "发送数据",
+                方向 = "上行",
+                报头 = "0xAA",
+                设备 = "设备A",
+                功能字节1 = "0x01",
+                功能字节2 = "0x00",
+                数据长度 = "10",
+                数据 = "some_data_string", // 这里应该是序列化后的数据或者base64编码的字符串
+                校验 = "checksum_string",  // 这里应该是计算后的校验值字符串
+                报尾 = "0xBB",
+                备注 = "测试数据"
+            },
+                       new Module
+            {
+                序号 = "001",
+                模块 = "通信模块",
+                功能 = "发送数据",
+                方向 = "上行",
+                报头 = "0xAA",
+                设备 = "设备A",
+                功能字节1 = "0x01",
+                功能字节2 = "0x00",
+                数据长度 = "10",
+                数据 = "some_data_string", // 这里应该是序列化后的数据或者base64编码的字符串
+                校验 = "checksum_string",  // 这里应该是计算后的校验值字符串
+                报尾 = "0xBB",
+                备注 = "测试数据"
+            },
+                                  new Module
+            {
+                序号 = "001",
+                模块 = "通信模块",
+                功能 = "发送数据",
+                方向 = "上行",
+                报头 = "0xAA",
+                设备 = "设备A",
+                功能字节1 = "0x01",
+                功能字节2 = "0x00",
+                数据长度 = "10",
+                数据 = "some_data_string", // 这里应该是序列化后的数据或者base64编码的字符串
+                校验 = "checksum_string",  // 这里应该是计算后的校验值字符串
+                报尾 = "0xBB",
+                备注 = "测试数据"
+            }
+            // 可以添加更多Module对象
+        };
+
+            string generatedCode = CodeGenerator.GenerateListCode<Module>(modulesToAdd);
+            TextEditor.Text = generatedCode;
+        }
+
+        public class Module
+        {
+            public string 序号 { get; set; }
+            public string 模块 { get; set; }
+            public string 功能 { get; set; }
+            public string 方向 { get; set; }
+            public string 报头 { get; set; }
+            public string 设备 { get; set; }
+            public string 功能字节1 { get; set; }
+            public string 功能字节2 { get; set; }
+            public string 数据长度 { get; set; }
+            public string 数据 { get; set; } // 假设这里是一个经过序列化的字符串表示，或者是一个base64编码的字符串
+            public string 校验 { get; set; } // 假设这里也是一个经过处理的字符串表示
+            public string 报尾 { get; set; }
+            public string 备注 { get; set; }
+        }
+
+        public class CodeGenerator
+        {
+            // 泛型方法，T代表任意类型
+            public static string GenerateListCode<T>(List<T> itemsToAdd)
+            {
+                StringBuilder sb = new StringBuilder();
+                // 使用typeof(T).Name来获取类型名称，这里T在编译时是未知的，但在运行时是确定的
+                string typeName = typeof(T).Name;
+                sb.AppendLine($"List<{typeName}> list = new List<{typeName}>();");
+
+                foreach (var item in itemsToAdd)
+                {
+                    // 使用反射获取T类型的所有属性
+                    var properties = typeof(T).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                    var propertyValues = properties.Select(prop =>
+                    {
+                        var value = prop.GetValue(item);
+                        // 处理属性值，这里为了简单起见，我们直接调用ToString()
+                        // 在实际应用中，你可能需要根据属性类型进行更复杂的处理
+                        string valueString = value?.ToString() ?? "null";
+                        // 对于字符串类型的属性，需要添加引号，并且处理引号转义（这里简化处理，不处理嵌套引号）
+                        if (value is string)
+                        {
+                            valueString = $"\"{valueString.Replace("\"", "\\\"")}\"";
+                        }
+                        return $"{prop.Name} = {valueString}";
+                    });
+
+                    // 构造添加对象的代码字符串
+                    string addLine = $"list.Add(new {typeName} {{ {string.Join(", ", propertyValues)} }});";
+                    sb.AppendLine(addLine);
+                }
+
+                return sb.ToString();
+            }
+        }
+
     }
 }
