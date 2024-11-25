@@ -74,18 +74,19 @@ namespace HandyControlDemo.UserControl
         }
         private void PreviewMouseDownChanged(object sender, MouseButtonEventArgs e)
         {
-        }
-        private void Selection_Changed(object sender, SelectionChangedEventArgs e)
-        {
             var sc = sender as ComboBox;
             var dd = App.GetServiceByString(sc.Name);
-            var select= sc.SelectedItem as PlusMethodModel;
+            var select = sc.SelectedItem as PlusMethodModel;
             Type test = dd.GetType();
             MethodInfo mi1 = test.GetMethod(select.Name);
             string text = TextEditor.Text;
             object[] parameters = new object[1] { text };
             string dds = (string)mi1.Invoke(dd, parameters);
             TextEditor.Text = dds;
+        }
+        private void Selection_Changed(object sender, SelectionChangedEventArgs e)
+        {
+           
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {

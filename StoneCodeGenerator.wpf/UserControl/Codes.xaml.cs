@@ -38,7 +38,6 @@ namespace HandyControlDemo.UserControl
             InitializeComponent();
             if (!File.Exists("config.txt")) File.Create("config.txt").Close();
             mongoconect= File.ReadAllText("config.txt");
-            return;
             textBoxComplete.SelectComBox += TextBoxComplete_SelectComBox;
             textBoxComplete.TextChange += TextBoxComplete_TextChange;
             _code = this;
@@ -418,7 +417,7 @@ namespace HandyControlDemo.UserControl
                 for (int i = 0; i < list.Count(); i++)
                     textBoxComplete.AddItem(new AutoCompleteEntry(list[i], null));
             }
-            catch { }
+            catch (Exception ex) { }
         }
         #endregion
 

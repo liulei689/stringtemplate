@@ -66,6 +66,8 @@ namespace HandyControlDemo
             plusInterfaceModels = new List< PlusInterfaceModel>();
             foreach (var interfaceType in interfaceTypes)
             {
+                var datas = interfaceType.GetCustomAttributes<DescriptionAttribute>();
+                if (datas == null || datas.Count()==0) continue;
                 PlusInterfaceModel plusInterfaceModel = new PlusInterfaceModel();
                 var name = interfaceType.GetCustomAttributes<DescriptionAttribute>().FirstOrDefault().Description;
                 plusInterfaceModel.Name = interfaceType.Name;
@@ -123,11 +125,14 @@ namespace HandyControlDemo
         /// </summary>
         public static bool Match(string assemblyName)
         {
+            //return true;
             assemblyName = Path.GetFileName(assemblyName);
             if (assemblyName.StartsWith($"{AppDomain.CurrentDomain.FriendlyName}.Views"))
                 return false;
             if (assemblyName.StartsWith($"{AppDomain.CurrentDomain.FriendlyName}.PrecompiledViews"))
                 return false;
+            if (assemblyName.Contains("Service") && assemblyName.Contains("StoneCodeGenerator."))
+                return true;
             return Regex.IsMatch(assemblyName, MatchAssemblies, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
         void ShowSplashScreen()

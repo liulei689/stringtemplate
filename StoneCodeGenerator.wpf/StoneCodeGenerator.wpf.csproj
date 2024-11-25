@@ -194,11 +194,10 @@
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StoneCodeGenerator.Lib\StoneCodeGenerator.Lib.csproj" />
-    <ProjectReference Include="..\StoneCodeGenerator.Service\StoneCodeGenerator.Service.csproj" />
+    <Folder Include="UserControl\Controls\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UserControl\Controls\" />
+    <ProjectReference Include="..\StoneCodeGenerator.Service\StoneCodeGenerator.Service.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

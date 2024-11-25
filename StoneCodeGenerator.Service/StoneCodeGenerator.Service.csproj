@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StoneCodeGenerator.interface\StoneCodeGenerator.Interface.csproj" />
+    <ProjectReference Include="..\StoneCodeGenerator.Lib\StoneCodeGenerator.Lib.csproj" />
   </ItemGroup>
 
 </Project>
