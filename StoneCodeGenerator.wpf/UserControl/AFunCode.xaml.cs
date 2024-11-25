@@ -205,6 +205,7 @@ namespace HandyControlDemo.UserControl
 
             string generatedCode = CodeGenerator.GenerateListCode<Module>(modulesToAdd);
             TextEditor.Text = generatedCode;
+            //git reset –hard 58fa47e9 回退到指定版本丢掉所有更改
         }
 
         public class Module
