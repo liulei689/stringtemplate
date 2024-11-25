@@ -1,4 +1,5 @@
-﻿using HandyControl.Controls;
+﻿using Bogus;
+using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using ICSharpCode.AvalonEdit;
@@ -150,59 +151,24 @@ namespace HandyControlDemo.UserControl
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            List<Module> modulesToAdd = new List<Module>
-        {
-            new Module
-            {
-                序号 = "001",
-                模块 = "通信模块",
-                功能 = "发送数据",
-                方向 = "上行",
-                报头 = "0xAA",
-                设备 = "设备A",
-                功能字节1 = "0x01",
-                功能字节2 = "0x00",
-                数据长度 = "10",
-                数据 = "some_data_string", // 这里应该是序列化后的数据或者base64编码的字符串
-                校验 = "checksum_string",  // 这里应该是计算后的校验值字符串
-                报尾 = "0xBB",
-                备注 = "测试数据"
-            },
-                       new Module
-            {
-                序号 = "001",
-                模块 = "通信模块",
-                功能 = "发送数据",
-                方向 = "上行",
-                报头 = "0xAA",
-                设备 = "设备A",
-                功能字节1 = "0x01",
-                功能字节2 = "0x00",
-                数据长度 = "10",
-                数据 = "some_data_string", // 这里应该是序列化后的数据或者base64编码的字符串
-                校验 = "checksum_string",  // 这里应该是计算后的校验值字符串
-                报尾 = "0xBB",
-                备注 = "测试数据"
-            },
-                                  new Module
-            {
-                序号 = "001",
-                模块 = "通信模块",
-                功能 = "发送数据",
-                方向 = "上行",
-                报头 = "0xAA",
-                设备 = "设备A",
-                功能字节1 = "0x01",
-                功能字节2 = "0x00",
-                数据长度 = "10",
-                数据 = "some_data_string", // 这里应该是序列化后的数据或者base64编码的字符串
-                校验 = "checksum_string",  // 这里应该是计算后的校验值字符串
-                报尾 = "0xBB",
-                备注 = "测试数据"
-            }
-            // 可以添加更多Module对象
-        };
+  
 
+            var faker = new Faker<Module>()
+       .RuleFor(m => m.序号, f => f.Random.AlphaNumeric(3).ToUpper().PadLeft(3, '0'))
+       .RuleFor(m => m.模块, f => f.PickRandom(new[] { "通信模块", "处理模块", "存储模块" }))
+       .RuleFor(m => m.功能, f => f.PickRandom(new[] { "发送数据", "接收数据", "处理数据" }))
+       .RuleFor(m => m.方向, f => f.PickRandom(new[] { "上行", "下行", "双向" }))
+       .RuleFor(m => m.报头, f => f.PickRandom(new[] { "上行", "下行", "双向" }))
+       .RuleFor(m => m.设备, f => f.PickRandom(new[] { "设备A", "设备B", "设备C" }))
+       .RuleFor(m => m.功能字节1, f => $"0x{f.Random.Number(2)}")
+       .RuleFor(m => m.功能字节2, f => $"0x{f.Random.Number(2)}")
+       .RuleFor(m => m.数据长度, f => f.Random.Number(5, 20).ToString())
+       .RuleFor(m => m.数据, f => $"0x{f.Random.Number(2)}")
+       .RuleFor(m => m.校验, f => $"0x{f.Random.Number(2)}")
+       .RuleFor(m => m.报尾, f => $"0x{f.Random.Number(2)}")
+       .RuleFor(m => m.备注, f => f.Lorem.Sentence(3));
+
+            var modulesToAdd = faker.Generate(10); // 生成10个随机Module对象
             string generatedCode = CodeGenerator.GenerateListCode<Module>(modulesToAdd);
             TextEditor.Text = generatedCode;
             //git reset –hard 58fa47e9 回退到指定版本丢掉所有更改
