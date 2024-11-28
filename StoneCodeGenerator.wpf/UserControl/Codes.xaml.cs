@@ -1,9 +1,7 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
-using HandyControlDemo.Helper;
 using ICSharpCode.AvalonEdit;
-using JinianNet.JNTemplate.Configuration;
 using KJAutoCompleteTextBox;
 using LiteDB;
 using MongoDB.Driver;
@@ -18,7 +16,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
 using ComboBox = HandyControl.Controls.ComboBox;
 using TextBox = HandyControl.Controls.TextBox;
@@ -37,20 +34,21 @@ namespace HandyControlDemo.UserControl
         {
             InitializeComponent();
             if (!File.Exists("config.txt")) File.Create("config.txt").Close();
-            mongoconect= File.ReadAllText("config.txt");
+            mongoconect = File.ReadAllText("config.txt");
             textBoxComplete.SelectComBox += TextBoxComplete_SelectComBox;
             textBoxComplete.TextChange += TextBoxComplete_TextChange;
             _code = this;
         }
         private string mongoconect = "";
-        private void SelectData(Codess ddsdsadd) 
+        private void SelectData(Codess ddsdsadd)
         {
             if (ddsdsadd != null)
             {
                 _o = ddsdsadd;
                 CreateForm(_o);
                 TextEditor.Text = ddsdsadd.Code;
-                Task.Run(() => {
+                Task.Run(() =>
+                {
                     ddsdsadd.ReadCount++;
                     ddsdsadd.ReadTime = DateTime.Now.ToString();
                     ddsdsadd.Use = ddsdsadd.Use.Replace(ddsdsadd._id + ".", "");
@@ -59,7 +57,7 @@ namespace HandyControlDemo.UserControl
                 });
             }
             else TextEditor.Text = "";
-            all_read_count.Status = _lo.Sum(o => o.ReadCount)+1;
+            all_read_count.Status = _lo.Sum(o => o.ReadCount) + 1;
         }
         private void TextBoxComplete_TextChange()
         {
@@ -69,7 +67,7 @@ namespace HandyControlDemo.UserControl
 
         private void TextBoxComplete_SelectComBox()
         {
-            var ddsdsadd = _lo.Find(o => o.Use.Contains(textBoxComplete.Text.Replace(o._id+".","")));
+            var ddsdsadd = _lo.Find(o => o.Use.Contains(textBoxComplete.Text.Replace(o._id + ".", "")));
             SelectData(ddsdsadd);
         }
 
@@ -91,7 +89,7 @@ namespace HandyControlDemo.UserControl
                 int i = 0;
                 foreach (PropertyInfo item in o.GetType().GetProperties())
                 {
-                    if (item != null && !item.Name.Contains("Code") )
+                    if (item != null && !item.Name.Contains("Code"))
                     {
                         string label_name = "";
                         var found = item.GetCustomAttribute<DescriptionAttribute>();
@@ -107,8 +105,8 @@ namespace HandyControlDemo.UserControl
                             var type = Enum.GetNames(item.PropertyType);
                             AddlabelTextAndTextName(i, label_name, item.Name, type: "enum", item.GetValue(o, null).ToString(), type);
                         }
-                        else
-                            AddlabelTextAndTextName(i, label_name, item.Name, type: "textbox", item.GetValue(o, null).ToString(), readonlys: isreadonly != null);
+                        //else
+                        //AddlabelTextAndTextName(i, label_name, item.Name, type: "textbox", item.GetValue(o, null).ToString(), readonlys: isreadonly != null);
                         i++;
                     }
                 }
@@ -245,10 +243,10 @@ namespace HandyControlDemo.UserControl
             catch { }
 
         }
-        
-            private async void update_Click(object sender, RoutedEventArgs e)
+
+        private async void update_Click(object sender, RoutedEventArgs e)
         {
-            if (HandyControl.Controls.MessageBox.Show("您确定修改？"+ _o._id+ _o.Use, "警告", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (HandyControl.Controls.MessageBox.Show("您确定修改？" + _o._id + _o.Use, "警告", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 isloding.Show();
 
@@ -306,7 +304,7 @@ namespace HandyControlDemo.UserControl
                 isloding.Hide();
             }
         }
-            private async void add_Click(object sender, RoutedEventArgs e)
+        private async void add_Click(object sender, RoutedEventArgs e)
         {
             isloding.Show();
 
@@ -326,7 +324,7 @@ namespace HandyControlDemo.UserControl
                     }
                     if (control is TextBox)
                     {
-                       var type= _o.GetType().GetProperty((control as TextBox).Name);
+                        var type = _o.GetType().GetProperty((control as TextBox).Name);
                         if (type.PropertyType == typeof(int))
                             _o.GetType().GetProperty((control as TextBox).Name).SetValue(_o, int.Parse((control as TextBox).Text));
                         else
@@ -344,7 +342,7 @@ namespace HandyControlDemo.UserControl
                 _o.CreateTime = _o.TimeUpate;
                 _o.ReadTime = _o.TimeUpate;
                 _o.Code = TextEditor.Text;
-               _o.ReadCount = 0;
+                _o.ReadCount = 0;
                 int staus_id = -1;
                 var ov = await Task.Run(() =>
                 {
@@ -512,7 +510,7 @@ namespace HandyControlDemo.UserControl
         //同步本地到芒果 上传
         private async void LiteToMongo(object sender, RoutedEventArgs e)
         {
-       
+
             isloding.Show();
             upload.IsEnabled = false;
             down.IsEnabled = false;
@@ -520,11 +518,11 @@ namespace HandyControlDemo.UserControl
             await Task.Run(() =>
             {
                 try
-                {                
+                {
                     var mongodb = MongoDbClient.GetInstance(mongoconect, "同步库");
                     var cc = mongodb.GetCollection<Codess>("代码库");
                     cc.Database.DropCollection("代码库");
-                    mongodb.InsertMany("代码库", data);                
+                    mongodb.InsertMany("代码库", data);
                 }
                 catch (Exception ex)
                 {
@@ -532,7 +530,7 @@ namespace HandyControlDemo.UserControl
                 }
             });
             RefreshTheList(data);
-            upload.IsEnabled=true;
+            upload.IsEnabled = true;
             down.IsEnabled = true;
             isloding.Hide();
         }

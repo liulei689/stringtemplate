@@ -186,6 +186,7 @@
     <PackageReference Include="Furion" Version="4.8.8.23" />
     <PackageReference Include="HandyControl" Version="3.4.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="MiniExcel" Version="1.35.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
     <PackageReference Include="NLua" Version="1.7.3" />
     <PackageReference Include="Rubyer" Version="2.7.9" />
